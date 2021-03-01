@@ -63,7 +63,7 @@ const routes = [
   },
   {
     path: '/users/:id/followings',
-    name: 'user-following',
+    name: 'user-followings',
     component: () => import('./../views/UserFollowings.vue')
   },
   {
