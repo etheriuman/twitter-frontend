@@ -1,9 +1,5 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <div id="twitter-frontend">
     <router-view/>
   </div>
 </template>
@@ -13,7 +9,7 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default {
-  
+  name: 'App'
 }
 </script>
 
