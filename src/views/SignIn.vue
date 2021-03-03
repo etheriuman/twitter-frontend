@@ -43,12 +43,12 @@
         登入
       </button>
 
-      <div class="text-right mb-3">
+      <div class="text-right font-weight-bold">
         <span>
-          <router-link to="/signup">註冊 Alphitter·</router-link>
+          <router-link to="/signup" class="signup">註冊 Alphitter·</router-link>
         </span>
         <span>
-          <router-link to="/admin">後台登入</router-link>
+          <router-link to="/admin" class="adminSignin">後台登入</router-link>
         </span>
       </div>
 
@@ -85,6 +85,7 @@ label {
 .form-control {
   border: 0px ;
   border-bottom: 1px solid;
+  border-radius: 0 ;
 }
 .btn-primary {
   color: #fff;
