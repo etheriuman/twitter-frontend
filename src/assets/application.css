@@ -1,0 +1,31 @@
+a {
+  text-decoration: none
+}
+.title {
+  font-size: 23px
+}
+label {
+  font-size:15px;
+  color: #657786;
+}
+.twitterLogo {
+  width: 50px;
+  height: 50px;
+}
+.form-control {
+  border: 0px ;
+  border-bottom: 1px solid;
+  border-radius: 0 ;
+}
+.btn-primary {
+  color: #fff;
+  background-color:  #FF6600;
+  border-color: #FF6600;
+  border-radius: 90px;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
+  color: #fff;
+  background-color: #CC5200;
+  border-color: #CC5200;
+  border-radius: 90px;
+}
