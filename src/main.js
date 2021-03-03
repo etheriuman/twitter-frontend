@@ -5,13 +5,15 @@ import router from './router'
 import './assets/application.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faHome, faUser, faCog, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUser, faCog, faArrowLeft, faComment, faHeart } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faHome,
   faUser,
   faCog,
-  faArrowLeft
+  faArrowLeft,
+  faComment,
+  faHeart
   )
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
