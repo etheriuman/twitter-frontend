@@ -1,1 +1,42 @@
-// 首頁,總推文頁
+<template>
+  <div class="main">
+    <div class="column-left column"></div>
+    <div class="column-main column"></div>
+    <div class="column-right column"></div>
+  </div>
+</template>
+
+<script>
+export default {
+  
+}
+</script>
+
+<style scoped>
+* {
+  outline: 1px solid pink;
+}
+.main {
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 250px 1fr 300px;
+  grid-template-areas: "left main right" ;
+}
+
+.column-left {
+  grid-area: left;
+}
+
+.column-main {
+  grid-area: main;
+}
+
+.column-right {
+  grid-area: right;
+}
+
+.column {
+  display: flex;
+  justify-content: center;
+}
+</style>

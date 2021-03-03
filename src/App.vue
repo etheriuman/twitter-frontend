@@ -1,8 +1,6 @@
 <template>
   <div id="twitter-frontend">
-    <div class="container">
       <router-view/>
-    </div>
   </div>
 </template>
 
