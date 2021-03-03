@@ -17,7 +17,7 @@
           name="account"
           type="text"
           class="form-control h-25 p-0"
-          autocomplete="current-name"
+          autocomplete="current-account"
           required
           autofocus
         >
