@@ -2,11 +2,13 @@
   <div class="navbar">
     <div class="upper-content">
       <div class="logo mb-5">
-        <img src="https://coursereport-s3-production.global.ssl.fastly.net/uploads/school/logo/473/original/alpha-camp-logo.png" alt="">
+        <router-link to="/tweets">
+          <img src="https://coursereport-s3-production.global.ssl.fastly.net/uploads/school/logo/473/original/alpha-camp-logo.png" alt="">
+        </router-link>
       </div>
       <div class="tabs mb-3">
         <router-link class="" to="/tweets">
-          首頁
+          <i class="fas fa-home"></i><span>首頁</span>
         </router-link>
         <router-link class="" to="/users/1">
           個人資料
@@ -43,6 +45,11 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
+
 .navbar {
   width: 80%;
   height: 100%;
@@ -79,10 +86,6 @@ export default {
 }
 
 .lower-content {
-  width: 100%;
-}
-
-.tweeting-area {
   width: 100%;
 }
 
