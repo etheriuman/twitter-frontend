@@ -10,17 +10,21 @@
             </button>
           </div>
           <form class="modal-body">
-            <textarea 
-            type="textarea" 
-            class="tweeting-area" 
-            placeholder="說些什麼吧？"
-            autofocus
-            />
-            <!-- dynamic avatar -->
-            <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
-            <button type="button" class="tweeting-submit btn btn-primary">
-              推文
-            </button>
+            <div class="modal-body-side">
+              <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
+            </div>
+            <div class="modal-body-content">
+              <textarea 
+              type="textarea" 
+              class="tweeting-area" 
+              placeholder="說些什麼吧？"
+              autofocus
+              />
+              <!-- dynamic avatar -->
+              <button type="button" class="tweeting-submit btn btn-primary">
+                推文
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -52,35 +56,40 @@ export default {
 
 .modal-body {
   position: relative;
+  display: flex;
   padding: 20px;
   height: 300px;
   border-radius: 20px;
 }
+
+.modal-body-side {
+  width: 60px;
+  height: 100%;
+  text-align: center;
+}
+
+.modal-body-content {
+  width: 100%;
+  height: 100%;
+  text-align: end;
+}
+
 /* 統一屬性 */
 .avatar {
   width: 50px;
   height: 50px;
-  position: absolute;
-  left: 10px;
   border-radius: 50%;
 }
 
 .tweeting-area {
-  position: absolute;
   width: 100%;
-  height: calc(100% - 70px);
-  padding: 35px 20px 0px 70px;
+  height: calc(100% - 50px);
   top: 0;
   left: 0;
+  padding: 10px 0 0 10px;
   border: none;
   resize: none;
   outline: none;
-}
-
-.tweeting-submit {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
 }
 
 </style>

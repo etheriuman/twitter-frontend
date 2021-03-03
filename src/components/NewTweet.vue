@@ -2,17 +2,21 @@
 <template>
   <div class="list-group-item">
     <form class="card-body">
-      <textarea 
-      type="textarea" 
-      class="tweeting-area" 
-      placeholder="說些什麼吧？"
-      autofocus
-      />
-      <!-- dynamic avatar -->
-      <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
-      <button type="button" class="tweeting-submit btn btn-primary">
-        推文
-      </button>
+      <div class="card-body-side">
+        <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
+      </div>
+      <div class="card-body-content">
+        <textarea 
+        type="textarea" 
+        class="tweeting-area" 
+        placeholder="說些什麼吧？"
+        autofocus
+        />
+        <!-- dynamic avatar -->
+        <button type="button" class="tweeting-submit btn btn-primary">
+          推文
+        </button>
+      </div>
     </form>
   </div>
 </template>
@@ -25,12 +29,24 @@
 
 .card-body {
   position: relative;
-  flex: 0 1 auto;
+  display: flex;
   padding: 10px;
   margin-bottom: 20px;
-  height: 120px;
   box-shadow: 0px 10px #ededed;
 }
+
+.card-body-side {
+  width: 60px;
+  height: 100%;
+  text-align: center;
+}
+
+.card-body-content {
+  width: 100%;
+  height: 100%;
+  text-align: end;
+}
+
 /* 統一屬性 */
 .avatar {
   width: 50px;
@@ -41,20 +57,14 @@
 }
 
 .tweeting-area {
-  position: absolute;
   width: 100%;
-  padding: 20px 70px 0px 70px;
+  min-height: calc(100% - 50px);
   top: 0;
   left: 0;
+  padding: 10px 0 0 10px;
   border: none;
   resize: none;
   outline: none;
-}
-
-.tweeting-submit {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
 }
 
 </style>
