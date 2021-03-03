@@ -12,6 +12,7 @@
       <div class="form-label-group mb-2 text-muted">
         <label for="account">帳號</label>
         <input
+          v-model="account"
           id="account"
           name="account"
           type="text"
@@ -25,6 +26,7 @@
       <div class="form-label-group mb-4 text-muted">
         <label for="password">密碼</label>
         <input
+          v-model="password"
           id="password"
           name="password"
           type="password"
@@ -50,6 +52,18 @@
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'AdminSignIn',
+  data() {
+    return {
+      account: '',
+      password: '',
+    }
+  }
+}
+</script>
 
 
 
