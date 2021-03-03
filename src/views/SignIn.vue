@@ -15,7 +15,7 @@
           v-model="account"
           id="account"
           name="account"
-          type="account"
+          type="text"
           class="form-control h-25 p-0"
           autocomplete="username"
           required
