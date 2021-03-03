@@ -3,7 +3,7 @@
     <div class="upper-content">
       <div class="logo mb-5">
         <router-link to="/tweets">
-          <img src="https://coursereport-s3-production.global.ssl.fastly.net/uploads/school/logo/473/original/alpha-camp-logo.png" alt="">
+          <img src="./../imgs/Icon.svg" alt="">
         </router-link>
       </div>
       <div class="tabs mb-3">
