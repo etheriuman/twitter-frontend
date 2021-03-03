@@ -1,1 +1,4 @@
 // 右側的使用者推薦欄位（區塊內部的使用者可以再分出來做成component）
+<template>
+  <div class="card"></div>
+</template>

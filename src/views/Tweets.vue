@@ -3,17 +3,35 @@
     <div class="column-left column">
       <Navbar />
     </div>
-    <div class="column-main column"></div>
-    <div class="column-right column"></div>
+    <div class="column-main column">
+      <div class="card main-content">
+        <ul class="list-group list-group-flush">
+            <PageHead />
+            <NewTweet />
+            <TweetCard />
+        </ul>
+      </div>
+    </div>
+    <div class="column-right column">
+      <Recommendation />
+    </div>
   </div>
 </template>
 
 <script>
 import Navbar from './../components/Navbar'
+import PageHead from './../components/PageHead'
+import NewTweet from './../components/NewTweet'
+import TweetCard from './../components/TweetCard'
+import Recommendation from './../components/Recommendation'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    PageHead,
+    NewTweet,
+    TweetCard,
+    Recommendation
   }
 }
 </script>
@@ -27,6 +45,14 @@ export default {
   display: grid;
   grid-template-columns: 250px 1fr 300px;
   grid-template-areas: "left main right" ;
+}
+
+.main-content {
+  width: 90%;
+}
+
+.list-group-item {
+  padding: 0;
 }
 
 .column-left {

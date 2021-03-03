@@ -13,9 +13,10 @@
             <textarea 
             type="textarea" 
             class="tweeting-area" 
-            placeholder="說些什麼吧"
+            placeholder="說些什麼吧？"
             autofocus
             />
+            <!-- dynamic avatar -->
             <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
             <button type="button" class="tweeting-submit btn btn-primary">
               推文
@@ -37,6 +38,7 @@ export default {
 /* 統一屬性 */
 .modal-dialog {
   width: 50vw;
+  margin: 55px auto;
 }
 /* 統一屬性 */
 .modal-content {
