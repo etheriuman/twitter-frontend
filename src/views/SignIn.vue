@@ -45,8 +45,9 @@
 
       <div class="text-right font-weight-bold">
         <span>
-          <router-link to="/signup" class="signup">註冊 Alphitter·</router-link>
+          <router-link to="/signup" class="signup">註冊 Alphitter</router-link>
         </span>
+        <span class="dot">．</span>
         <span>
           <router-link to="/admin" class="adminSignin">後台登入</router-link>
         </span>
@@ -99,7 +100,7 @@ label {
   border-color: #CC5200;
   border-radius: 90px;
 }
-.signup, .adminSignin{
+.signup, .dot, .adminSignin{
   color: #0099FF;;
 }
 
