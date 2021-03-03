@@ -12,6 +12,7 @@
     <div class="form-label-group mb-3">
       <label for="account">帳號</label>
       <input 
+        v-model="account"
         id="account"
         name="account"
         type="text"
@@ -25,6 +26,7 @@
     <div class="form-label-group mb-4">
       <label for="name">名稱</label>
       <input
+        v-model="name"
         id="name"
         name="name"
         type="text"
@@ -37,6 +39,7 @@
     <div class="form-label-group mb-4">
       <label for="email">Email</label>
       <input
+        v-model="email"
         id="email"
         name="email"
         type="email"
@@ -49,6 +52,7 @@
     <div class="form-label-group mb-4">
       <label for="password">密碼</label>
       <input
+        v-model="password"
         id="password"
         name="password"
         type="password"
@@ -61,6 +65,7 @@
     <div class="form-label-group mb-4">
       <label for="password-check">密碼確認</label>
       <input
+        v-model="passwordCheck"
         id="password-check"
         name="password-check"
         type="password"
@@ -88,6 +93,22 @@
   </form>
 </div>
 </template>
+
+<script>
+export default {
+  name: "SignUp",
+  data() {
+    return {
+      account: '',
+      name: '',
+      email: '',
+      password: '',
+      passwordCheck: '',
+    }
+  }
+}
+</script>
+
 
 
 <style scoped>
