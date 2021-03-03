@@ -7,14 +7,14 @@
         </router-link>
       </div>
       <div class="tabs mb-3">
-        <router-link class="" to="/tweets">
-          <i class="fas fa-home"></i><span>首頁</span>
+        <router-link class="tab" to="/tweets">
+          <font-awesome-icon icon="home" /><span>首頁</span>
         </router-link>
-        <router-link class="" to="/users/1">
-          個人資料
+        <router-link class="tab" to="/users/1">
+          <font-awesome-icon icon="user" /><span>個人資料</span>
         </router-link>
-        <router-link class="" to="/setting">
-          設定
+        <router-link class="tab" to="/setting">
+          <font-awesome-icon icon="cog" /><span>設定</span>
         </router-link>
       </div>
       <button 
@@ -83,6 +83,10 @@ a {
 .tab {
   width: 100%;
   height: 30px;
+}
+
+.tab span {
+  padding-left: 20px;
 }
 
 .lower-content {
