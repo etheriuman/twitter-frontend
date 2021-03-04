@@ -7,7 +7,7 @@
       <div class="card main-content">
         <ul class="list-group list-group-flush">
             <PageHead />
-            <NewTweet />
+            <NewTweet @after-submit="handleAfterSubmit" />
             <TweetCard 
             v-for="tweet in tweets" 
             :key="tweet.id" 
@@ -196,6 +196,7 @@ export default {
       this.tweets = dummyData.tweets
     },
     handleAfterSubmit() {
+      // 因為需要取得正確createdAt所以選擇重新fetch一次
       console.log('refetch')
       this.fetchTweets()
     },

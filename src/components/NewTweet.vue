@@ -12,6 +12,7 @@
         class="tweeting-area" 
         placeholder="說些什麼吧？"
         v-model="description"
+        required
         />
         <button type="submit" class="tweeting-submit btn btn-primary">
           推文
@@ -30,8 +31,11 @@ export default {
   },
   methods: {
     handleSubmit() {
+      // API POST request ....
       // 將內容回傳給tweets
-      this.$emit('after-submit', )
+      this.$emit('after-submit')
+      // 清空欄位
+      this.description = ''
     }
   }
 }
