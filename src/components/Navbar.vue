@@ -1,12 +1,12 @@
 <template>
   <div class="navbar">
     <div class="upper-content">
-      <div class="logo mb-5">
+      <div class="logo">
         <router-link to="/tweets">
           <img src="./../imgs/Icon.svg" alt="">
         </router-link>
       </div>
-      <div class="tabs mb-3">
+      <div class="tabs">
         <router-link class="tab" to="/tweets">
           <font-awesome-icon icon="home" /><span>首頁</span>
         </router-link>
@@ -18,7 +18,7 @@
         </router-link>
       </div>
       <button 
-      class=" btn btn-primary"
+      class=" btn btn-primary tweeting-button"
       data-toggle="modal"
       data-target="#tweeting"
       >
@@ -58,13 +58,14 @@ a {
   justify-content: space-between;
 }
 
-.upper-content button {
+.tweeting-button {
   width: 120px;
 }
 
 .logo {
   width: 100%;
   height: 30px;
+  margin-bottom: 50px;
 }
 
 .logo img {
@@ -78,6 +79,7 @@ a {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
+  margin-bottom: 30px;
 }
 
 .tab {
@@ -91,6 +93,63 @@ a {
 
 .lower-content {
   width: 100%;
+}
+
+/* pad 尺寸以下 */
+@media screen and (max-width: 992px) {
+  
+.navbar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.upper-content {
+  display: flex;
+  width: 55%;
+  height: 100%
+}
+
+.tweeting-button {
+  height: 100%;
+  width: 120px;
+}
+
+.logo {
+  width: 30px;
+  margin-bottom: 0;
+}
+
+.logo img {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 10px;
+}
+
+.tabs {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-evenly;
+  margin: 0;
+}
+
+.tab {
+  line-height: 30px;
+  text-align: center;
+}
+
+.tab span {
+  display: none;
+}
+
+.lower-content {
+  width: 100px;
+  text-align: end;
+}
 }
 
 </style>

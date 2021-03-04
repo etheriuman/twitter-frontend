@@ -9,6 +9,14 @@
             <PageHead />
             <NewTweet />
             <TweetCard />
+            <TweetCard />
+            <TweetCard />
+            <TweetCard />
+            <TweetCard />
+            <TweetCard />
+            <TweetCard />
+            <TweetCard />
+            <TweetCard />
         </ul>
       </div>
     </div>
@@ -37,11 +45,13 @@ export default {
 </script>
 
 <style scoped>
+
 * {
   outline: 1px solid pink;
 }
+
 .main {
-  height: 100vh;
+  max-height: 100vh;
   display: grid;
   grid-template-columns: 250px 1fr 300px;
   grid-template-areas: "left main right" ;
@@ -49,10 +59,15 @@ export default {
 
 .main-content {
   width: 90%;
+  max-height: 100vh;
+  overflow: auto;
+  /* hide from firefox */
+  scrollbar-width: none;
 }
 
-.list-group-item {
-  padding: 0;
+.main-content::-webkit-scrollbar {
+  /* hide from chrome */
+  display: none;
 }
 
 .column-left {
@@ -70,5 +85,29 @@ export default {
 .column {
   display: flex;
   justify-content: center;
+}
+
+/* pad 尺寸 */
+@media screen and (max-width: 992px) {
+  
+.main {
+  grid-template-rows: calc(100% - 50px) 50px;
+  grid-template-columns: 1fr 300px;
+  grid-template-areas:
+    "main right"
+    "left left";
+}
+
+}
+
+/* mobile 尺寸 */
+@media screen and (max-width: 768px) {
+
+.main {
+  grid-template-areas:
+    "main main"
+    "left left";
+}
+
 }
 </style>
