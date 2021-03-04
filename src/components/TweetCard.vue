@@ -8,9 +8,9 @@
       <div class="card-body-content">
         <div class="content-header">
           <span class="user-name">Apple</span>
-          <span>@apple</span>
-          <span> &#8231; </span>
-          <span>3小時</span>
+          <span class="text-muted">@apple</span>
+          <span class="text-muted"> &#8231; </span>
+          <span class="text-muted">3小時</span>
         </div>
         <div class="content-body">
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed obcaecati repellat distinctio mollitia ducimus neque repellendus corrupti nulla pariatur harum!</p>

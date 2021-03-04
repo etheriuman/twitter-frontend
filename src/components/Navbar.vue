@@ -22,7 +22,8 @@
       data-toggle="modal"
       data-target="#tweeting"
       >
-        推文
+        <font-awesome-icon class="tweet" icon="feather-alt" />
+        <span>推文</span>
       </button>
     </div>
     <div class="lower-content">
@@ -53,6 +54,7 @@ a {
 .navbar {
   width: 80%;
   height: 100%;
+  padding: 15px;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
@@ -60,6 +62,10 @@ a {
 
 .tweeting-button {
   width: 120px;
+}
+
+.tweet {
+  display: none;
 }
 
 .logo {
@@ -101,6 +107,7 @@ a {
 .navbar {
   width: 100%;
   height: 100%;
+  padding: 10px;
   display: flex;
   flex-flow: row;
   justify-content: space-between;
@@ -116,6 +123,14 @@ a {
   height: 100%;
   width: 120px;
   line-height: 100%;
+}
+
+.tweeting-button span {
+  display: none;
+}
+
+.tweet {
+  display: inline-block;
 }
 
 .logo {

@@ -70,21 +70,23 @@ export default {
   display: none;
 }
 
+.column {
+  display: flex;
+}
+
 .column-left {
   grid-area: left;
+  justify-content: flex-end;
 }
 
 .column-main {
   grid-area: main;
+  justify-content: center;
 }
 
 .column-right {
   grid-area: right;
-}
-
-.column {
-  display: flex;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 /* pad 尺寸 */
@@ -104,6 +106,8 @@ export default {
 @media screen and (max-width: 768px) {
 
 .main {
+  grid-template-rows: calc(100% - 50px) 50px;
+  grid-template-columns: 1fr 300px;
   grid-template-areas:
     "main main"
     "left left";
