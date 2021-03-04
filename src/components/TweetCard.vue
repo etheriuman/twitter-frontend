@@ -1,7 +1,7 @@
 // 推文卡片
 <template>
   <div class="list-group-item">
-    <form class="card-body">
+    <div class="card-body">
       <div class="card-body-side">
         <!-- user avatar -->
         <router-link :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
@@ -44,7 +44,7 @@
           </div>
         </div>
       </div>
-    </form>
+    </div>
     <Replying :replying-tweet="tweet" :replying-id="replyingId" />
   </div>
 </template>

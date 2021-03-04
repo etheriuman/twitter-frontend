@@ -9,6 +9,34 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+          <!-- 推主資訊 -->
+          <div class="card-body">
+            <div class="card-body-side">
+              <!-- user avatar -->
+              <router-link :to="{name: 'user-tweets', params: {id:replyingTweet.User.id}}">
+                <img class="avatar" :src="replyingTweet.User.avatar" alt="">
+              </router-link>
+              <span class="line"></span>
+            </div>
+            <div class="card-body-content">
+              <!-- replyingTweetCard header -->
+              <div class="content-header">
+                <span class="user-name">{{replyingTweet.User.name}}</span>
+                <span class="text-muted">{{replyingTweet.User.account}}</span>
+                <span class="text-muted"> &#8231; </span>
+                <span class="text-muted">{{replyingTweet.createdAt | fromNow}}</span>
+              </div>
+              <!-- replyingTweet description -->
+              <div class="content-body">
+                <p>{{replyingTweet.description}}</p>
+                <p class="content-footer">
+                  <span class="text-muted">回覆給 </span>
+                  <span>{{replyingTweet.User.account}}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- 回覆區域 -->
           <form class="modal-body" @submit.prevent.stop="handleSubmit">
             <div class="modal-body-side">
               <!-- dynamic avatar -->
@@ -23,7 +51,7 @@
               required
               />
               <button type="submit" class="tweeting-submit btn btn-primary">
-                推文id:{{replyingTweet.id}}
+                推文
               </button>
             </div>
           </form>
@@ -33,6 +61,7 @@
 </template>
 
 <script>
+import { fromNowFilter } from './../utils/mixins'
 import $ from 'jquery'
 
 export default {
@@ -51,6 +80,7 @@ export default {
       comment: ''
     }
   },
+  mixins: [fromNowFilter],
   methods: {
     handleSubmit() {
       const payLoad = {
@@ -108,9 +138,54 @@ export default {
 .modal-body {
   position: relative;
   display: flex;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
   height: 300px;
   border-radius: 20px;
+}
+
+.card-body {
+  position: relative;
+  display: flex;
+  padding: 5px 20px 10px 20px;
+}
+
+.card-body-side {
+  display: flex;
+  flex-flow: column;
+  width: 60px;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+}
+
+.line {
+  background: #dedede;
+  display: block;
+  margin-top: 10px;
+  width: 2px;
+  height: 100px;
+}
+
+.card-body-content {
+  width: 100%;
+  height: 100%;
+  padding-left: 10px;
+}
+
+.content-header {
+  margin-bottom: 10px;
+}
+
+.content-footer {
+  font-size: 13px;
+}
+
+.content-footer:last-child {
+  color: #ff6600;
+}
+
+.user-name {
+  margin-right: 10px;
 }
 
 .modal-body-side {
