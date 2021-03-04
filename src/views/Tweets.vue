@@ -8,15 +8,11 @@
         <ul class="list-group list-group-flush">
             <PageHead />
             <NewTweet />
-            <TweetCard />
-            <TweetCard />
-            <TweetCard />
-            <TweetCard />
-            <TweetCard />
-            <TweetCard />
-            <TweetCard />
-            <TweetCard />
-            <TweetCard />
+            <TweetCard 
+            v-for="tweet in tweets" 
+            :key="tweet.id" 
+            :initial-tweet="tweet"
+            />
         </ul>
       </div>
     </div>
@@ -33,6 +29,167 @@ import NewTweet from './../components/NewTweet'
 import TweetCard from './../components/TweetCard'
 import Recommendation from './../components/Recommendation'
 
+const dummyData = {
+  tweets: [
+      {
+			id: 1, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 2, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 3, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 1, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 4, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 5, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 6, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 7, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 8, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 9, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		},
+    {
+			id: 10, // 推文id
+			description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?', // 推文內容
+			likesNumber: 22, // 推文like數
+			repliesNumber: 7, // 推文回復數
+			createdAt: '', // 推文發布時間
+			isLiked: true, // 是否按過like
+			User: { 
+				id: 1, // 連結用user.id
+				name: 'Pizza Hut', // 推主名稱
+				account: '@pizzahut', // 推主帳號
+				avatar: 'https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg' // 推主照片
+			}
+		}
+
+  ]
+
+}
+
 export default {
   components: {
     Navbar,
@@ -40,6 +197,21 @@ export default {
     NewTweet,
     TweetCard,
     Recommendation
+  },
+  data() {
+    return {
+      tweets: []
+    }
+  },
+  methods: {
+    fetchTweets() {
+      this.tweets = {
+        ...dummyData.tweets
+      }
+    }
+  },
+  created() {
+    this.fetchTweets()
   }
 }
 </script>
