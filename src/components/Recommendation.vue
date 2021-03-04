@@ -26,6 +26,7 @@
           v-if="user.isFollowed"
           type="button"
           class="btn btn-sm btn-primary follow-button"
+          @click.prevent.stop="deleteFollow(user.id)"
           >
             正在跟隨
           </button>
@@ -33,6 +34,7 @@
           v-else
           type="button"
           class="btn btn-sm btn-outline-primary follow-button"
+          @click.prevent.stop="addFollow(user.id)"
           >
             跟隨
           </button>
@@ -103,9 +105,31 @@ export default {
   },
   methods: {
     fetchUsers() {
-      this.users = {
-        ...dummyData.users
-      }
+      this.users = dummyData.users
+    },
+    addFollow(userId) {
+      // API POST request ...
+      this.users = this.users.map(user => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            isFollowed: true
+          }
+        }
+        return user
+      })
+    },
+    deleteFollow(userId) {
+      // API DELETE request ...
+      this.users = this.users.map(user => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            isFollowed: false
+          }
+        }
+        return user
+      })
     }
   },
   created() {
