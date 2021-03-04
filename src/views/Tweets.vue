@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="column-left column">
-      <Navbar />
+      <Navbar @after-submit="handleAfterSubmit" />
     </div>
     <div class="column-main column">
       <div class="card main-content">
@@ -194,6 +194,9 @@ export default {
       this.tweets = {
         ...dummyData.tweets
       }
+    },
+    handleAfterSubmit(description) {
+      console.log(description)
     }
   },
   created() {

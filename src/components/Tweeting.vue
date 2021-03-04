@@ -9,7 +9,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form class="modal-body">
+          <form class="modal-body" @submit.prevent.stop="handleSubmit">
             <div class="modal-body-side">
               <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
             </div>
@@ -18,10 +18,11 @@
               type="textarea" 
               class="tweeting-area" 
               placeholder="說些什麼吧？"
-              autofocus
+              v-model="description"
+              required
               />
               <!-- dynamic avatar -->
-              <button type="button" class="tweeting-submit btn btn-primary">
+              <button type="submit" class="tweeting-submit btn btn-primary">
                 推文
               </button>
             </div>
@@ -32,8 +33,35 @@
 </template>
 
 <script>
+import $ from 'jquery'
+
 export default {
-  
+  data() {
+    return {
+      description: '',
+      isHidden: false
+    }
+  },
+  methods: {
+    handleSubmit() {
+      const payLoad = {
+        userId: 1, //這邊到時候要填currentUserId
+        description: this.description
+      }
+      // 檢查description.length是否 > 0 , < 140
+      console.log(payLoad)
+      // API POST request...
+
+      // 清空欄位
+      this.description = ''
+      
+      // 回傳資料給Tweets，讓他把資料塞進去
+      this.$emit('after-submit', this.description)
+
+      // 關閉modal
+      $('#tweeting').modal('hide')
+    }
+  }
 }
 </script>
 
