@@ -195,11 +195,4 @@ export default {
   border: none;
   padding: none;
 }
-
-/* mobile 尺寸不顯示(grid issue) */
-@media screen and (max-width: 768px) {
-.card {
-  display: none;
-}
-}
 </style>

@@ -1,7 +1,7 @@
 // 首頁上方的新增推文區塊
 <template>
   <div class="list-group-item">
-    <form class="card-body" @>
+    <form class="card-body" @submit.prevent.stop="handleSubmit">
       <div class="card-body-side">
         <!-- dynamic avatar -->
         <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
@@ -30,7 +30,10 @@ export default {
     }
   },
   methods: {
-
+    handleSubmit() {
+      // 將內容回傳給tweets
+      this.$emit('after-submit', )
+    }
   }
 }
 </script>

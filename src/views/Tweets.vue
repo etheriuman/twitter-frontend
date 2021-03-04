@@ -301,5 +301,10 @@ export default {
     "left left";
 }
 
+.column-right {
+  display: none;
+}
+
+
 }
 </style>
