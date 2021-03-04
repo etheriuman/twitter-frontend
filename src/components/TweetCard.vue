@@ -28,12 +28,12 @@
           </div>
           <!-- 如果有like就顯示 -->
           <div class="liked" v-if="tweet.isLiked">
-            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="toggleIsLiked" />
+            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="deleteLike" />
             <span>{{tweet.likesNumber}}</span>
           </div>
           <!-- 如果沒like就顯示 -->
           <div class="like" v-else>
-            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="toggleIsLiked" />
+            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="addLike" />
             <span>{{tweet.likesNumber}}</span>
           </div>
         </div>
@@ -58,11 +58,18 @@ export default {
     }
   },
   methods: {
-    toggleIsLiked() {
-      // api POST request
+    addLike() {
+      this.$emit('after-add-like', this.tweet.id)
+    },
+    deleteLike() {
+      this.$emit('after-delete-like', this.tweet.id)
+    }
+  },
+  watch: {
+    initialTweet(data) {
       this.tweet = {
         ...this.tweet,
-        isLiked: !this.tweet.isLiked
+        ...data
       }
     }
   },

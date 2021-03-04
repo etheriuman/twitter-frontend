@@ -12,6 +12,8 @@
             v-for="tweet in tweets" 
             :key="tweet.id" 
             :initial-tweet="tweet"
+            @after-add-like="handleAfterAddLike"
+            @after-delete-like="handleAfterDeleteLike"
             />
         </ul>
       </div>
@@ -191,12 +193,37 @@ export default {
   },
   methods: {
     fetchTweets() {
-      this.tweets = {
-        ...dummyData.tweets
-      }
+      this.tweets = dummyData.tweets
     },
-    handleAfterSubmit(description) {
-      console.log(description)
+    handleAfterSubmit() {
+      console.log('refetch')
+      this.fetchTweets()
+    },
+    handleAfterAddLike(tweetId) {
+      console.log('add like')
+      this.tweets = this.tweets.map(tweet => {
+        if (tweet.id === tweetId) {
+          return {
+            ...tweet,
+            isLiked: true,
+            likesNumber: tweet.likesNumber + 1
+          }
+        }
+        return tweet
+      })
+    },
+    handleAfterDeleteLike(tweetId) {
+      console.log('delete like')
+      this.tweets = this.tweets.map(tweet => {
+        if (tweet.id === tweetId) {
+          return {
+            ...tweet,
+            isLiked: false,
+            likesNumber: tweet.likesNumber - 1
+          }
+        }
+        return tweet
+      })
     }
   },
   created() {

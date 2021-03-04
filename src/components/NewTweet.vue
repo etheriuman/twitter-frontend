@@ -1,8 +1,9 @@
 // 首頁上方的新增推文區塊
 <template>
   <div class="list-group-item">
-    <form class="card-body">
+    <form class="card-body" @>
       <div class="card-body-side">
+        <!-- dynamic avatar -->
         <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
       </div>
       <div class="card-body-content">
@@ -10,16 +11,29 @@
         type="textarea" 
         class="tweeting-area" 
         placeholder="說些什麼吧？"
-        autofocus
+        v-model="description"
         />
         <!-- dynamic avatar -->
-        <button type="button" class="tweeting-submit btn btn-primary">
+        <button type="submit" class="tweeting-submit btn btn-primary">
           推文
         </button>
       </div>
     </form>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      description: ''
+    }
+  },
+  methods: {
+
+  }
+}
+</script>
 
 <style scoped>
 

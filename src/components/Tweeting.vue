@@ -11,6 +11,7 @@
           </div>
           <form class="modal-body" @submit.prevent.stop="handleSubmit">
             <div class="modal-body-side">
+              <!-- dynamic avatar -->
               <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
             </div>
             <div class="modal-body-content">
@@ -21,7 +22,6 @@
               v-model="description"
               required
               />
-              <!-- dynamic avatar -->
               <button type="submit" class="tweeting-submit btn btn-primary">
                 推文
               </button>
@@ -45,18 +45,18 @@ export default {
   methods: {
     handleSubmit() {
       const payLoad = {
-        userId: 1, //這邊到時候要填currentUserId
+        userId: 1, // currentUser.id
         description: this.description
       }
       // 檢查description.length是否 > 0 , < 140
       console.log(payLoad)
       // API POST request...
 
+      // 回傳資料給Tweets，讓他把資料塞進去
+      this.$parent.$emit('after-submit')
+      
       // 清空欄位
       this.description = ''
-      
-      // 回傳資料給Tweets，讓他把資料塞進去
-      this.$emit('after-submit', this.description)
 
       // 關閉modal
       $('#tweeting').modal('hide')
