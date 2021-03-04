@@ -14,6 +14,7 @@
             :initial-tweet="tweet"
             @after-add-like="handleAfterAddLike"
             @after-delete-like="handleAfterDeleteLike"
+            @after-reply="handleAfterReply"
             />
         </ul>
       </div>
@@ -175,7 +176,6 @@ const dummyData = {
 		}
 
   ]
-
 }
 
 export default {
@@ -221,6 +221,21 @@ export default {
             ...tweet,
             isLiked: false,
             likesNumber: tweet.likesNumber - 1
+          }
+        }
+        return tweet
+      })
+    },
+    handleAfterReply(replyData) {
+      console.log('replied')
+      console.log(replyData)
+      const { tweetId } = replyData
+      this.tweets = this.tweets.map(tweet => {
+        if (tweet.id === tweetId) {
+          console.log('this tweet is', tweet)
+          return {
+            ...tweet,
+            repliesNumber: tweet.repliesNumber + 1
           }
         }
         return tweet

@@ -22,8 +22,14 @@
         </div>
         <div class="content-footer">
           <!-- reply button -->
+          <!-- dynamic data-target -->
           <div class="reply">
-            <font-awesome-icon class="icon" icon="comment" />
+            <font-awesome-icon 
+            class="icon" 
+            icon="comment" 
+            data-toggle="modal"
+            :data-target="`#${replyingId}`" 
+            />
             <span>{{tweet.repliesNumber}}</span>
           </div>
           <!-- 如果有like就顯示 -->
@@ -39,13 +45,18 @@
         </div>
       </div>
     </form>
+    <Replying :replying-tweet="tweet" :replying-id="replyingId" />
   </div>
 </template>
 
 <script>
+import Replying from './../components/Replying'
 import { fromNowFilter } from './../utils/mixins'
 
 export default {
+  components: {
+    Replying
+  },
   props: {
     initialTweet: {
       type: Object,
@@ -54,7 +65,8 @@ export default {
   },
   data() {
     return {
-      tweet: this.initialTweet
+      tweet: this.initialTweet,
+      replyingId: `replying${this.initialTweet.id}`
     }
   },
   methods: {
