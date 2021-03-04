@@ -5,20 +5,34 @@
       <li class="list-group-item">
         跟隨誰
       </li>
-      <li class="list-group-item">
+      <li 
+      v-for="user in users" 
+      :key="user.id"
+      class="list-group-item"
+      >
         <div class="main-content">
           <div class="main-left">
-            <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="avatar">
+            <router-link :to="{ name: 'user-tweets', params: {id: user.id} }">
+              <img class="avatar" :src="user.avatar" alt="avatar">
+            </router-link>
           </div>
           <div class="main-right">
-            <p>Pizza Hut</p>
-            <p class="text-muted">@pizzahut</p>
+            <p>{{user.name}}</p>
+            <p class="text-muted">{{user.account}}</p>
           </div>
         </div>
         <div class="side-content">
           <button 
+          v-if="user.isFollowed"
           type="button"
           class="btn btn-sm btn-primary follow-button"
+          >
+            正在跟隨
+          </button>
+          <button 
+          v-else
+          type="button"
+          class="btn btn-sm btn-outline-primary follow-button"
           >
             跟隨
           </button>
@@ -32,6 +46,74 @@
     </ul>
   </div>
 </template>
+
+<script>
+const dummyData = {
+  users: [
+		{
+			id: 1, // 使用者id
+			name: 'Pizza Hut', // 使用者名稱
+			avatar: 'https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/05/13/Pictures/_67aa6b5c-94d7-11ea-9070-932bbf5d90a5.jpg', // 使用者照片
+			account: '@pizzahut', // 使用者帳號
+			isFollowed: true // 是否追蹤中
+		},
+		{
+			id: 2, // 使用者id
+			name: 'Ether Huang', // 使用者名稱
+			avatar: 'https://media.nu.nl/m/m1mxngvaigrv_wd1280.jpg/disney-verschuift-release-avatar-2-en-kondigt-nieuwe-star-wars-films-aan.jpg', // 使用者照片
+			account: '@etherhuang', // 使用者帳號
+			isFollowed: false // 是否追蹤中
+		},
+    {
+			id: 3, // 使用者id
+			name: 'Pizza Hut', // 使用者名稱
+			avatar: 'https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/05/13/Pictures/_67aa6b5c-94d7-11ea-9070-932bbf5d90a5.jpg', // 使用者照片
+			account: '@pizzahut', // 使用者帳號
+			isFollowed: true // 是否追蹤中
+		},
+		{
+			id: 4, // 使用者id
+			name: 'Ether Huang', // 使用者名稱
+			avatar: 'https://media.nu.nl/m/m1mxngvaigrv_wd1280.jpg/disney-verschuift-release-avatar-2-en-kondigt-nieuwe-star-wars-films-aan.jpg', // 使用者照片
+			account: '@etherhuang', // 使用者帳號
+			isFollowed: false // 是否追蹤中
+		},
+    {
+			id: 5, // 使用者id
+			name: 'Pizza Hut', // 使用者名稱
+			avatar: 'https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/05/13/Pictures/_67aa6b5c-94d7-11ea-9070-932bbf5d90a5.jpg', // 使用者照片
+			account: '@pizzahut', // 使用者帳號
+			isFollowed: true // 是否追蹤中
+		},
+		{
+			id: 6, // 使用者id
+			name: 'Ether Huang', // 使用者名稱
+			avatar: 'https://media.nu.nl/m/m1mxngvaigrv_wd1280.jpg/disney-verschuift-release-avatar-2-en-kondigt-nieuwe-star-wars-films-aan.jpg', // 使用者照片
+			account: '@etherhuang', // 使用者帳號
+			isFollowed: false // 是否追蹤中
+		},
+	]
+}
+
+export default {
+  data() {
+    return {
+      users: []
+    }
+  },
+  methods: {
+    fetchUsers() {
+      this.users = {
+        ...dummyData.users
+      }
+    }
+  },
+  created() {
+    this.fetchUsers()
+    console.log(this.users)
+  }
+}
+</script>
 
 <style scoped>
 
