@@ -13,7 +13,6 @@
         placeholder="說些什麼吧？"
         v-model="description"
         />
-        <!-- dynamic avatar -->
         <button type="submit" class="tweeting-submit btn btn-primary">
           推文
         </button>
