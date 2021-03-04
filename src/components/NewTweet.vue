@@ -51,8 +51,6 @@
 .avatar {
   width: 50px;
   height: 50px;
-  position: absolute;
-  left: 10px;
   border-radius: 50%;
 }
 

@@ -115,11 +115,13 @@ a {
 .tweeting-button {
   height: 100%;
   width: 120px;
+  line-height: 100%;
 }
 
 .logo {
   width: 30px;
   margin-bottom: 0;
+  margin-right: 30px;
 }
 
 .logo img {
@@ -133,13 +135,15 @@ a {
   height: 100%;
   display: flex;
   flex-flow: row;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   margin: 0;
 }
 
 .tab {
+  width: 20px;
   line-height: 30px;
   text-align: center;
+  margin-right: 30px;
 }
 
 .tab span {
