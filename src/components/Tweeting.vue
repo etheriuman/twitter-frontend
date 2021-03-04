@@ -39,7 +39,6 @@ export default {
   data() {
     return {
       description: '',
-      isHidden: false
     }
   },
   methods: {
@@ -80,6 +79,13 @@ export default {
 .modal-header button {
   margin: 0;
   padding: 0;
+}
+
+.close {
+  font-size: 2rem;
+  font-weight: 100;
+  color: #ff6600;
+  opacity: 1;
 }
 
 .modal-body {
