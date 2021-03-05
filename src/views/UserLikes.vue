@@ -7,7 +7,7 @@
     <div class="column-main column">
       <div class="card main-content">
         <ul class="list-group list-group-flush">
-          <PageHead />
+          <PageHead :user="user" />
           <UserProfile
             :initial-user="user"
             @afterAddFollowed="handleAfterAddFollowed"
