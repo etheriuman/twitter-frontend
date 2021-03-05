@@ -2,48 +2,52 @@
 <template>
   <div class="list-group-item">
     <div class="card-body">
-      <div class="card-body-side">
-        <!-- user avatar -->
-        <router-link :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
-          <img class="avatar" :src="tweet.User.avatar" alt="">
-        </router-link>
-      </div>
       <div class="card-body-content">
         <!-- tweetCard header -->
+        <!-- user avatar -->
         <div class="content-header">
-          <span class="user-name">{{tweet.User.name}}</span>
-          <span class="text-muted">{{tweet.User.account}}</span>
-          <span class="text-muted"> &#8231; </span>
-          <span class="text-muted">{{tweet.createdAt | fromNow}}</span>
+          <router-link :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
+            <img class="avatar" :src="tweet.User.avatar" alt="">
+          </router-link>
+          <div class="content-header-description">
+            <p><span class="user-name">{{tweet.User.name}}</span></p>
+            <p><span class="text-muted">{{tweet.User.account}}</span></p>
+          </div>
         </div>
         <!-- tweet description -->
         <div class="content-body">
-          <p>{{tweet.description}}</p>
+          <p class="description">{{tweet.description}}</p>
+          <p>
+            <span class="text-muted">{{tweet.createdAt | time}}</span>
+            <span class="text-muted"> &#8231; </span>
+            <span class="text-muted">{{tweet.createdAt | date}}</span>
+          </p>
         </div>
-        <div class="content-footer">
+        <div class="content-belly">
           <!-- reply button -->
           <!-- dynamic data-target -->
-          <div class="reply">
-            <font-awesome-icon 
-            class="icon" 
-            icon="comment" 
-            data-toggle="modal"
-            :data-target="`#${replyingId}`" 
-            />
-            <span>{{tweet.repliesNumber}}</span>
+            <span>{{tweet.repliesNumber}} <span class="text-muted">回覆</span></span>
+            <span>{{tweet.likesNumber}} <span class="text-muted">喜歡次數</span></span>
           </div>
           <!-- 如果有like就顯示 -->
-          <div class="liked" v-if="tweet.isLiked">
-            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="deleteLike" />
-            <span>{{tweet.likesNumber}}</span>
-          </div>
-          <!-- 如果沒like就顯示 -->
-          <div class="like" v-else>
-            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="addLike" />
-            <span>{{tweet.likesNumber}}</span>
+          <div class="content-footer">
+            <div class="reply">
+              <font-awesome-icon 
+              class="icon" 
+              icon="comment" 
+              data-toggle="modal"
+              :data-target="`#${replyingId}`" 
+              />
+            </div>
+            <div class="liked" v-if="tweet.isLiked">
+              <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="deleteLike" />
+            </div>
+            <!-- 如果沒like就顯示 -->
+            <div class="like" v-else>
+              <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="addLike" />
+            </div>
           </div>
         </div>
-      </div>
     </div>
     <Replying :replying-tweet="tweet" :replying-id="replyingId" />
   </div>
@@ -51,7 +55,7 @@
 
 <script>
 import Replying from './../components/Replying'
-import { fromNowFilter } from './../utils/mixins'
+import { fromNowFilter, momentFilter } from './../utils/mixins'
 
 export default {
   components: {
@@ -85,7 +89,7 @@ export default {
       }
     }
   },
-  mixins: [fromNowFilter]
+  mixins: [fromNowFilter, momentFilter]
 }
 </script>
 
@@ -115,19 +119,40 @@ export default {
 
 .content-header {
   margin-bottom: 10px;
+  display: flex;
+}
+
+.content-header p {
+  margin: 0;
 }
 
 .user-name {
   margin-right: 10px;
 }
 
+.description {
+  font-size: 1.5rem;
+}
+
+.content-belly {
+  padding: 15px 0 15px 0;
+  border-top: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.content-belly span span {
+  margin-right: 20px;
+}
+
 .content-footer {
   display: flex;
+  padding-top: 10px;
 }
 
 .icon {
   margin-right: 15px;
   cursor: pointer;
+  font-size: 1.5rem;
 }
 
 .liked {
@@ -135,7 +160,7 @@ export default {
 }
 
 .reply {
-  margin-right: 50px;
+  margin-right: 90px;
 }
 
 /* 統一屬性 */
@@ -144,6 +169,7 @@ export default {
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
+  margin-right: 10px;
 }
 
 
