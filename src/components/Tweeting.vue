@@ -44,7 +44,12 @@ export default {
   },
   methods: {
     autoFocus() {
+      // 用 jQuery 選中輸入匡
       $('#textarea').focus()
+    },
+    cleanUp() {
+      // 清空輸入
+      this.description = ''
     },
     handleSubmit() {
       const payLoad = {
@@ -58,8 +63,8 @@ export default {
       // 回傳資料給Tweets，讓他把資料塞進去
       this.$parent.$emit('after-submit')
       
-      // 清空欄位
-      this.description = ''
+      // 清空輸入
+      this.cleanUp()
 
       // jQuery 關閉 modal
       $('#tweeting').modal('hide')
@@ -68,6 +73,8 @@ export default {
   mounted(){
     // jQuery 掛載 modal shown 事件監聽
     $(this.$refs.tweeting).on('shown.bs.modal', this.autoFocus)
+    // jQuery 掛載 modal hidden 事件監聽
+    $(this.$refs.tweeting).on('hidden.bs.modal', this.cleanUp)
   }
 }
 </script>
