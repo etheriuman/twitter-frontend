@@ -87,6 +87,9 @@ export default {
       // 用 jQuery 選到當下打開的 replying modal
       $(`#${this.replyingId}-textarea`).focus()
     },
+    cleanUp() {
+      this.comment = ''
+    },
     handleSubmit() {
       const payLoad = {
         userId: 1, // currentUser.id
@@ -107,7 +110,7 @@ export default {
       this.$parent.$emit('after-reply', replyData)
       
       // 清空欄位
-      this.comment = ''
+      this.cleanUp()
 
       // 關閉modal
       $(`#${this.replyingId}`).modal('hide')
@@ -116,6 +119,8 @@ export default {
   mounted() {
     // jQuery 掛載 modal shown 事件監聽
     $(this.$refs.replying).on('shown.bs.modal', this.autoFocus)
+    // jQuery 掛載 modal hidden 事件監聽
+    $(this.$refs.replying).on('hidden.bs.modal', this.cleanUp)
   }
 }
 </script>
