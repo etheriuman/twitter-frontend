@@ -1,7 +1,7 @@
 // 新增推文用的 modal
 <template>
   <!-- Modal -->
-    <div class="modal fade" id="tweeting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" ref="tweeting" id="tweeting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -15,8 +15,9 @@
               <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
             </div>
             <div class="modal-body-content">
-              <textarea 
+              <textarea
               type="textarea" 
+              id="textarea"
               class="tweeting-area" 
               placeholder="說些什麼吧？"
               v-model="description"
@@ -42,6 +43,9 @@ export default {
     }
   },
   methods: {
+    autoFocus() {
+      $('#textarea').focus()
+    },
     handleSubmit() {
       const payLoad = {
         userId: 1, // currentUser.id
@@ -57,9 +61,13 @@ export default {
       // 清空欄位
       this.description = ''
 
-      // 關閉modal
+      // jQuery 關閉 modal
       $('#tweeting').modal('hide')
     }
+  },
+  mounted(){
+    // jQuery 掛載 modal shown 事件監聽
+    $(this.$refs.tweeting).on('shown.bs.modal', this.autoFocus)
   }
 }
 </script>
