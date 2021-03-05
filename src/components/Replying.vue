@@ -1,7 +1,7 @@
 // 新增回覆用的 modal
 <template>
   <!-- Modal -->
-    <div class="modal fade" :id="replyingId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" ref="replying" :id="replyingId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -45,7 +45,8 @@
             <div class="modal-body-content">
               <textarea 
               type="textarea" 
-              class="tweeting-area" 
+              :id="`${replyingId}-textarea`"
+              class="replying-area" 
               placeholder="說些什麼吧？"
               v-model="comment"
               required
@@ -82,6 +83,10 @@ export default {
   },
   mixins: [fromNowFilter],
   methods: {
+    autoFocus() {
+      // 用 jQuery 選到當下打開的 replying modal
+      $(`#${this.replyingId}-textarea`).focus()
+    },
     handleSubmit() {
       const payLoad = {
         userId: 1, // currentUser.id
@@ -107,6 +112,10 @@ export default {
       // 關閉modal
       $(`#${this.replyingId}`).modal('hide')
     }
+  },
+  mounted() {
+    // jQuery 掛載 modal shown 事件監聽
+    $(this.$refs.replying).on('shown.bs.modal', this.autoFocus)
   }
 }
 </script>
@@ -208,7 +217,7 @@ export default {
   object-fit: cover;
 }
 
-.tweeting-area {
+.replying-area {
   width: 100%;
   height: calc(100% - 50px);
   top: 0;
