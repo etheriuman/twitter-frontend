@@ -10,6 +10,7 @@
             <TweetExtend :initial-tweet="tweet"
             @after-add-like="handleAfterAddLike"
             @after-delete-like="handleAfterDeleteLike"
+            @after-reply="handleAfterReply"
             />
             <ReplyCard
             v-for="reply in tweet.Replies" 
@@ -121,19 +122,9 @@ export default {
       }
     },
     handleAfterReply(replyData) {
-      console.log('replied')
       console.log(replyData)
-      const { tweetId } = replyData
-      this.tweets = this.tweets.map(tweet => {
-        if (tweet.id === tweetId) {
-          console.log('this tweet is', tweet)
-          return {
-            ...tweet,
-            repliesNumber: tweet.repliesNumber + 1
-          }
-        }
-        return tweet
-      })
+      // 目前資料是dummyData 所以 refetch之後評論數不會增加
+      this.fetchTweet()
     }
   },
   created() {
