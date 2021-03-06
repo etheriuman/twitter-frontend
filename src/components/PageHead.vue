@@ -9,22 +9,7 @@
       </router-link>
       <!-- dynamic 標頭 -->
       <div class="topic">
-        <p v-if="currentRouterName === 'setting'">帳戶設定</p>
-        <p v-if="currentRouterName === 'tweets'">首頁</p>
-        <p v-if="currentRouterName === 'tweet'">推文</p>
-        <p
-          v-if="
-            currentRouterName === 'user-tweets' ||
-            currentRouterName === 'user-replies' ||
-            currentRouterName === 'user-likes' ||
-            currentRouterName === 'user-followings' ||
-            currentRouterName === 'user-followers'
-          "
-        >
-          {{ user.name }}
-        </p>
-        <p v-if="currentRouterName === 'admin-tweets'">推文清單</p>
-        <p v-if="currentRouterName === 'admin-tweets'">使用者列表</p>
+        <p>{{ currentRouterName }}</p>
         <!-- 如果有user表示在user相關頁面 -->
         <p v-if="user" class="text-muted user-tweet-number">
           <span>{{ user.tweetsNumber }} </span>推文
@@ -45,7 +30,7 @@ export default {
   data() {
     return {
       displayArrow: false,
-      currentRouterName: this.$route.name,
+      currentRouterName: "",
     };
   },
   methods: {
@@ -58,9 +43,34 @@ export default {
       }
       return;
     },
+    handleCurrentRouterName(currentRouterName) {
+      if (currentRouterName === "setting") {
+        this.currentRouterName = "帳戶設定";
+      } else if (currentRouterName === "tweets") {
+        this.currentRouterName = "首頁";
+      } else if (currentRouterName === "tweet") {
+        this.currentRouterName = "推文";
+      } else if (
+        currentRouterName === "user-tweets" ||
+        currentRouterName === "user-replies" ||
+        currentRouterName === "user-likes" ||
+        currentRouterName === "user-followings" ||
+        currentRouterName === "user-followers"
+      ) {
+        this.currentRouterName = this.user.name;
+      } else if (currentRouterName === "admin-tweets") {
+        this.currentRouterName = "推文清單";
+      } else if (currentRouterName === "admin-users") {
+        this.currentRouterName = "使用者清單";
+      } else {
+        return "";
+      }
+    },
   },
   created() {
+    const currentRouterName = this.$route.name;
     this.checkArrowIsDisplay();
+    this.handleCurrentRouterName(currentRouterName);
   },
 };
 </script>
