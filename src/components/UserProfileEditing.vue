@@ -52,7 +52,7 @@
                       autofocus
                     />
                   </div>
-                  <p class="textLimit">8/10</p>
+                  <p class="textLimit">8/50</p>
                   <div class="form-label-group text-muted">
                     <label for="introduction">自我介紹</label>
                     <textarea
@@ -64,7 +64,7 @@
                       autofocus
                     ></textarea>
                   </div>
-                  <p class="textLimit">8/10</p>
+                  <p class="textLimit">8/50</p>
                 </div>
               </div>
             </div>
