@@ -99,6 +99,7 @@
 .card-img-top {
   background-size: cover;
   opacity: 0.6;
+  object-fit: cover;
 }
 .avatar {
   position: absolute;

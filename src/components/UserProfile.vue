@@ -2,12 +2,12 @@
 <template>
   <div class="user-profile">
     <div class="card" style="width: 100%">
-      <div
+      <img
         class="card-img-top"
-        src=""
+        :src="user.cover"
         alt="Card image cap"
         style="height: 200px"
-      ></div>
+      />
       <div class="profile card-body">
         <img :src="initialUser.avatar" class="avatar mb-5" alt="avatar" />
         <div class="button-group" v-if="currentUser.id !== initialUser.id">
@@ -134,8 +134,7 @@ p {
   color: #657786;
 }
 .card-img-top {
-  background-image: url("http://5b0988e595225.cdn.sohucs.com/images/20180914/9d15e25d6b1946f28b196f597e3002ba.jpeg");
-  background-size: cover;
+  object-fit: cover;
 }
 .avatar {
   position: absolute;
@@ -144,6 +143,7 @@ p {
   height: 120px;
   border: 2px solid white;
   border-radius: 50%;
+  object-fit: cover;
 }
 .btn-outline-primary {
   color: #ff6600;
