@@ -1,20 +1,17 @@
 <template>
   <div class="main">
     <div class="column-left column">
-      <Navbar @after-submit="handleAfterSubmit" />
+      <Navbar />
     </div>
     <div class="column-main column">
       <div class="card main-content">
         <ul class="list-group list-group-flush">
             <PageHead />
-            <NewTweet @after-submit="handleAfterSubmit" />
             <TweetCard 
             v-for="tweet in tweets" 
             :key="tweet.id" 
             :initial-tweet="tweet"
-            @after-add-like="handleAfterAddLike"
-            @after-delete-like="handleAfterDeleteLike"
-            @after-reply="handleAfterReply"
+            @after-delete-tweet="handleAfterDeleteTweet"
             />
         </ul>
       </div>
@@ -25,7 +22,6 @@
 <script>
 import Navbar from './../components/Navbar'
 import PageHead from './../components/PageHead'
-import NewTweet from './../components/NewTweet'
 import TweetCard from './../components/TweetCard'
 
 const dummyData = {
@@ -178,7 +174,6 @@ export default {
   components: {
     Navbar,
     PageHead,
-    NewTweet,
     TweetCard
   },
   data() {
@@ -190,51 +185,8 @@ export default {
     fetchTweets() {
       this.tweets = dummyData.tweets
     },
-    handleAfterSubmit() {
-      // 因為需要取得正確createdAt所以選擇重新fetch一次
-      console.log('refetch')
-      this.fetchTweets()
-    },
-    handleAfterAddLike(tweetId) {
-      console.log('add like')
-      this.tweets = this.tweets.map(tweet => {
-        if (tweet.id === tweetId) {
-          return {
-            ...tweet,
-            isLiked: true,
-            likesNumber: tweet.likesNumber + 1
-          }
-        }
-        return tweet
-      })
-    },
-    handleAfterDeleteLike(tweetId) {
-      console.log('delete like')
-      this.tweets = this.tweets.map(tweet => {
-        if (tweet.id === tweetId) {
-          return {
-            ...tweet,
-            isLiked: false,
-            likesNumber: tweet.likesNumber - 1
-          }
-        }
-        return tweet
-      })
-    },
-    handleAfterReply(replyData) {
-      console.log('replied')
-      console.log(replyData)
-      const { tweetId } = replyData
-      this.tweets = this.tweets.map(tweet => {
-        if (tweet.id === tweetId) {
-          console.log('this tweet is', tweet)
-          return {
-            ...tweet,
-            repliesNumber: tweet.repliesNumber + 1
-          }
-        }
-        return tweet
-      })
+    handleAfterDeleteTweet(tweetId) {
+      this.tweets = this.tweets.filter(tweet => tweet.id !== tweetId)
     }
   },
   created() {
@@ -250,7 +202,7 @@ export default {
 }
 
 .main {
-  max-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 220px 1fr;
   grid-template-areas: "left main" ;

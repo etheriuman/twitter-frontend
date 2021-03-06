@@ -15,12 +15,22 @@
           <span class="text-muted">{{tweet.User.account}}</span>
           <span class="text-muted"> &#8231; </span>
           <span class="text-muted">{{tweet.createdAt | fromNow}}</span>
+          <!-- 如果是admin才顯示 -->
+          <button 
+          type="button" 
+          class="close" 
+          v-if="currentUser.role === 'admin'"
+          @click.prevent.stop="deleteTweet"
+          >
+            <span>&times;</span>
+          </button>
         </div>
         <!-- tweet description -->
         <div class="content-body">
           <p>{{tweet.description}}</p>
         </div>
-        <div class="content-footer">
+        <!-- 如果不是admin才顯示 -->
+        <div class="content-footer" v-if="currentUser.role !== 'admin'">
           <!-- reply button -->
           <!-- dynamic data-target -->
           <div class="reply">
@@ -53,6 +63,17 @@
 import Replying from './../components/Replying'
 import { fromNowFilter } from './../utils/mixins'
 
+// 當前使用者為管理者
+const dummyCurrentUser = {
+  currentUser: {
+    id: 11, // 當前使用者id
+    name: 'Allen', // 當前使用者名稱
+    account: '@allen', // 當前使用者帳號
+    avatar: 'https://cdn.voicetube.com/assets/thumbnails/aEvItEpMly8.jpg', // 當前使用者照片
+    role: 'admin' // 當前使用者角色
+  }
+}
+
 export default {
   components: {
     Replying
@@ -66,15 +87,22 @@ export default {
   data() {
     return {
       tweet: this.initialTweet,
-      replyingId: `replying${this.initialTweet.id}`
+      replyingId: `replying${this.initialTweet.id}`,
+      currentUser: dummyCurrentUser.currentUser // 這邊之後要改成拿 vuex 資料
     }
   },
   methods: {
     addLike() {
+      // api POST request ...
       this.$emit('after-add-like', this.tweet.id)
     },
     deleteLike() {
+      // api POST request ...
       this.$emit('after-delete-like', this.tweet.id)
+    },
+    deleteTweet() {
+      // api DELETE request ...
+      this.$emit('after-delete-tweet', this.tweet.id)
     }
   },
   watch: {
