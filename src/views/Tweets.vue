@@ -293,6 +293,11 @@ export default {
   justify-content: flex-start;
 }
 
+/* 讓最後一個元素底部也有border */
+.list-group:last-child {
+  border-bottom-width: 1px;
+}
+
 /* pad 尺寸 */
 @media screen and (max-width: 992px) {
   
