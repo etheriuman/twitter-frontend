@@ -60,161 +60,54 @@ const dummyData = {
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
       likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
+      repliesNumber: 7, // 推文回覆數
       isLiked: true, // 是否按過like
+      createdAt: "", // 推文發布時間
       User: {
-        id: 1, // 連結用user.id
-        name: "John Doe", // 推主名稱
-        account: "@heyjohn", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/17.jpg", // 推主照片
+        // 推主資料
+        id: 20, // 推主連結用user.id
+        name: "Nancy haiso", // 推主名稱
+        account: "@nancy", // 推主帳號
+        avatar: "https://randomuser.me/portraits/women/19.jpg", // 推主照片
       },
     },
     {
       id: 2, // 推文id
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
+      likesNumber: 10, // 推文like數
+      repliesNumber: 6, // 推文回覆數
+      isLiked: true, // 是否按過like
       createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
       User: {
-        id: 1, // 連結用user.id
-        name: "John Doe", // 推主名稱
-        account: "@heyjohn", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/17.jpg", // 推主照片
+        // 推主資料
+        id: 14, // 推主連結用user.id
+        name: "Katy haiso", // 推主名稱
+        account: "@katy", // 推主帳號
+        avatar: "https://randomuser.me/portraits/women/34.jpg", // 推主照片
       },
     },
     {
       id: 3, // 推文id
       description:
         "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 1, // 連結用user.id
-        name: "John Doe", // 推主名稱
-        account: "@heyjohn", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/17.jpg", // 推主照片
-      },
-    },
-    {
-      id: 4, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 1, // 連結用user.id
-        name: "John Doe", // 推主名稱
-        account: "@heyjohn", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/17.jpg", // 推主照片
-      },
-    },
-    {
-      id: 5, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 1, // 連結用user.id
-        name: "John Doe", // 推主名稱
-        account: "@heyjohn", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/17.jpg", // 推主照片
-      },
-    },
-    {
-      id: 6, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
+      likesNumber: 6, // 推文like數
+      repliesNumber: 15, // 推文回覆數
       isLiked: true, // 是否按過like
-      User: {
-        id: 6, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 7, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
       createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
       User: {
-        id: 7, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 8, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
-      User: {
-        id: 8, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 9, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 9, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 10, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
-      User: {
-        id: 10, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
+        // 推主資料
+        id: 21, // 推主連結用user.id
+        name: "Rina haiso", // 推主名稱
+        account: "@rina", // 推主帳號
+        avatar: "https://randomuser.me/portraits/women/80.jpg", // 推主照片
       },
     },
   ],
 };
 
 export default {
-  name: "UserTweets",
+  name: "UserLikes",
   components: {
     Navbar,
     PageHead,
@@ -232,10 +125,8 @@ export default {
     fetchUser() {
       this.user = dummyUser;
     },
-    fetchTweetsLiked(userId) {
-      this.tweets = dummyData.tweets.filter(
-        (tweet) => userId === tweet.User.id.toString() && (tweet.isLiked = true)
-      );
+    fetchTweetsLiked() {
+      this.tweets = dummyData.tweets.filter((tweet) => (tweet.isLiked = true));
       console.log(this.tweets);
     },
     handleAfterSubmit() {
@@ -296,9 +187,8 @@ export default {
     },
   },
   created() {
-    const { id: userId } = this.$route.params;
     this.fetchUser();
-    this.fetchTweetsLiked(userId);
+    this.fetchTweetsLiked();
   },
 };
 </script>
