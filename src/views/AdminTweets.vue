@@ -235,6 +235,11 @@ export default {
   justify-content: center;
 }
 
+/* 讓最後一個元素底部也有border */
+.list-group:last-child {
+  border-bottom-width: 1px;
+}
+
 /* pad 尺寸不變 */
 /* mobile 尺寸 */
 @media screen and (max-width: 768px) {
