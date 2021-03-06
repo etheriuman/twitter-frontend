@@ -307,7 +307,7 @@ export default {
 .main {
   max-height: 100vh;
   display: grid;
-  grid-template-columns: 250px 1fr 300px;
+  grid-template-columns: 220px 1fr 300px;
   grid-template-areas: "left main right";
 }
 
