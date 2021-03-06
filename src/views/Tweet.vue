@@ -11,7 +11,11 @@
             @after-add-like="handleAfterAddLike"
             @after-delete-like="handleAfterDeleteLike"
             />
-            <!-- <ReplyCard /> -->
+            <ReplyCard
+            v-for="reply in tweet.Replies" 
+            :key="reply.id" 
+            :reply="reply" 
+            />
         </ul>
       </div>
     </div>
@@ -26,7 +30,7 @@ import Navbar from './../components/Navbar'
 import PageHead from './../components/PageHead'
 import Recommendation from './../components/Recommendation'
 import TweetExtend from './../components/TweetExtend'
-// import ReplyCard from './../components/ReplyCard'
+import ReplyCard from './../components/ReplyCard'
 
 const dummyData = {
   tweet: {
@@ -86,11 +90,11 @@ export default {
     PageHead,
     Recommendation,
     TweetExtend,
-    // ReplyCard
+    ReplyCard
   },
   data() {
     return {
-      tweet: []
+      tweet: {}
     }
   },
   methods: {
@@ -141,7 +145,7 @@ export default {
 <style scoped>
 
 * {
-  outline: 1px solid pink;
+  /* outline: 1px solid pink; */
 }
 
 .main {
