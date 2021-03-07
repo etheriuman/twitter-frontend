@@ -20,25 +20,48 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <h5 class="modal-title" id="exampleModalLabel">編輯個人資料</h5>
-          <button type="button" class="btn btn-primary mr-2">儲存</button>
+          <button type="submit" class="btn btn-primary mr-2">儲存</button>
         </div>
         <div class="modal-body p-0">
           <div class="user-profile">
             <div class="card" style="width: 100%">
               <img
                 class="card-img-top"
-                src="http://5b0988e595225.cdn.sohucs.com/images/20180914/9d15e25d6b1946f28b196f597e3002ba.jpeg"
+                :src="currentUser.cover"
                 alt="Card image cap"
                 style="height: 200px"
               />
-              <font-awesome-icon icon="camera" class="card-top-camera" />
-              <div class="profile card-body">
-                <img
-                  src="https://randomuser.me/portraits/women/17.jpg"
-                  class="avatar mb-5"
-                  alt=""
+              <div class="form-group">
+                <label for="cover">
+                  <font-awesome-icon icon="camera" class="card-top-camera" />
+                </label>
+                <input
+                  @change="handleCoverChange"
+                  id="cover"
+                  type="file"
+                  name="cover"
+                  accept="image/*"
+                  class="form-control-file"
                 />
-                <font-awesome-icon icon="camera" class="card-body-camera" />
+              </div>
+              <label @click.prevent.stop="handleCoverCancelChange" for="times">
+                <font-awesome-icon icon="times" class="card-top-times" />
+              </label>
+              <div class="profile card-body pt-0">
+                <img :src="currentUser.avatar" class="avatar mb-5" alt="" />
+                <div class="form-group">
+                  <label for="avatar">
+                    <font-awesome-icon icon="camera" class="card-body-camera" />
+                  </label>
+                  <input
+                    @change="handleAvatarChange"
+                    id="avatar"
+                    type="file"
+                    name="avatar"
+                    accept="image/*"
+                    class="form-control-file"
+                  />
+                </div>
                 <div class="profile-info">
                   <div class="form-label-group text-muted">
                     <label for="name">名稱</label>
@@ -75,6 +98,48 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "UserProfileEditing",
+  props: {
+    initialCurrentUser: {
+      type: Object,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      currentUser: this.initialCurrentUser,
+      coverCache: this.initialCurrentUser.cover,
+      avatarCache: this.initialCurrentUser.avatar,
+    };
+  },
+  methods: {
+    handleCoverChange(e) {
+      const { files } = e.target;
+      if (files.length === 0) {
+        return;
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.currentUser.cover = imageURL;
+      }
+    },
+    handleCoverCancelChange() {
+      this.currentUser.cover = this.coverCache;
+    },
+    handleAvatarChange(e) {
+      const { files } = e.target;
+      if (files.length === 0) {
+        return;
+      } else {
+        const imageURL = window.URL.createObjectURL(files[0]);
+        this.currentUser.avatar = imageURL;
+      }
+    },
+  },
+};
+</script>
+
 <style scoped>
 .close {
   margin: 0;
@@ -103,7 +168,7 @@
 }
 .avatar {
   position: absolute;
-  top: -20%;
+  top: -35%;
   width: 120px;
   height: 120px;
   border: 3px solid white;
@@ -116,7 +181,6 @@
 }
 .profile-info {
   position: relative;
-  top: 3rem;
 }
 .form-label-group {
   border-radius: 2%;
@@ -136,10 +200,19 @@ textarea {
   left: 40%;
   cursor: pointer;
 }
+.card-top-times {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  cursor: pointer;
+}
 .card-body-camera {
   position: absolute;
-  top: -10px;
+  top: -15%;
   left: 15%;
   cursor: pointer;
 }
-</style>z
+.form-control-file {
+  display: none;
+}
+</style>

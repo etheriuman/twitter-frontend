@@ -16,6 +16,11 @@
     </li>
   </ul>
 </template>
+<script>
+export default {
+  name: "UserProfileNavTabs",
+};
+</script>
 
 <style scoped>
 a {

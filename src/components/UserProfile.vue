@@ -64,7 +64,7 @@
       </div>
       <UserProfileNavTabs />
     </div>
-    <UserProfileEdiiting />
+    <UserProfileEdiiting :initial-current-user="currentUser" />
   </div>
 </template>
 
@@ -74,13 +74,22 @@ import UserProfileEdiiting from "./UserProfileEditing";
 
 const dummyCurrentUser = {
   //設定currentUser，判斷如果是使用者的話則可以編輯個人資料
-  id: 1, // 當前使用者id
-  name: "John Doe", // 當前使用者名稱
-  account: "@heyjohn", // 當前使用者帳號
-  avatar: "https://randomuser.me/portraits/women/17.jpg", // 使用者照片
+  id: 1,
+  name: "John Doe",
+  account: "@heyjohn",
+  email: "helloworld@gmail.com", // 當前使用者email
+  tweetsNumber: "12", // 當前使用者推文數
+  avatar: "https://randomuser.me/portraits/women/17.jpg", // 當前使用者照片
+  cover:
+    "http://5b0988e595225.cdn.sohucs.com/images/20180914/9d15e25d6b1946f28b196f597e3002ba.jpeg", // 當前使用者封面照片
+  introduction:
+    "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, ", // 當前使用者簡介
+  followingsNumber: "26", // 當前使用者追蹤數
+  followersNumber: 44, // 當前使用者跟隨數
 };
 
 export default {
+  name: "UserProfile",
   components: {
     UserProfileNavTabs,
     UserProfileEdiiting,
@@ -93,7 +102,7 @@ export default {
   },
   data() {
     return {
-      currentUser: dummyCurrentUser,
+      currentUser: "",
       user: this.initialUser,
     };
   },
