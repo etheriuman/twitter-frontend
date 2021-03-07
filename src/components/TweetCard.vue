@@ -55,7 +55,8 @@
         </div>
       </div>
     </div>
-    <Replying :replying-tweet="tweet" :replying-id="replyingId" />
+    <Replying 
+    :replying-tweet="tweet" :replying-id="replyingId" />
   </div>
 </template>
 
@@ -70,7 +71,7 @@ const dummyCurrentUser = {
     name: 'Allen', // 當前使用者名稱
     account: '@allen', // 當前使用者帳號
     avatar: 'https://cdn.voicetube.com/assets/thumbnails/aEvItEpMly8.jpg', // 當前使用者照片
-    role: 'admin' // 當前使用者角色
+    role: window.location.href.includes('admin')? 'admin' : 'user' // 透過當前路由先判斷當前使用者角色
   }
 }
 
@@ -88,7 +89,7 @@ export default {
     return {
       tweet: this.initialTweet,
       replyingId: `replying${this.initialTweet.id}`,
-      currentUser: dummyCurrentUser.currentUser // 這邊之後要改成拿 vuex 資料
+      currentUser: dummyCurrentUser.currentUser
     }
   },
   methods: {
