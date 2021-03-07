@@ -66,30 +66,36 @@
                   <div class="form-label-group text-muted">
                     <label for="name">名稱</label>
                     <input
+                      v-model="nameCache"
                       id="name"
                       name="name"
                       type="text"
                       class="form-control h-25 p-0"
-                      :value="currentUser.name"
+                      :placeholder="currentUser.name"
                       autocomplete="username"
                       required
                       autofocus
                     />
                   </div>
-                  <p class="textLimit">8/50</p>
+                  <p class="textLimit">
+                    {{ nameCache.length | handleTextLimit }}/50
+                  </p>
                   <div class="form-label-group text-muted">
                     <label for="introduction">自我介紹</label>
                     <textarea
+                      v-model="introductionCache"
                       id="introduction"
                       name="introduction"
                       class="form-control h-25 p-0"
-                      :value="currentUser.introduction"
+                      :placeholder="currentUser.introduction"
                       rows="3"
                       autocomplete="userIntroduction"
                       autofocus
                     ></textarea>
                   </div>
-                  <p class="textLimit">8/50</p>
+                  <p class="textLimit">
+                    {{ introductionCache.length | handleTextLimit }}/50
+                  </p>
                 </div>
               </div>
             </div>
@@ -114,6 +120,8 @@ export default {
       currentUser: this.initialCurrentUser,
       coverCache: this.initialCurrentUser.cover,
       avatarCache: this.initialCurrentUser.avatar,
+      nameCache: "",
+      introductionCache: "",
     };
   },
   methods: {
@@ -144,10 +152,21 @@ export default {
       this.$emit("afterSubmit", formData);
     },
   },
+  filters: {
+    handleTextLimit(textLength) {
+      if (textLength > 50) {
+        console.log("已超出50個字,無法再輸入");
+      }
+      return textLength;
+    },
+  },
 };
 </script>
 
 <style scoped>
+label {
+  cursor: text;
+}
 .close {
   margin: 0;
 }
