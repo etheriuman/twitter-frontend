@@ -22,7 +22,7 @@
                   class="form-control"
                   autocomplete="useraccount"
                   required
-                  autofocus
+                  
                 />
               </div>
               <!-- 名稱 -->
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import Navbar from './../components/Navbar'
 import PageHead from './../components/PageHead'
 
@@ -125,10 +126,16 @@ export default {
       this.currentUser = {
         ...dummyUser.currentUser
       }
+    },
+    autoFocus() {
+      $('#account').focus()
     }
   },
   created() {
     this.currentUserInIt()
+  },
+  mounted() {
+    this.autoFocus()
   }
 }
 </script>
