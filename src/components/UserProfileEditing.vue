@@ -70,6 +70,7 @@
                       name="name"
                       type="text"
                       class="form-control h-25 p-0"
+                      :value="currentUser.name"
                       autocomplete="username"
                       required
                       autofocus
@@ -82,6 +83,7 @@
                       id="introduction"
                       name="introduction"
                       class="form-control h-25 p-0"
+                      :value="currentUser.introduction"
                       rows="3"
                       autocomplete="userIntroduction"
                       autofocus

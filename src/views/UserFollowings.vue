@@ -119,10 +119,6 @@ export default {
 </script>
 
 <style scoped>
-* {
-  outline: 1px solid pink;
-}
-
 .main {
   max-height: 100vh;
   display: grid;
