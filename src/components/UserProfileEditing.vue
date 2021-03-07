@@ -199,13 +199,13 @@ textarea {
 .card-top-camera {
   position: absolute;
   top: 15%;
-  left: 40%;
+  left: 45%;
   cursor: pointer;
 }
 .card-top-times {
   position: absolute;
   top: 15%;
-  left: 50%;
+  left: 55%;
   cursor: pointer;
 }
 .card-body-camera {
