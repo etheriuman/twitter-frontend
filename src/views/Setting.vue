@@ -75,7 +75,7 @@
                   required
                 />
               </div>
-              <div class="form-label-group">
+              <div class="form-label-group button-div">
                 <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">
                   儲存
                 </button>
@@ -173,6 +173,10 @@ export default {
   justify-content: center;
 }
 
+.card {
+  border-radius: 0;
+}
+
 .card-body {
   width: 65%;
 }
@@ -204,6 +208,10 @@ export default {
   outline-width: 0;
 }
 
+.button-div {
+  background: none;
+}
+
 .form-control:focus {
   box-shadow: none;
   border-color: #ff6600;
@@ -222,6 +230,11 @@ export default {
   grid-template-areas:
     "main main"
     "left left";
+}
+
+.column-left {
+  background: #f5f8fa;
+  outline: 1px solid #dedede;
 }
 
 .card-body {
