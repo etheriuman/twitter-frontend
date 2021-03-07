@@ -108,7 +108,7 @@ export default {
   },
   data() {
     return {
-      currentUser: dummyUser.currentUser
+      currentUser: {}
     }
   },
   methods: {
@@ -120,7 +120,15 @@ export default {
       const formData = new FormData(form)
       console.log(formData)
       // API POST request ...
+    },
+    currentUserInIt() {
+      this.currentUser = {
+        ...dummyUser.currentUser
+      }
     }
+  },
+  created() {
+    this.currentUserInIt()
   }
 }
 </script>
