@@ -9,7 +9,7 @@
     aria-hidden="true"
   >
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <form @submit.prevent.stop="handleSubmit" class="modal-content">
         <div class="modal-header d-flex align-items-center p-0">
           <button
             type="button"
@@ -95,7 +95,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
@@ -137,6 +137,11 @@ export default {
         const imageURL = window.URL.createObjectURL(files[0]);
         this.currentUser.avatar = imageURL;
       }
+    },
+    handleSubmit(e) {
+      const form = e.target;
+      const formData = new FormData(form);
+      this.$emit("afterSubmit", formData);
     },
   },
 };

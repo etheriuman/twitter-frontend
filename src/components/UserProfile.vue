@@ -64,7 +64,10 @@
       </div>
       <UserProfileNavTabs />
     </div>
-    <UserProfileEdiiting :initial-current-user="currentUser" />
+    <UserProfileEdiiting
+      :initial-current-user="currentUser"
+      @afterSubmit="handleAfterSubmit"
+    />
   </div>
 </template>
 
@@ -117,6 +120,11 @@ export default {
     cancelFollowed() {
       this.user.isFollowed = false;
       this.$emit("afterCancelFollowed");
+    },
+    handleAfterSubmit(formData) {
+      for (let [name, value] of formData.entries()) {
+        console.log(name + ": " + value);
+      }
     },
   },
   created() {
