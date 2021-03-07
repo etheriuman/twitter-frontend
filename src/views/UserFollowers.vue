@@ -2,7 +2,7 @@
 <template>
   <div class="main">
     <div class="column-left column">
-      <Navbar @after-submit="handleAfterSubmit" />
+      <Navbar />
     </div>
     <div class="column-main column">
       <div class="card main-content">
@@ -13,6 +13,8 @@
             v-for="follower in user.followers"
             :key="follower.id"
             :initial-follow="follower"
+            @afterAddFollow="handleAfterAddFollow"
+            @afterDeleteFollow="handleAfterDeleteFollow"
           />
         </ul>
       </div>
@@ -86,10 +88,29 @@ export default {
     fetchUser() {
       this.user = dummyUser.user;
     },
-    handleAfterSubmit() {
-      // 因為需要取得正確createdAt所以選擇重新fetch一次
-      console.log("refetch");
-      this.fetchTweets();
+    handleAfterAddFollow(payLoad) {
+      //串接後端api POST /followships/:followingId
+      this.user.followers = this.user.followers.map((follower) => {
+        if (follower.id === payLoad) {
+          return {
+            ...follower,
+            isFollowed: true,
+          };
+        }
+        return follower;
+      });
+    },
+    handleAfterDeleteFollow(payLoad) {
+      //串接後端api DELETE /followships/:followingId
+      this.user.followers = this.user.followers.map((follower) => {
+        if (follower.id === payLoad) {
+          return {
+            ...follower,
+            isFollowed: false,
+          };
+        }
+        return follower;
+      });
     },
   },
   created() {

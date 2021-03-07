@@ -2,7 +2,7 @@
 <template>
   <div class="main">
     <div class="column-left column">
-      <Navbar @after-submit="handleAfterSubmit" />
+      <Navbar />
     </div>
     <div class="column-main column">
       <div class="card main-content">
@@ -13,6 +13,7 @@
             v-for="following in user.followings"
             :key="following.id"
             :initial-follow="following"
+            @afterDeleteFollow="handleAfterDeleteFollow"
           />
         </ul>
       </div>
@@ -104,10 +105,11 @@ export default {
     fetchUser() {
       this.user = dummyUser.user;
     },
-    handleAfterSubmit() {
-      // 因為需要取得正確createdAt所以選擇重新fetch一次
-      console.log("refetch");
-      this.fetchTweets();
+    handleAfterDeleteFollow(payLoad) {
+      //串接後端api DELETE /followships/:followingId
+      this.user.followings = this.user.followings.filter(
+        (following) => payLoad !== following.id
+      );
     },
   },
   created() {
