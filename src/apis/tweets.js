@@ -13,10 +13,10 @@ export default {
   getTweet({ tweetId }) {
     return apiHelper.get(`/tweets/${tweetId}`)
   },
-  getRepliedTweet({ tweetId }) {
+  getTweetReplies({ tweetId }) {
     return apiHelper.get(`/tweets/${tweetId}/replies`)
   },
-  getLikeTweet({ tweetId }) {
+  getTweetLikes({ tweetId }) {
     return apiHelper.get(`/tweets/${tweetId}/likes`)
   },
 }
