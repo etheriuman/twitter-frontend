@@ -12,6 +12,7 @@
       <form @submit.prevent.stop="handleSubmit" class="modal-content">
         <div class="modal-header d-flex align-items-center p-0">
           <button
+            @click="handleClose"
             type="button"
             class="close pr-0"
             data-dismiss="modal"
@@ -71,30 +72,34 @@
                       name="name"
                       type="text"
                       class="form-control h-25 p-0"
-                      :placeholder="currentUser.name"
                       autocomplete="username"
                       required
                       autofocus
                     />
                   </div>
-                  <p class="textLimit">
-                    {{ nameCache.length | handleTextLimit }}/50
+                  <p v-if="nameCache.length<=50" class="textLimit">
+                    {{ nameCache.length }}/50
+                  </p>
+                  <p v-else class="textLimit" style="color:red">
+                    {{ nameCache.length }}/50
                   </p>
                   <div class="form-label-group text-muted">
                     <label for="introduction">自我介紹</label>
                     <textarea
-                      v-model="introductionCache"
+                      v-model="introCache"
                       id="introduction"
                       name="introduction"
                       class="form-control h-25 p-0"
-                      :placeholder="currentUser.introduction"
                       rows="3"
                       autocomplete="userIntroduction"
                       autofocus
                     ></textarea>
                   </div>
-                  <p class="textLimit">
-                    {{ introductionCache.length | handleTextLimit }}/50
+                  <p v-if="introCache.length<=50" class="textLimit">
+                    {{ introCache.length }}/50
+                  </p>
+                  <p v-else class="textLimit" style="color:red">
+                    {{ introCache.length }}/50
                   </p>
                 </div>
               </div>
@@ -121,10 +126,20 @@ export default {
       coverCache: this.initialCurrentUser.cover,
       avatarCache: this.initialCurrentUser.avatar,
       nameCache: "",
-      introductionCache: "",
+      introCache: "",
     };
   },
   methods: {
+    fetchNameCache() {
+      this.nameCache = this.currentUser.name
+    },
+    fetchIntroCache() {
+      this.introCache = this.currentUser.introduction
+    },
+    handleClose(){
+      this.nameCache = this.currentUser.name
+      this.introCache = this.currentUser.introduction
+    },
     handleCoverChange(e) {
       const { files } = e.target;
       if (files.length === 0) {
@@ -152,21 +167,14 @@ export default {
       this.$emit("afterSubmit", formData);
     },
   },
-  filters: {
-    handleTextLimit(textLength) {
-      if (textLength > 50) {
-        console.log("已超出50個字,無法再輸入");
-      }
-      return textLength;
-    },
-  },
+  created() {
+    this.fetchNameCache(),
+    this.fetchIntroCache()
+  }
 };
 </script>
 
 <style scoped>
-label {
-  cursor: text;
-}
 .close {
   margin: 0;
 }
@@ -189,36 +197,8 @@ label {
 }
 .card-img-top {
   background-size: cover;
-  opacity: 0.6;
+  opacity: 0.9;
   object-fit: cover;
-}
-.avatar {
-  position: absolute;
-  top: -35%;
-  width: 120px;
-  height: 120px;
-  border: 3px solid white;
-  border-radius: 50%;
-}
-.profile {
-  position: relative;
-  height: 300px;
-  opacity: 0.8;
-}
-.profile-info {
-  position: relative;
-}
-.form-label-group {
-  border-radius: 2%;
-  background: #f5f8fa;
-}
-input,
-textarea {
-  background: #f5f8fa;
-}
-.textLimit {
-  position: relative;
-  right: 0;
 }
 .card-top-camera {
   position: absolute;
@@ -232,6 +212,15 @@ textarea {
   left: 55%;
   cursor: pointer;
 }
+.avatar {
+  position: absolute;
+  top: -35%;
+  width: 120px;
+  height: 120px;
+  border: 3px solid white;
+  border-radius: 50%;
+  filter:brightness(0.9)
+}
 .card-body-camera {
   position: absolute;
   top: -15%;
@@ -240,5 +229,29 @@ textarea {
 }
 .form-control-file {
   display: none;
+}
+.profile {
+  position: relative;
+  height: 300px;  
+}
+.profile-info {
+  position: relative;
+}
+.form-label-group {
+  border-radius: 2%;
+  background-color: #f5f8fa;
+}
+.form-label-group label {
+  width: 100%;
+  cursor: text;
+}
+input,
+textarea {
+  color: black;
+  background-color: #f5f8fa;
+}
+.textLimit {
+  position: relative;
+  right: 0;
 }
 </style>
