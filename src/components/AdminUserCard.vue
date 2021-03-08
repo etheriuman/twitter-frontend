@@ -1,1 +1,108 @@
 // 管理者：使用者總表的使用者卡片
+<template>
+  <div class="card">
+    <img class="card-img-top" :src="user.cover" alt="user cover">
+    <div class="card-body">
+      <!-- 使用者頭像 -->
+      <div class="card-body-avatar">
+        <img :src="user.avatar" class="avatar" alt="user avatar">
+      </div>
+      <!-- 使用者名稱與帳號 -->
+      <div class="card-body-top">
+        <p class="card-title">{{user.name}}</p>
+        <p class="text-muted">{{user.account}}</p>
+      </div>
+      <!-- 推文與讚數 -->
+      <div class="card-body-mid">
+        <div class="tweets">
+          <font-awesome-icon 
+          class="icon text-muted" 
+          icon="comment"
+          />
+          <span> {{user.tweetsNumber}}</span>
+        </div>
+        <div class="likes">
+          <font-awesome-icon 
+          class="icon text-muted" 
+          icon="heart" 
+          @click.prevent.stop="deleteLike" 
+          />
+          <span> {{user.gotLikesNumber}}</span>
+        </div>
+      </div>
+      <!-- 追蹤者數與跟隨者數 -->
+      <div class="card-body-bot">
+        <span>{{user.followingsNumber}}<span class="text-muted">位追蹤中</span> </span>
+        <span>{{user.followersNumber}}<span class="text-muted">位跟隨者</span></span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    user: {
+      type: Object,
+      required: true
+    }
+  }
+}
+</script>
+
+<style scoped>
+.card {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-body {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  padding: 30px 10px 10px 10px;
+}
+
+.card-body-avatar {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -70%);
+}
+
+.card-body-top {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.card-body-top p {
+  margin: 0;
+}
+
+.card-body-mid {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.tweets {
+  margin-right: 15px;
+}
+
+.card-body-bot {
+  text-align: center;
+}
+
+.avatar {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #eeeeee;
+}
+
+.text-muted {
+  font-size: .8rem;
+}
+</style>
