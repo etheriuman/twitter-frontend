@@ -260,5 +260,8 @@ export default {
       "main main"
       "left left";
   }
+  .column-right {
+    display: none;
+  }
 }
 </style>
