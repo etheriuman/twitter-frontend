@@ -1,13 +1,7 @@
 // 使用者編輯自己資料用的 modal
 <template>
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    role="dialog"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog" role="document">
       <form @submit.prevent.stop="handleSubmit" class="modal-content">
         <div class="modal-header d-flex align-items-center p-0">
@@ -23,9 +17,11 @@
           <h5 class="modal-title" id="exampleModalLabel">編輯個人資料</h5>
           <button type="submit" class="btn btn-primary mr-2">儲存</button>
         </div>
+        <!-- 推主資訊 -->
         <div class="modal-body p-0">
           <div class="user-profile">
             <div class="card" style="width: 100%">
+              <!-- user cover -->
               <img
                 class="card-img-top"
                 :src="currentUser.cover"
@@ -34,6 +30,7 @@
               />
               <div class="form-group">
                 <label for="cover">
+                  <!-- 上傳 user cover 檔案 -->
                   <font-awesome-icon icon="camera" class="card-top-camera" />
                 </label>
                 <input
@@ -49,9 +46,11 @@
                 <font-awesome-icon icon="times" class="card-top-times" />
               </label>
               <div class="profile card-body pt-0">
+                <!-- user avatar -->
                 <img :src="currentUser.avatar" class="avatar mb-5" alt="" />
                 <div class="form-group">
                   <label for="avatar">
+                    <!-- 上傳 user avatar 檔案 -->
                     <font-awesome-icon icon="camera" class="card-body-camera" />
                   </label>
                   <input
@@ -65,6 +64,7 @@
                 </div>
                 <div class="profile-info">
                   <div class="form-label-group text-muted">
+                    <!-- user name -->
                     <label for="name">名稱</label>
                     <input
                       v-model="nameCache"
@@ -77,6 +77,7 @@
                       autofocus
                     />
                   </div>
+                  <!-- user name 暫存檔長度限制超過50個字顯示紅字-->
                   <p v-if="nameCache.length<=50" class="textLimit">
                     {{ nameCache.length }}/50
                   </p>
@@ -84,6 +85,7 @@
                     {{ nameCache.length }}/50
                   </p>
                   <div class="form-label-group text-muted">
+                    <!-- user introduction 暫存檔 -->
                     <label for="introduction">自我介紹</label>
                     <textarea
                       v-model="introCache"
@@ -95,6 +97,7 @@
                       autofocus
                     ></textarea>
                   </div>
+                  <!-- user introduction 暫存檔長度限制超過50個字顯示紅字-->
                   <p v-if="introCache.length<=50" class="textLimit">
                     {{ introCache.length }}/50
                   </p>
