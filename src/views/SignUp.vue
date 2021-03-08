@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import { Toast } from "./../utils/helpers";
+// import { Toast } from "./../utils/helpers";
 export default {
   name: "SignUp",
   data() {

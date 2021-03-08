@@ -27,7 +27,9 @@
         </div>
         <!-- tweet description -->
         <div class="content-body">
-          <p>{{tweet.description}}</p>
+          <router-link :to="{name: 'tweet', params: {id: tweet.id}}">
+            <p>{{tweet.description}}</p>
+          </router-link>
         </div>
         <!-- 如果不是admin才顯示 -->
         <div class="content-footer" v-if="currentUser.role !== 'admin'">
@@ -119,6 +121,13 @@ export default {
 </script>
 
 <style scoped>
+
+a {
+  color: #000000;
+}
+a:hover {
+  text-decoration: none;
+}
 
 .list-group-item {
   padding: 0;
