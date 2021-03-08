@@ -1,153 +1,204 @@
 // 註冊頁
 <template>
-  <div class="container py-5">
-    <form @submit.prevent.stop="submitSignUp" class="w-50 mx-auto">
-      <div class="text-center mb-4">
-        <img
-          src="https://avatars.githubusercontent.com/u/8667311?s=200&v=4"
-          class="twitterLogo mb-3"
-          alt="twitterLogo"
-        />
-        <h1 class="title mb-3 font-weight-bold">建立你的帳號</h1>
-      </div>
-
-      <div class="form-label-group mb-3">
+  <div class="container">
+    <!-- logo bar-->
+    <div class="logo-bar header">
+      <img src="./../imgs/Icon.svg" alt="logo">
+    </div>
+    <!-- title bar-->
+    <div class="title-bar header">
+      <span>建立你的帳號</span>
+    </div>
+    <form @submit.prevent.stop="handleFormSubmit">
+      <!-- 帳號 -->
+      <div class="form-label-group">
         <label for="account">帳號</label>
         <input
           v-model="account"
           id="account"
           name="account"
           type="text"
-          class="form-control h-25 p-0"
+          class="form-control"
           autocomplete="useraccount"
           required
           autofocus
         />
       </div>
-
-      <div class="form-label-group mb-4">
+      <!-- 名稱 -->
+      <div class="form-label-group">
         <label for="name">名稱</label>
         <input
           v-model="name"
           id="name"
           name="name"
           type="text"
-          class="form-control h-25 p-0"
+          class="form-control"
           autocomplete="username"
           required
         />
       </div>
-
-      <div class="form-label-group mb-4">
+      <!-- email -->
+      <div class="form-label-group">
         <label for="email">Email</label>
         <input
           v-model="email"
           id="email"
           name="email"
           type="email"
-          class="form-control h-25 p-0"
+          class="form-control"
           autocomplete="useremail"
           required
         />
       </div>
-
-      <div class="form-label-group mb-4">
+      <!-- 密碼 -->
+      <div class="form-label-group">
         <label for="password">密碼</label>
         <input
           v-model="password"
           id="password"
           name="password"
           type="password"
-          class="form-control h-25 p-0"
+          class="form-control"
           autocomplete="new-password"
           required
         />
       </div>
-
-      <div class="form-label-group mb-4">
-        <label for="password-check">密碼確認</label>
+      <!-- 密碼確認 -->
+      <div class="form-label-group">
+        <label for="check-password">密碼確認</label>
         <input
-          v-model="passwordCheck"
-          id="password-check"
-          name="password-check"
+          v-model="checkPassword"
+          id="check-password"
+          name="checkPassword"
           type="password"
-          class="form-control h-25 p-0"
+          class="form-control"
           autocomplete="new-password"
           required
         />
       </div>
-
-      <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">
-        註冊
-      </button>
-
-      <div class="cancel text-center mb-3">
-        <p>
-          <router-link to="/signin"> 取消 </router-link>
-        </p>
+      <div class="form-label-group button-div">
+        <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">
+          註冊
+        </button>
+        <router-link class="cancle-button" to="/signin">
+          取消
+        </router-link>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+
 // import { Toast } from "./../utils/helpers";
+
+import $ from 'jquery'
+
+
 export default {
-  name: "SignUp",
   data() {
     return {
-      account: "",
-      name: "",
-      email: "",
-      password: "",
-      passwordCheck: "",
-    };
+      account: '',
+      name: '',
+      email: '',
+      password: '',
+      checkPassword: ''
+    }
   },
-  methods: {
-    submitSignUp() {
-      //串接api傳送資料
-      console.log(
-        `account:${this.account}, name:${this.name}, email:${this.email}, password:${this.password}, passwordCheck:${this.passwordCheck}`
-      );
+  methods:{
+    handleFormSubmit() {
+      const payLoad = {
+        account: this.account,
+        name: this.name,
+        email: this.email,
+        password: this.password,
+        checkPassword: this.checkPassword
+      }
+      console.log(payLoad)
+      // API POST request ...
     },
+    autoFocus() {
+      $('#account').focus()
+    }
   },
-};
+  mounted() {
+    this.autoFocus()
+  }
+}
 </script>
 
-
-
 <style scoped>
-.title {
-  font-size: 23px;
+
+* {
+  /* outline: 1px solid pink; */
 }
-label {
-  font-size: 15px;
-  color: #657786;
+
+.container {
+  margin-top: 50px;
+  width: 50%;
+  justify-content: center;
 }
-.twitterLogo {
-  width: 50px;
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title-bar {
+  font-weight: 700;
+}
+
+.form-label-group {
+  position: relative;
   height: 50px;
+  margin-bottom: 30px;
+  background: #f5f8fa;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
-.btn-primary {
-  color: #fff;
-  background-color: #ff6600;
-  border-color: #ff6600;
-  border-radius: 90px;
+
+.form-label-group label {
+  position: absolute;
+  font-size: .8rem;
+  height: 25px;
+  width: 100%;
+  padding: 5px 0 0 10px;
+  top: 0;
+  cursor: text;
 }
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active:hover {
-  color: #fff;
-  background-color: #cc5200;
-  border-color: #cc5200;
-  border-radius: 90px;
-}
-.cancel {
-  color: #0099ff;
-}
+
 .form-control {
-  border: 0px;
-  border-bottom: 1px solid;
-  border-radius: 0;
+  height: 25px;
+  background: #f5f8fa;
+  padding: 0px 10px;
+  outline-width: 0;
+}
+
+.button-div {
+  height: auto;
+  background: none;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.submit-button {
+  margin-bottom: 20px;
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: #ff6600;
+}
+
+/* mobile 尺寸 */
+@media screen and (max-width: 768px) {
+
+.container {
+  width: 80%;
+}
+
 }
 </style>
+
