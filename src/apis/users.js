@@ -1,14 +1,11 @@
 import { apiHelper } from './../utils/helpers.js'
 
 export default {
-  set ({ userId, formData }) {
-    return apiHelper.put(`/users/${userId}`, formData)
-  },
-  edit ({ userId, formData }) {
-    return apiHelper.put(`/users/${userId}`, formData)
-  },
   get ({ userId }) {
     return apiHelper.get(`/users/${userId}`)
+  },
+  set ({ userId, formData }) {
+    return apiHelper.put(`/users/${userId}`, formData)
   },
   getTweets ({ userId }) {
     return apiHelper.get(`/users/${userId}/tweets`)
@@ -16,14 +13,14 @@ export default {
   getRepliedTweets ({ userId }) {
     return apiHelper.get(`/users/${userId}/replied_tweets`)
   },
-  getFollowingUsers ({ userId }) {
+  getLikedTweets ({ userId }) {
+    return apiHelper.get(`/users/${userId}/likes`)
+  },
+  getFollowings ({ userId }) {
     return apiHelper.get(`/users/${userId}/followings`)
   },
-  getFollowerUsers ({ userId }) {
+  getFollowers ({ userId }) {
     return apiHelper.get(`/users/${userId}/followers`)
-  },
-  getLikeTweets ({ userId }) {
-    return apiHelper.get(`/users/${userId}/likes`)
   },
   getTopUsers () {
       return apiHelper.get('/topusers')
