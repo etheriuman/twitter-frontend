@@ -122,12 +122,15 @@ export default {
     };
   },
   methods: {
-    fetchUser() {
+    fetchUser(userId) {
+      //透過userId取的api user資料
       this.user = dummyUser;
+      console.log(userId)
     },
-    fetchTweetsLiked() {
+    fetchTweetsLiked(userId) {
+      //透過userId取的api user喜歡的推文資料
       this.tweets = dummyData.tweets.filter((tweet) => (tweet.isLiked = true));
-      console.log(this.tweets);
+      console.log(userId);
     },
     handleAfterSubmit() {
       // 因為需要取得正確createdAt所以選擇重新fetch一次
@@ -187,8 +190,9 @@ export default {
     },
   },
   created() {
-    this.fetchUser();
-    this.fetchTweetsLiked();
+    const {id: userId} = this.$route.params
+    this.fetchUser(userId);
+    this.fetchTweetsLiked(userId);
   },
 };
 </script>

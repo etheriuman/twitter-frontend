@@ -85,8 +85,10 @@ export default {
     };
   },
   methods: {
-    fetchUser() {
+    fetchUser(userId) {
+      //透過userId取得api使用者追蹤者清單
       this.user = dummyUser.user;
+      console.log(userId)
     },
     handleAfterAddFollow(payLoad) {
       //串接後端api POST /followships/:followingId
@@ -114,7 +116,8 @@ export default {
     },
   },
   created() {
-    this.fetchUser();
+    const {id: userId} = this.$route.params
+    this.fetchUser( userId );
   },
 };
 </script>

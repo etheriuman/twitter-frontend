@@ -229,10 +229,13 @@ export default {
     };
   },
   methods: {
-    fetchUser() {
-      this.user = dummyUser;
+    fetchUser(userId) {
+      //透過userId取得api user資料
+      this.user = dummyUser;      
+      console.log(userId)
     },
     fetchTweets(userId) {
+      //透過userId取得api user新增的推文資料
       this.tweets = dummyData.tweets.filter(
         (tweet) => userId === tweet.User.id.toString()
       );
@@ -296,7 +299,7 @@ export default {
   },
   created() {
     const { id: userId } = this.$route.params;
-    this.fetchUser();
+    this.fetchUser(userId);
     this.fetchTweets(userId);
   },
 };

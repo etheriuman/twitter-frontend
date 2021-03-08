@@ -102,8 +102,10 @@ export default {
     };
   },
   methods: {
-    fetchUser() {
+    fetchUser(userId) {
+      //透過userId取得使用者正在追蹤的清單
       this.user = dummyUser.user;
+      console.log(userId)
     },
     handleAfterDeleteFollow(payLoad) {
       //串接後端api DELETE /followships/:followingId
@@ -113,7 +115,8 @@ export default {
     },
   },
   created() {
-    this.fetchUser();
+    const { user: userId } = this.$route.params
+    this.fetchUser(userId);
   },
 };
 </script>
