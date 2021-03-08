@@ -4,7 +4,7 @@
     <div class="card-body d-flex align-items-center ml-2">
       <!-- dynamic返回鍵 -->
       <!-- 如果displayArrow成立、當前頁面又沒有userData，表示在單一推文頁 -->
-      <router-link to="/tweets" v-if="displayArrow">
+      <router-link :to="previousPage" v-if="displayArrow">
         <font-awesome-icon class="icon" icon="arrow-left" />
       </router-link>
       <!-- dynamic 標頭 -->
@@ -24,13 +24,14 @@ export default {
   props: {
     user: {
       type: Object,
-      require: true,
+      default: undefined,
     },
   },
   data() {
     return {
       displayArrow: false,
-      currentRouterName: "",
+      currentRouterName: '',
+      previousPage: ''
     };
   },
   methods: {
@@ -66,11 +67,19 @@ export default {
         return "";
       }
     },
+    getPreviousPage() {
+      if (this.user) {
+        this.previousPage = `/users/${this.user.id}`
+        return
+      }
+      this.previousPage = '/tweets'
+    }
   },
   created() {
     const currentRouterName = this.$route.name;
     this.checkArrowIsDisplay();
     this.handleCurrentRouterName(currentRouterName);
+    this.getPreviousPage()
   },
 };
 </script>
