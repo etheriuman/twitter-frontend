@@ -2,9 +2,6 @@ import { apiHelper } from './../utils/helpers.js'
 
 export default {
   users: {
-    signUp ({ payLoad }) {
-      return apiHelper.post('/users', payLoad)
-    },
     signIn ({ payLoad }) {
       return apiHelper.post('/signin', payLoad)    
     }
