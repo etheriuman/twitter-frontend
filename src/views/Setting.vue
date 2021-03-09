@@ -7,7 +7,7 @@
       <div class="card main-content">
         <ul class="list-group list-group-flush">
           <PageHead />
-          
+
           <li class="list-group-item">
             <!-- 表單 -->
             <form class="card-body" @submit.prevent.stop="handleFormSubmit">
@@ -22,7 +22,6 @@
                   class="form-control"
                   autocomplete="useraccount"
                   required
-                  
                 />
               </div>
               <!-- 名稱 -->
@@ -76,7 +75,10 @@
                 />
               </div>
               <div class="form-label-group button-div">
-                <button class="btn btn-primary btn-block submit-button" type="submit">
+                <button
+                  class="btn btn-primary btn-block submit-button"
+                  type="submit"
+                >
                   儲存
                 </button>
               </div>
@@ -89,64 +91,61 @@
 </template>
 
 <script>
-import $ from 'jquery'
-import Navbar from './../components/Navbar'
-import PageHead from './../components/PageHead'
+import $ from "jquery";
+import Navbar from "./../components/Navbar";
+import PageHead from "./../components/PageHead";
 
 const dummyUser = {
   currentUser: {
     id: 1,
-    name: 'Pizza Hut',
-    account: '@pizzahut',
-    email: 'pizzahut@example.com'
-  }
-}
+    name: "Pizza Hut",
+    account: "@pizzahut",
+    email: "pizzahut@example.com",
+  },
+};
 
 export default {
   components: {
     Navbar,
-    PageHead
+    PageHead,
   },
   data() {
     return {
-      currentUser: {}
-    }
+      currentUser: {},
+    };
   },
   methods: {
     handleAfterSubmit() {
-      console.log('new tweet uploaded!')
+      console.log("new tweet uploaded!");
     },
     handleFormSubmit(e) {
-      const form = e.target
-      const formData = new FormData(form)
-      console.log(formData)
+      const form = e.target;
+      const formData = new FormData(form);
+      console.log(formData);
       // API POST request ...
     },
     currentUserInIt() {
       this.currentUser = {
-        ...dummyUser.currentUser
-      }
+        ...dummyUser.currentUser,
+      };
     },
     autoFocus() {
-      $('#account').focus()
-    }
+      $("#account").focus();
+    },
   },
   created() {
-    this.currentUserInIt()
+    this.currentUserInIt();
   },
   mounted() {
-    this.autoFocus()
-  }
-}
+    this.autoFocus();
+  },
+};
 </script>
 
 <style scoped>
-
 .main {
-  height: 100vh;
-  display: grid;
   grid-template-columns: 220px 1fr;
-  grid-template-areas: "left main" ;
+  grid-template-areas: "left main";
 }
 
 .card-body {
@@ -155,7 +154,7 @@ export default {
 
 li {
   /* 待優化 */
-  border-bottom-width: 0!important;
+  border-bottom-width: 0 !important;
 }
 
 .form-label-group {
@@ -170,7 +169,7 @@ li {
 
 .form-label-group label {
   position: absolute;
-  font-size: .8rem;
+  font-size: 0.8rem;
   height: 25px;
   width: 100%;
   padding: 5px 0 0 10px;
@@ -200,27 +199,23 @@ li {
 
 /* pad 尺寸 */
 @media screen and (max-width: 992px) {
-
-.main {
-  grid-template-rows: calc(100% - 50px) 50px;
-  grid-template-columns: 1fr 300px;
-  grid-template-areas:
-    "main main"
-    "left left";
-}
-.card-body {
-  margin: 0 auto;
-}
-
+  .main {
+    grid-template-rows: calc(100% - 50px) 50px;
+    grid-template-columns: 1fr 300px;
+    grid-template-areas:
+      "main main"
+      "left left";
+  }
+  .card-body {
+    margin: 0 auto;
+  }
 }
 
 /* 小 mobile 尺寸 */
 @media screen and (max-width: 576px) {
-
-.card-body {
-  width: 80%;
-}
-
+  .card-body {
+    width: 80%;
+  }
 }
 </style>
 

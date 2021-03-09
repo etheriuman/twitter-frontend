@@ -18,17 +18,4 @@
 a {
   color: #657786;
 }
-.nav-item {
-  width: 130px;
-  text-align: center;
-  color: #657786;
-  border: 0;
-  font-weight: 700;
-}
-.nav-item :hover {
-  color: #ff6600;
-  border-bottom: 1px solid #ff6600;
-  border-radius: 0;
-  font-weight: 700;
-}
 </style>

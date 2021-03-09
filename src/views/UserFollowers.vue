@@ -47,7 +47,7 @@ const dummyUser = {
   followingsNumber: "26", // 使用者追蹤數
   followersNumber: 44, // 使用者跟隨數
   isFollowed: false, // 是否追蹤中
-}
+};
 const dummyData = [
   // 使用者追蹤者串
   {
@@ -77,7 +77,7 @@ const dummyData = [
       "ontrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.", // 追蹤者簡介
     isFollowed: true, // 是否已追蹤
   },
-]
+];
 
 export default {
   name: "UserFollowers",
@@ -93,24 +93,24 @@ export default {
       user: {
         id: -1,
         name: "",
-        tweetsNumber: 0
+        tweetsNumber: 0,
       },
-      followers:[]
+      followers: [],
     };
   },
   methods: {
     fetchUser(userId) {
-     //透過userId取得使用者名稱與追蹤總推文數，將資料帶入PageHead
-      const {id, name, tweetsNumber} = dummyUser
-      this.user.id = id
-      this.user.name = name
-      this.user.tweetsNumber = tweetsNumber
-      console.log(userId)
+      //透過userId取得使用者名稱與追蹤總推文數，將資料帶入PageHead
+      const { id, name, tweetsNumber } = dummyUser;
+      this.user.id = id;
+      this.user.name = name;
+      this.user.tweetsNumber = tweetsNumber;
+      console.log(userId);
     },
     fetchFollowers(userId) {
       //透過userId取得api使用者追蹤者清單
       this.followers = dummyData;
-      console.log(userId)
+      console.log(userId);
     },
     handleAfterAddFollow(payLoad) {
       //串接後端api POST /followships/:followingId
@@ -138,51 +138,17 @@ export default {
     },
   },
   created() {
-    const {id: userId} = this.$route.params
-    this.fetchUser( userId )
-    this.fetchFollowers(userId)
+    const { id: userId } = this.$route.params;
+    this.fetchUser(userId);
+    this.fetchFollowers(userId);
   },
 };
 </script>
 
 <style scoped>
 .main {
-  max-height: 100vh;
-  display: grid;
   grid-template-columns: 220px 1fr 300px;
   grid-template-areas: "left main right";
-}
-
-.main-content {
-  width: 90%;
-  max-height: 100vh;
-  overflow: auto;
-  /* hide from firefox */
-  scrollbar-width: none;
-}
-
-.main-content::-webkit-scrollbar {
-  /* hide from chrome */
-  display: none;
-}
-
-.column {
-  display: flex;
-}
-
-.column-left {
-  grid-area: left;
-  justify-content: flex-end;
-}
-
-.column-main {
-  grid-area: main;
-  justify-content: center;
-}
-
-.column-right {
-  grid-area: right;
-  justify-content: flex-start;
 }
 
 /* pad 尺寸 */

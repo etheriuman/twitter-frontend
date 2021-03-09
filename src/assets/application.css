@@ -49,6 +49,21 @@ label {
 
 /* ----------bootstrap改寫---------- */
 
+/* --導覽列設定-- */
+.nav-item {
+  width: 130px;
+  text-align: center;
+  color: #657786;
+  border: 0;
+  font-weight: 700;
+}
+.nav-item :hover {
+  color: #ff6600;
+  border-bottom: 1px solid #ff6600;
+  border-radius: 0;
+  font-weight: 700;
+}
+
 /* --表單設定-- */
 .form-control {
   border: 0px ;
@@ -95,6 +110,10 @@ label {
 }
 
 /* ----------版面結構設定---------- */
+.main {
+  height: 100vh;
+  display: grid;
+}
 .main-content {
   width: 100%;
   max-height: 100vh;

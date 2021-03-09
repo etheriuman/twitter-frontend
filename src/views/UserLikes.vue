@@ -124,7 +124,7 @@ export default {
     fetchUser(userId) {
       //透過userId取的api user資料
       this.user = dummyUser;
-      console.log(userId)
+      console.log(userId);
     },
     fetchTweetsLiked(userId) {
       //透過userId取的api user喜歡的推文資料
@@ -189,7 +189,7 @@ export default {
     },
   },
   created() {
-    const {id: userId} = this.$route.params
+    const { id: userId } = this.$route.params;
     this.fetchUser(userId);
     this.fetchTweetsLiked(userId);
   },
@@ -198,42 +198,8 @@ export default {
 
 <style scoped>
 .main {
-  max-height: 100vh;
-  display: grid;
   grid-template-columns: 220px 1fr 300px;
   grid-template-areas: "left main right";
-}
-
-.main-content {
-  width: 90%;
-  max-height: 100vh;
-  overflow: auto;
-  /* hide from firefox */
-  scrollbar-width: none;
-}
-
-.main-content::-webkit-scrollbar {
-  /* hide from chrome */
-  display: none;
-}
-
-.column {
-  display: flex;
-}
-
-.column-left {
-  grid-area: left;
-  justify-content: flex-end;
-}
-
-.column-main {
-  grid-area: main;
-  justify-content: center;
-}
-
-.column-right {
-  grid-area: right;
-  justify-content: flex-start;
 }
 
 /* pad 尺寸 */
