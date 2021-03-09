@@ -17,6 +17,7 @@
                 <input
                   v-model="currentUser.account"
                   id="account"
+                  ref="account"
                   name="account"
                   type="text"
                   class="form-control"
@@ -91,7 +92,6 @@
 </template>
 
 <script>
-import $ from "jquery";
 import Navbar from "./../components/Navbar";
 import PageHead from "./../components/PageHead";
 
@@ -130,7 +130,7 @@ export default {
       };
     },
     autoFocus() {
-      $("#account").focus();
+      this.$refs.account.focus();
     },
   },
   created() {

@@ -48,6 +48,7 @@
               <textarea 
               type="textarea" 
               :id="`${replyingId}-textarea`"
+              ref="replyingArea"
               class="replying-area" 
               placeholder="說些什麼吧？"
               v-model="comment"
@@ -86,8 +87,7 @@ export default {
   mixins: [fromNowFilter],
   methods: {
     autoFocus() {
-      // 用 jQuery 選到當下打開的 replying modal
-      $(`#${this.replyingId}-textarea`).focus()
+      this.$refs.replyingArea.focus()
     },
     cleanUp() {
       this.comment = ''

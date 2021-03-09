@@ -16,6 +16,7 @@
         <input
           v-model="account"
           id="account"
+          ref="account"
           name="account"
           type="text"
           class="form-control"
@@ -52,7 +53,6 @@
 </template>
 
 <script>
-import $ from 'jquery'
 
 export default {
   data() {
@@ -71,7 +71,7 @@ export default {
       // API POST request ...
     },
     autoFocus() {
-      $('#account').focus()
+      this.$refs.account.focus()
     }
   },
   mounted() {

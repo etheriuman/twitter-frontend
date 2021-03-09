@@ -18,6 +18,7 @@
               <textarea
               type="textarea" 
               id="textarea"
+              ref="tweetingArea"
               class="tweeting-area" 
               placeholder="說些什麼吧？"
               v-model="description"
@@ -44,8 +45,7 @@ export default {
   },
   methods: {
     autoFocus() {
-      // 用 jQuery 選中輸入匡
-      $('#textarea').focus()
+      this.$refs.tweetingArea.focus()
     },
     cleanUp() {
       // 清空輸入
