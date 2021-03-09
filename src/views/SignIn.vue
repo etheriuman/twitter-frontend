@@ -38,16 +38,16 @@
         />
       </div>
       <div class="form-label-group button-div">
-        <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">
+        <button class="btn btn-primary btn-block submit-button" type="submit">
           登入
         </button>
       </div>
       <div class="form-bottom">
-        <router-link class="cancle-button" to="/signup">
+        <router-link class="text-secondary" to="/signup">
             註冊 Alphitter
         </router-link>
         <span class="text-muted"> · </span>
-        <router-link class="cancle-button" to="/admin/signin">
+        <router-link class="text-secondary" to="/admin/signin">
             後台登入
         </router-link>
       </div>

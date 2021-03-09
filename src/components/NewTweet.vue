@@ -43,10 +43,6 @@ export default {
 
 <style scoped>
 
-.list-group-item {
-  padding: 0;
-}
-
 .card-body {
   position: relative;
   display: flex;
@@ -65,14 +61,6 @@ export default {
   width: 100%;
   height: 100%;
   text-align: end;
-}
-
-/* 統一屬性 */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 .tweeting-area {

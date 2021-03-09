@@ -22,8 +22,8 @@
       data-toggle="modal"
       data-target="#tweeting"
       >
-        <font-awesome-icon class="tweet" icon="feather-alt" />
-        <span>推文</span>
+        <font-awesome-icon class="tweet-icon" icon="feather-alt" />
+        <span class="tweet">推文</span>
       </button>
     </div>
     <div class="lower-content">
@@ -65,6 +65,10 @@ a {
 }
 
 .tweet {
+  color: #ffffff;
+}
+
+.tweet-icon {
   display: none;
 }
 
@@ -129,7 +133,7 @@ a {
   display: none;
 }
 
-.tweet {
+.tweet-icon {
   display: inline-block;
 }
 

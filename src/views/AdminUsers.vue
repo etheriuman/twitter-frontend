@@ -165,10 +165,6 @@ export default {
 
 <style scoped>
 
-* {
-  /* outline: 1px solid pink; */
-}
-
 .main {
   height: 100vh;
   display: grid;
@@ -176,40 +172,22 @@ export default {
   grid-template-areas: "left main" ;
 }
 
-.main-content {
-  width: 90%;
-  max-height: 100vh;
-  overflow: auto;
-  /* hide from firefox */
-  scrollbar-width: none;
-}
-
-.main-content::-webkit-scrollbar {
-  /* hide from chrome */
-  display: none;
-}
-
-.column {
-  display: flex;
-}
-
-.column-left {
-  grid-area: left;
-  justify-content: flex-end;
-}
-
-.column-main {
-  grid-area: main;
-  justify-content: center;
-}
-
 .user-card-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	padding: 20px;
   grid-gap: 10px;
 }
 
-/* pad 尺寸不變 */
+/* pad 尺寸 */
+@media screen and (max-width: 992px) {
+
+.column-left {
+	outline-width: 0;
+}
+
+}
+
 /* mobile 尺寸 */
 @media screen and (max-width: 768px) {
 
@@ -219,11 +197,13 @@ export default {
   grid-template-areas:
     "main main"
     "left left";
-}
-
-.column-right {
-  display: none;
-}
+	}
+	.column-left {
+		outline-width: 1px;
+	}
+	.column-right {
+		display: none;
+	}
 
 
 }

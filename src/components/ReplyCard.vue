@@ -49,10 +49,6 @@ export default {
 
 <style scoped>
 
-.list-group-item {
-  padding: 0;
-}
-
 .card-body {
   position: relative;
   display: flex;
@@ -75,20 +71,8 @@ export default {
   margin-bottom: 10px;
 }
 
-.content-body p {
-  margin: 0;
-}
-
 .user-name {
   margin-right: 10px;
-}
-
-/* 統一屬性 */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 

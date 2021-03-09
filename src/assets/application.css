@@ -1,42 +1,139 @@
-a {
-  text-decoration: none
+/* ----------基礎設定---------- */
+p, a, span, h1, h2, h3, h4, h5, h6 {
+  color: #222222;
 }
-.title {
-  font-size: 23px
+
+p, a, span {
+  font-size: 15px;
+  margin: 0;
 }
+
+/* --基礎字級設定-- */
+.text-exlg {
+  font-size: 22px!important;
+}
+
+.text-lg {
+  font-size: 20px!important;
+}
+
+.text-sm {
+  font-size: 12px!important;
+}
+
+/* --註銷連結樣式-- */
+a, a:hover {
+  text-decoration: none;
+  color: #222222;
+}
+
+/* --文字顏色設定-- */
+.text-primary {
+  color: #ff6600!important;
+}
+
+.text-secondary,
+.text-secondary:hover {
+  color: #357cff!important;
+}
+
+.liked {
+  color: #e0345e!important;
+}
+
+/* 輸入欄位label */
 label {
   font-size:15px;
   color: #657786;
 }
-.twitterLogo {
-  width: 50px;
-  height: 50px;
-}
+
+/* ----------bootstrap改寫---------- */
+
+/* --表單設定-- */
 .form-control {
   border: 0px ;
   border-bottom: 1px solid;
   border-radius: 0 ;
 }
-.btn-primary {
-  color: #fff;
-  background-color:  #FF6600;
-  border-color: #FF6600;
-  border-radius: 90px;
+
+/* --按鈕設定-- */
+.btn {
+  white-space: nowrap;
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active:hover{
-  color: #fff;
-  background-color: #CC5200;
-  border-color: #CC5200;
-  border-radius: 90px;
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  color: #fff!important;
+  background-color:  #FF6600!important;
+  border-color: #FF6600!important;
+  border-radius: 90px!important;
 }
-.btn-outline-primary  {
-  color:#FF6600;
-  border-color: #FF6600 ;
-  border-radius: 90px;
+.btn-outline-primary {
+  background-color:#fff!important;
+  border-color: #FF6600!important;
+  color: #ff6600!important;
+  border-radius: 90px!important;
 }
-.btn-outline-primary:hover, .btn-outline-primary:focus, .btn-outline-primary:active:hover{
-  color: #fff;
-  background-color:  #FF6600;
-  border-color: #FF6600;
-  border-radius: 90px;
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active{
+  color: #fff!important;
+  background-color:  #FF6600!important;
+  border-color: #FF6600!important;
+  border-radius: 90px!important;
+}
+
+/* --bootstrap card設定-- */
+.card {
+  border-radius: 0;
+  background-color: rgba(255, 255, 255, 0);
+}
+.list-group-item {
+  border-bottom: 1px solid #dedede!important;
+  padding: 0;
+}
+
+/* ----------版面結構設定---------- */
+.main-content {
+  width: 100%;
+  max-height: 100vh;
+  overflow: auto;
+  /* hide from firefox */
+  scrollbar-width: none;
+}
+.main-content::-webkit-scrollbar {
+  /* hide from chrome */
+  display: none;
+}
+.column {
+  display: flex;
+}
+.column-left {
+  grid-area: left;
+  justify-content: flex-end;
+}
+.column-main {
+  grid-area: main;
+  padding: 0 30px;
+}
+.column-right {
+  grid-area: right;
+  justify-content: flex-start;
+}
+@media screen and (max-width: 992px) {
+  .column-left {
+    background: #ffffff;
+    outline: 1px solid #dedede;
+  }
+}
+
+/* ----------其他共用樣式---------- */
+
+/* --使用者頭像-- */
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }

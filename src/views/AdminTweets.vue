@@ -197,10 +197,6 @@ export default {
 
 <style scoped>
 
-* {
-  /* outline: 1px solid pink; */
-}
-
 .main {
   height: 100vh;
   display: grid;
@@ -208,39 +204,15 @@ export default {
   grid-template-areas: "left main" ;
 }
 
-.main-content {
-  width: 90%;
-  max-height: 100vh;
-  overflow: auto;
-  /* hide from firefox */
-  scrollbar-width: none;
+/* pad 尺寸 */
+@media screen and (max-width: 992px) {
+
+	.column-left {
+		outline-width: 0;
+	}
+
 }
 
-.main-content::-webkit-scrollbar {
-  /* hide from chrome */
-  display: none;
-}
-
-.column {
-  display: flex;
-}
-
-.column-left {
-  grid-area: left;
-  justify-content: flex-end;
-}
-
-.column-main {
-  grid-area: main;
-  justify-content: center;
-}
-
-/* 讓最後一個元素底部也有border */
-.list-group:last-child {
-  border-bottom-width: 1px;
-}
-
-/* pad 尺寸不變 */
 /* mobile 尺寸 */
 @media screen and (max-width: 768px) {
 
@@ -250,11 +222,13 @@ export default {
   grid-template-areas:
     "main main"
     "left left";
-}
-
-.column-right {
-  display: none;
-}
+	}
+	.column-left {
+		outline-width: 1px;
+	}
+	.column-right {
+		display: none;
+	}
 
 
 }

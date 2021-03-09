@@ -29,9 +29,11 @@
               <!-- replyingTweet description -->
               <div class="content-body">
                 <p>{{replyingTweet.description}}</p>
-                <p class="content-footer">
+              </div>
+              <div class="content-footer">
+                <p>
                   <span class="text-muted">回覆給 </span>
-                  <span>{{replyingTweet.User.account}}</span>
+                  <span class="text-primary">{{replyingTweet.User.account}}</span>
                 </p>
               </div>
             </div>
@@ -142,9 +144,9 @@ export default {
   padding: 0;
 }
 
-.close {
+.close span {
   font-size: 2rem;
-  font-weight: 100;
+  font-weight: 200;
   color: #ff6600;
   opacity: 1;
 }
@@ -190,6 +192,10 @@ export default {
   margin-bottom: 10px;
 }
 
+.content-body {
+  margin-bottom: 20px;
+}
+
 .content-footer {
   font-size: 13px;
 }
@@ -212,14 +218,6 @@ export default {
   width: 100%;
   height: 100%;
   text-align: end;
-}
-
-/* 統一屬性 */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 .replying-area {

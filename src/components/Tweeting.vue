@@ -96,9 +96,9 @@ export default {
   padding: 0;
 }
 
-.close {
+.close span {
   font-size: 2rem;
-  font-weight: 100;
+  font-weight: 200;
   color: #ff6600;
   opacity: 1;
 }
@@ -121,14 +121,6 @@ export default {
   width: 100%;
   height: 100%;
   text-align: end;
-}
-
-/* 統一屬性 */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 .tweeting-area {
