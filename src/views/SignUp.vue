@@ -77,10 +77,10 @@
         />
       </div>
       <div class="form-label-group button-div">
-        <button class="btn btn-primary btn-block submit-button" type="submit">
+        <button class="btn btn-primary btn-block submit-button" :disabled="isProcessing" type="submit">
           註冊
         </button>
-        <router-link class="text-secondary" to="/signin">
+        <router-link class="text-secondary" v-show="!isProcessing" to="/signin">
           取消
         </router-link>
       </div>
@@ -89,9 +89,8 @@
 </template>
 
 <script>
-
-// import { Toast } from "./../utils/helpers";
-
+import signUpAPI from './../apis/signUp'
+import { Toast } from "./../utils/helpers";
 import $ from 'jquery'
 
 
@@ -102,20 +101,89 @@ export default {
       name: '',
       email: '',
       password: '',
-      checkPassword: ''
+      checkPassword: '',
+      isProcessing: false
     }
   },
   methods:{
-    handleFormSubmit() {
-      const payLoad = {
-        account: this.account,
-        name: this.name,
-        email: this.email,
-        password: this.password,
-        checkPassword: this.checkPassword
+    async handleFormSubmit() {
+      try {
+        // 檢查表單內容
+        if (!this.account) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填寫帳號'
+          })
+          $('#account').focus()
+          return
+        }
+        if (!this.name) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填寫名稱'
+          })
+          $('#name').focus()
+          return
+        }
+        if (!this.email) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填寫email'
+          })
+          $('#email').focus()
+          return
+        }
+        if (!this.password) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填寫密碼'
+          })
+          $('#password').focus()
+          return
+        }
+        if (!this.checkPassword) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填寫密碼確認'
+          })
+          $('#checkPassword').focus()
+          return
+        }
+        if (this.password !== this.checkPassword) {
+          Toast.fire({
+            icon: 'warning',
+            title: '密碼確認有誤，請再次填寫'
+          })
+          this.checkPassword = ''
+          return
+        }
+        const payLoad = {
+          account: this.account,
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          checkPassword: this.checkPassword
+        }
+        this.isProcessing = true
+        // API POST request ...
+        const { data } = await signUpAPI.signUp({ payLoad })
+        console.log(data)
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        // 註冊成功頁面跳轉
+        this.$router.push('/signin')
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法成功註冊，請稍後再試'
+        })
+        console.log(err)
+        this.isProcessing = false
+        this.password = ''
+        this.checkPassword = ''
       }
-      console.log(payLoad)
-      // API POST request ...
+      
     },
     autoFocus() {
       $('#account').focus()
@@ -128,10 +196,6 @@ export default {
 </script>
 
 <style scoped>
-
-* {
-  /* outline: 1px solid pink; */
-}
 
 .container {
   margin-top: 50px;
