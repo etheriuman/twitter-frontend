@@ -86,10 +86,6 @@ export default {
 
 <style scoped>
 
-* {
-  /* outline: 1px solid pink; */
-}
-
 .container {
   margin-top: 50px;
   width: 50%;
