@@ -13,7 +13,6 @@
             @afterAddFollowed="handleAfterAddFollowed"
             @afterCancelFollowed="handleAfterCencelFollowed"
           />
-          <UserProfileNavTabs />
           <TweetCard
             v-for="tweet in tweets"
             :key="tweet.id"
