@@ -16,7 +16,7 @@
         </div>
         <!-- tweet description -->
         <div class="content-body">
-          <p class="description">{{tweet.description}}</p>
+          <p class="description text-exlg">{{tweet.description}}</p>
           <p>
             <span class="text-muted">{{tweet.createdAt | time}}</span>
             <span class="text-muted"> &#8231; </span>
@@ -26,11 +26,11 @@
         <div class="content-belly">
           <!-- reply button -->
           <!-- dynamic data-target -->
-            <span>{{tweet.repliesNumber}} <span class="text-muted">回覆</span></span>
-            <span>{{tweet.likesNumber}} <span class="text-muted">喜歡次數</span></span>
+            <span class="text-lg">{{tweet.repliesNumber}} <span class="text-muted">回覆</span></span>
+            <span class="text-lg">{{tweet.likesNumber}} <span class="text-muted">喜歡次數</span></span>
           </div>
           <!-- 如果有like就顯示 -->
-          <div class="content-footer">
+          <div class="content-footer text-lg">
             <div class="reply">
               <font-awesome-icon 
               class="icon" 
@@ -95,10 +95,6 @@ export default {
 
 <style scoped>
 
-.list-group-item {
-  padding: 0;
-}
-
 .card-body {
   position: relative;
   display: flex;
@@ -123,15 +119,15 @@ export default {
 }
 
 .content-header p {
-  margin: 0;
+  padding-left: 10px;
 }
 
 .user-name {
   margin-right: 10px;
 }
 
-.description {
-  font-size: 1.5rem;
+.content-body p {
+  margin-bottom: 20px;
 }
 
 .content-belly {
@@ -152,24 +148,10 @@ export default {
 .icon {
   margin-right: 15px;
   cursor: pointer;
-  font-size: 1.5rem;
-}
-
-.liked {
-  color: #e0345e
 }
 
 .reply {
   margin-right: 90px;
-}
-
-/* 統一屬性 */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
 }
 
 

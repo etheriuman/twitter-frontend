@@ -76,7 +76,7 @@
                 />
               </div>
               <div class="form-label-group button-div">
-                <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">
+                <button class="btn btn-primary btn-block submit-button" type="submit">
                   儲存
                 </button>
               </div>
@@ -142,10 +142,6 @@ export default {
 
 <style scoped>
 
-* {
-  /* outline: 1px solid pink; */
-}
-
 .main {
   height: 100vh;
   display: grid;
@@ -153,39 +149,13 @@ export default {
   grid-template-areas: "left main" ;
 }
 
-.main-content {
-  width: 90%;
-  max-height: 100vh;
-  overflow: auto;
-  /* hide from firefox */
-  scrollbar-width: none;
-}
-
-.main-content::-webkit-scrollbar {
-  /* hide from chrome */
-  display: none;
-}
-
-.column {
-  display: flex;
-}
-
-.column-left {
-  grid-area: left;
-  justify-content: flex-end;
-}
-
-.column-main {
-  grid-area: main;
-  justify-content: center;
-}
-
-.card {
-  border-radius: 0;
-}
-
 .card-body {
   width: 65%;
+}
+
+li {
+  /* 待優化 */
+  border-bottom-width: 0!important;
 }
 
 .form-label-group {
@@ -238,12 +208,6 @@ export default {
     "main main"
     "left left";
 }
-
-.column-left {
-  background: #f5f8fa;
-  outline: 1px solid #dedede;
-}
-
 .card-body {
   margin: 0 auto;
 }

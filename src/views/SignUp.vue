@@ -77,10 +77,10 @@
         />
       </div>
       <div class="form-label-group button-div">
-        <button class="btn btn-lg btn-primary btn-block submit-button" type="submit">
+        <button class="btn btn-primary btn-block submit-button" type="submit">
           註冊
         </button>
-        <router-link class="cancle-button" to="/signin">
+        <router-link class="text-secondary" to="/signin">
           取消
         </router-link>
       </div>

@@ -27,9 +27,14 @@
         </div>
         <!-- tweet description -->
         <div class="content-body">
-          <router-link :to="{name: 'tweet', params: {id: tweet.id}}">
+          <!-- 是使用者才能取得連結 -->
+          <router-link v-if="currentUser.role === 'user'" :to="{name: 'tweet', params: {id: tweet.id}}">
             <p>{{tweet.description}}</p>
           </router-link>
+          <!-- 管理者不行 -->
+          <template v-else>
+            <p>{{tweet.description}}</p>
+          </template>
         </div>
         <!-- 如果不是admin才顯示 -->
         <div class="content-footer" v-if="currentUser.role !== 'admin'">
@@ -122,17 +127,6 @@ export default {
 
 <style scoped>
 
-a {
-  color: #000000;
-}
-a:hover {
-  text-decoration: none;
-}
-
-.list-group-item {
-  padding: 0;
-}
-
 .card-body {
   position: relative;
   display: flex;
@@ -159,6 +153,10 @@ a:hover {
   margin-right: 10px;
 }
 
+.content-body {
+  margin-bottom: 20px;
+}
+
 .content-footer {
   display: flex;
 }
@@ -168,20 +166,8 @@ a:hover {
   cursor: pointer;
 }
 
-.liked {
-  color: #e0345e
-}
-
 .reply {
   margin-right: 50px;
-}
-
-/* 統一屬性 */
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
 }
 
 

@@ -10,7 +10,7 @@
       <!-- 使用者名稱與帳號 -->
       <div class="card-body-top">
         <p class="card-title">{{user.name}}</p>
-        <p class="text-muted">{{user.account}}</p>
+        <p class="text-muted text-sm">{{user.account}}</p>
       </div>
       <!-- 推文與讚數 -->
       <div class="card-body-mid">
@@ -32,7 +32,7 @@
       </div>
       <!-- 追蹤者數與跟隨者數 -->
       <div class="card-body-bot">
-        <span>{{user.followingsNumber}}<span class="text-muted">位追蹤中</span> </span>
+        <span>{{user.followingsNumber}}<span class="text-muted">位追蹤中 </span></span>
         <span>{{user.followersNumber}}<span class="text-muted">位跟隨者</span></span>
       </div>
     </div>
@@ -97,12 +97,7 @@ export default {
 .avatar {
   width: 75px;
   height: 75px;
-  border-radius: 50%;
-  object-fit: cover;
   border: 2px solid #eeeeee;
 }
 
-.text-muted {
-  font-size: .8rem;
-}
 </style>

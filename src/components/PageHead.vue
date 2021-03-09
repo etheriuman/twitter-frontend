@@ -2,17 +2,16 @@
 <template>
   <div class="list-group-item">
     <div class="card-body d-flex align-items-center ml-2">
-      <!-- dynamic返回鍵 -->
       <!-- 如果displayArrow成立、當前頁面又沒有userData，表示在單一推文頁 -->
-      <router-link :to="previousPage" v-if="displayArrow">
+      <router-link to="/tweets" v-if="displayArrow">
         <font-awesome-icon class="icon" icon="arrow-left" />
       </router-link>
       <!-- dynamic 標頭 -->
       <div class="topic">
         <p>{{ currentRouterName }}</p>
         <!-- 如果有user表示在user相關頁面 -->
-        <p v-if="user" class="text-muted user-tweet-number">
-          <span>{{ user.tweetsNumber }} </span>推文
+        <p v-if="user" class="text-muted text-sm">
+          {{ user.tweetsNumber }} 推文
         </p>
       </div>
     </div>
@@ -30,8 +29,7 @@ export default {
   data() {
     return {
       displayArrow: false,
-      currentRouterName: '',
-      previousPage: ''
+      currentRouterName: ''
     };
   },
   methods: {
@@ -66,28 +64,17 @@ export default {
       } else {
         return "";
       }
-    },
-    getPreviousPage() {
-      if (this.user) {
-        this.previousPage = `/users/${this.user.id}`
-        return
-      }
-      this.previousPage = '/tweets'
     }
   },
   created() {
     const currentRouterName = this.$route.name;
     this.checkArrowIsDisplay();
     this.handleCurrentRouterName(currentRouterName);
-    this.getPreviousPage()
   },
 };
 </script>
 
 <style scoped>
-.list-group-item {
-  padding: 0;
-}
 
 .card-body {
   flex: 0 1 auto;
@@ -102,14 +89,6 @@ export default {
   flex-flow: column;
   height: 100%;
   justify-content: center;
-}
-
-.topic p {
-  margin: 0;
-}
-
-.user-tweet-number {
-  font-size: 0.5rem;
 }
 
 .icon {
