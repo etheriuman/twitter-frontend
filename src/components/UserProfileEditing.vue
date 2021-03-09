@@ -1,7 +1,14 @@
 // 使用者編輯自己資料用的 modal
 <template>
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog" role="document">
       <form @submit.prevent.stop="handleSubmit" class="modal-content">
         <div class="modal-header d-flex align-items-center p-0">
@@ -78,10 +85,10 @@
                     />
                   </div>
                   <!-- user name 暫存檔長度限制超過50個字顯示紅字-->
-                  <p v-if="nameCache.length<=50" class="textLimit">
+                  <p v-if="nameCache.length <= 50" class="textLimit">
                     {{ nameCache.length }}/50
                   </p>
-                  <p v-else class="textLimit" style="color:red">
+                  <p v-else class="textLimit" style="color: red">
                     {{ nameCache.length }}/50
                   </p>
                   <div class="form-label-group text-muted">
@@ -98,10 +105,10 @@
                     ></textarea>
                   </div>
                   <!-- user introduction 暫存檔長度限制超過50個字顯示紅字-->
-                  <p v-if="introCache.length<=50" class="textLimit">
+                  <p v-if="introCache.length <= 50" class="textLimit">
                     {{ introCache.length }}/50
                   </p>
-                  <p v-else class="textLimit" style="color:red">
+                  <p v-else class="textLimit" style="color: red">
                     {{ introCache.length }}/50
                   </p>
                 </div>
@@ -134,14 +141,14 @@ export default {
   },
   methods: {
     fetchNameCache() {
-      this.nameCache = this.currentUser.name
+      this.nameCache = this.currentUser.name;
     },
     fetchIntroCache() {
-      this.introCache = this.currentUser.introduction
+      this.introCache = this.currentUser.introduction;
     },
-    handleClose(){
-      this.nameCache = this.currentUser.name
-      this.introCache = this.currentUser.introduction
+    handleClose() {
+      this.nameCache = this.currentUser.name;
+      this.introCache = this.currentUser.introduction;
     },
     handleCoverChange(e) {
       const { files } = e.target;
@@ -171,9 +178,8 @@ export default {
     },
   },
   created() {
-    this.fetchNameCache(),
-    this.fetchIntroCache()
-  }
+    this.fetchNameCache(), this.fetchIntroCache();
+  },
 };
 </script>
 
@@ -184,20 +190,7 @@ export default {
 .modal-title {
   font-weight: 700;
 }
-.btn-primary {
-  color: #fff;
-  background-color: #ff6600;
-  border-color: #ff6600;
-  border-radius: 90px;
-}
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active:hover {
-  color: #fff;
-  background-color: #ff6600;
-  border-color: #ff6600;
-  border-radius: 90px;
-}
+
 .card-img-top {
   background-size: cover;
   opacity: 0.9;
@@ -222,7 +215,7 @@ export default {
   height: 120px;
   border: 3px solid white;
   border-radius: 50%;
-  filter:brightness(0.9)
+  filter: brightness(0.9);
 }
 .card-body-camera {
   position: absolute;
@@ -235,7 +228,7 @@ export default {
 }
 .profile {
   position: relative;
-  height: 300px;  
+  height: 300px;
 }
 .profile-info {
   position: relative;

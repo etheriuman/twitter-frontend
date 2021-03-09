@@ -139,9 +139,6 @@ export default {
 a {
   color: #657786;
 }
-p {
-  margin: 0;
-}
 .user-name {
   font-size: 18px;
   font-weight: 700;
@@ -161,19 +158,6 @@ p {
   border: 2px solid white;
   border-radius: 50%;
   object-fit: cover;
-}
-.btn-outline-primary {
-  color: #ff6600;
-  border-color: #ff6600;
-  border-radius: 90px;
-}
-.btn-outline-primary:hover,
-.btn-outline-primary:focus,
-.btn-outline-primary:active:hover {
-  color: #fff;
-  background-color: #ff6600;
-  border-color: #ff6600;
-  border-radius: 90px;
 }
 .newTweet {
   position: absolute;
