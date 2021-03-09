@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
-const baseURL = '' //記得放入網址
+const baseURL = 'https://twitter-simple-one.herokuapp.com/api' //記得放入網址
 
 const axiosInstance = axios.create({
     baseURL
