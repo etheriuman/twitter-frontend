@@ -114,7 +114,7 @@ export default {
     },
     handleAfterAddFollow(payLoad) {
       //串接後端api POST /followships/:followingId
-      this.user.followers = this.user.followers.map((follower) => {
+      this.followers = this.followers.map((follower) => {
         if (follower.id === payLoad) {
           return {
             ...follower,
@@ -126,7 +126,7 @@ export default {
     },
     handleAfterDeleteFollow(payLoad) {
       //串接後端api DELETE /followships/:followingId
-      this.user.followers = this.user.followers.map((follower) => {
+      this.followers = this.followers.map((follower) => {
         if (follower.id === payLoad) {
           return {
             ...follower,
