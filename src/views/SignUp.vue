@@ -80,7 +80,7 @@
         <button class="btn btn-primary btn-block submit-button" :disabled="isProcessing" type="submit">
           註冊
         </button>
-        <router-link class="text-secondary" to="/signin">
+        <router-link class="text-secondary" v-show="!isProcessing" to="/signin">
           取消
         </router-link>
       </div>
