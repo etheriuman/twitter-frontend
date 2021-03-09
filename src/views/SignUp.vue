@@ -169,7 +169,7 @@ export default {
         const { data } = await signUpAPI.signUp({ payLoad })
         console.log(data)
         if (data.status !== 'success') {
-          throw new Error(data.status)
+          throw new Error(data.message)
         }
         // 註冊成功頁面跳轉
         this.$router.push('/signin')
