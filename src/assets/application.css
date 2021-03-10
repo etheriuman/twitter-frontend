@@ -1,7 +1,4 @@
 /* ----------基礎設定---------- */
-p, a, span, h1, h2, h3, h4, h5, h6 {
-  color: #222222;
-}
 
 p, a, span {
   font-size: 15px;
@@ -28,7 +25,8 @@ a, a:hover {
 }
 
 /* --文字顏色設定-- */
-.text-primary {
+.text-primary,
+.text-primary:hover {
   color: #ff6600!important;
 }
 
@@ -72,8 +70,10 @@ label {
 }
 
 /* --按鈕設定-- */
-.btn {
+.btn,
+.btn:focus {
   white-space: nowrap;
+  box-shadow: none;
 }
 .btn-primary,
 .btn-primary:hover,
@@ -84,14 +84,14 @@ label {
   border-color: #FF6600!important;
   border-radius: 90px!important;
 }
-.btn-outline-primary {
+.btn-outline-primary,
+.btn-outline-primary:focus {
   background-color:#fff!important;
   border-color: #FF6600!important;
   color: #ff6600!important;
   border-radius: 90px!important;
 }
 .btn-outline-primary:hover,
-.btn-outline-primary:focus,
 .btn-outline-primary:active{
   color: #fff!important;
   background-color:  #FF6600!important;

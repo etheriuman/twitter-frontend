@@ -21,131 +21,8 @@
 import AdminNavbar from "./../components/AdminNavbar";
 import PageHead from "./../components/PageHead";
 import AdminUserCard from "./../components/AdminUserCard";
-
-const dummyData = {
-  users: [
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 66, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 67, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 68, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 69, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 70, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 71, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 72, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 73, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 74, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-    {
-      name: "Ricardo Milos", // 使用者名稱
-      id: 75, // 使用者id
-      account: "@recardomilos", // 使用者帳號
-      avatar:
-        "https://steamuserimages-a.akamaihd.net/ugc/964230781514955171/5E51E3F97ACB5D0419C65329BA942434BF81DA6E/", // 使用者照片
-      cover: "https://assets.thespinoff.co.nz/1/2021/03/nyan-cat.jpg", // 使用者封面照片
-      tweetsNumber: 50, // 使用者被回覆數
-      gotLikesNumber: 121, // 使用者被like數
-      followingsNumber: 8, // 使用者追蹤數
-      followersNumber: 6, // 使用者跟隨數
-    },
-  ],
-};
+import adminAPI from './../apis/admin'
+import { Toast } from './../utils/helpers'
 
 export default {
   components: {
@@ -159,8 +36,20 @@ export default {
     };
   },
   methods: {
-    fetchUsers() {
-      this.users = dummyData.users;
+    async fetchUsers() {
+      try {
+        const response = await adminAPI.getUsers()
+        if (response.statusText !== 'OK') {
+          throw new Error(response.statusText)
+        }
+        this.users = response.data
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得所有使用者，請稍後再試'
+        })
+        console.log(err)
+      }
     },
   },
   created() {
