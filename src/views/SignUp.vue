@@ -16,6 +16,7 @@
         <input
           v-model="account"
           id="account"
+          ref="account"
           name="account"
           type="text"
           class="form-control"
@@ -30,6 +31,7 @@
         <input
           v-model="name"
           id="name"
+          ref="name"
           name="name"
           type="text"
           class="form-control"
@@ -43,6 +45,7 @@
         <input
           v-model="email"
           id="email"
+          ref="email"
           name="email"
           type="email"
           class="form-control"
@@ -56,6 +59,7 @@
         <input
           v-model="password"
           id="password"
+          ref="password"
           name="password"
           type="password"
           class="form-control"
@@ -69,6 +73,7 @@
         <input
           v-model="checkPassword"
           id="check-password"
+          ref="checkPassword"
           name="checkPassword"
           type="password"
           class="form-control"
@@ -90,8 +95,7 @@
 
 <script>
 import signUpAPI from './../apis/signUp'
-import { Toast } from "./../utils/helpers";
-import $ from 'jquery'
+import { Toast } from "./../utils/helpers"
 
 
 export default {
@@ -114,7 +118,7 @@ export default {
             icon: 'warning',
             title: '請填寫帳號'
           })
-          $('#account').focus()
+          this.$refs.account.focus()
           return
         }
         if (!this.name) {
@@ -122,7 +126,7 @@ export default {
             icon: 'warning',
             title: '請填寫名稱'
           })
-          $('#name').focus()
+          this.$refs.name.focus()
           return
         }
         if (!this.email) {
@@ -130,7 +134,7 @@ export default {
             icon: 'warning',
             title: '請填寫email'
           })
-          $('#email').focus()
+          this.$refs.email.focus()
           return
         }
         if (!this.password) {
@@ -138,7 +142,7 @@ export default {
             icon: 'warning',
             title: '請填寫密碼'
           })
-          $('#password').focus()
+          this.$refs.password.focus()
           return
         }
         if (!this.checkPassword) {
@@ -146,7 +150,7 @@ export default {
             icon: 'warning',
             title: '請填寫密碼確認'
           })
-          $('#checkPassword').focus()
+          this.$refs.checkPassword.focus()
           return
         }
         if (this.password !== this.checkPassword) {
@@ -186,7 +190,7 @@ export default {
       
     },
     autoFocus() {
-      $('#account').focus()
+      this.$refs.account.focus()
     }
   },
   mounted() {
