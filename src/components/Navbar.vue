@@ -27,7 +27,7 @@
       </button>
     </div>
     <div class="lower-content">
-      <button class="logout btn">
+      <button class="logout btn" @click.prevent.stop="logout">
         登出
       </button>
     </div>
@@ -41,6 +41,13 @@ import Tweeting from './../components/Tweeting'
 export default {
   components: {
     Tweeting
+  },
+  methods: {
+    logout() {
+      console.log('logout')
+      this.$store.commit('revokeAuthentication')
+      this.$router.push('/signin')
+    }
   }
 }
 </script>
