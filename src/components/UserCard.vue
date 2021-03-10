@@ -16,7 +16,7 @@
     <div class="side-content">
       <button
         v-if="follow.isFollowed"
-        @click.prevent.stop="deleteFollow(follow.id)"
+        @click.prevent.stop="deleteFollow(follow.followId)"
         type="button"
         class="btn btn-primary follow-button"
       >
@@ -24,7 +24,7 @@
       </button>
       <button
         v-else
-        @click.prevent.stop="addFollow(follow.id)"
+        @click.prevent.stop="addFollow(follow.followId)"
         type="button"
         class="btn btn-outline-primary follow-button"
       >
@@ -49,16 +49,14 @@ export default {
     };
   },
   methods: {
-    fetchFollow() {},
     addFollow(followId) {
-      // API POST request ...
-      const payLoad = followId;
+      follow.isFollowed = true
+      const payLoad = {id: followId}
       this.$emit("afterAddFollow", payLoad);
     },
     deleteFollow(followId) {
-      // API DELETE request ...
-      const payLoad = followId;
-      this.$emit("afterDeleteFollow", payLoad);
+      follow.isFollowed = false
+      this.$emit("afterDeleteFollow", followId);
     },
   },
   watch: {

@@ -1,6 +1,6 @@
 // 使用者likes推文頁面
 <template>
-  <div class="main">
+  <div v-show="!isLoading" class="main">
     <div class="column-left column">
       <Navbar @after-submit="handleAfterSubmit" />
     </div>
@@ -30,80 +30,14 @@
 </template>
 
 <script>
-import Navbar from "./../components/Navbar";
-import PageHead from "./../components/PageHead";
-import UserProfile from "./../components/UserProfile";
-import TweetCard from "./../components/TweetCard";
-import Recommendation from "./../components/Recommendation";
-
-const dummyUser = {
-  //點擊的使用者個人資料
-  id: 1,
-  name: "John Doe",
-  account: "@heyjohn",
-  email: "helloworld@gmail.com", // 使用者email
-  tweetsNumber: "12", // 使用者推文數
-  avatar: "https://randomuser.me/portraits/women/17.jpg", // 使用者照片
-  cover:
-    "http://5b0988e595225.cdn.sohucs.com/images/20180914/9d15e25d6b1946f28b196f597e3002ba.jpeg", // 使用者封面照片
-  introduction:
-    "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, ", // 使用者簡介
-  followingsNumber: "26", // 使用者追蹤數
-  followersNumber: 44, // 使用者跟隨數
-  isFollowed: false, // 是否追蹤中
-};
-const dummyData = {
-  tweets: [
-    {
-      id: 1, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回覆數
-      isLiked: true, // 是否按過like
-      createdAt: "", // 推文發布時間
-      User: {
-        // 推主資料
-        id: 20, // 推主連結用user.id
-        name: "Nancy haiso", // 推主名稱
-        account: "@nancy", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/19.jpg", // 推主照片
-      },
-    },
-    {
-      id: 2, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 10, // 推文like數
-      repliesNumber: 6, // 推文回覆數
-      isLiked: true, // 是否按過like
-      createdAt: "", // 推文發布時間
-      User: {
-        // 推主資料
-        id: 14, // 推主連結用user.id
-        name: "Katy haiso", // 推主名稱
-        account: "@katy", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/34.jpg", // 推主照片
-      },
-    },
-    {
-      id: 3, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 6, // 推文like數
-      repliesNumber: 15, // 推文回覆數
-      isLiked: true, // 是否按過like
-      createdAt: "", // 推文發布時間
-      User: {
-        // 推主資料
-        id: 21, // 推主連結用user.id
-        name: "Rina haiso", // 推主名稱
-        account: "@rina", // 推主帳號
-        avatar: "https://randomuser.me/portraits/women/80.jpg", // 推主照片
-      },
-    },
-  ],
-};
+import Navbar from "./../components/Navbar"
+import PageHead from "./../components/PageHead"
+import UserProfile from "./../components/UserProfile"
+import TweetCard from "./../components/TweetCard"
+import Recommendation from "./../components/Recommendation"
+import usersApi from "./../apis/users.js"
+import followApi from "./../apis/follow.js"
+import { Toast } from "./../utils/helpers.js"
 
 export default {
   name: "UserLikes",
@@ -118,82 +52,128 @@ export default {
     return {
       user: "",
       tweets: [],
-    };
+    }
   },
   methods: {
-    fetchUser(userId) {
-      //透過userId取的api user資料
-      this.user = dummyUser;
-      console.log(userId);
+    async fetchUser(userId) {
+      try {
+        this.isLoading = true
+        const {data} = await usersApi.get({userId})
+        this.user = data
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法取得使用者資料，請稍後再試'
+        })
+      }  
     },
-    fetchTweetsLiked(userId) {
-      //透過userId取的api user喜歡的推文資料
-      this.tweets = dummyData.tweets.filter((tweet) => (tweet.isLiked = true));
-      console.log(userId);
+    async fetchTweetsLiked(userId) {
+      try {
+        this.isLoading = true
+        const {data} = await usersApi.getLikedTweets({userId})
+        this.tweets = data.filter((tweet) => (tweet.isLiked = true))
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法取得使用者推文資料，請稍後再試'
+        })
+      }
     },
     handleAfterSubmit() {
       // 因為需要取得正確createdAt所以選擇重新fetch一次
-      console.log("refetch");
-      this.fetchTweetsLiked();
+      console.log("refetch")
+      this.fetchTweetsLiked()
     },
     handleAfterAddLike(tweetId) {
-      console.log("add like");
+      console.log("add like")
       this.tweets = this.tweets.map((tweet) => {
         if (tweet.id === tweetId) {
           return {
             ...tweet,
             isLiked: true,
             likesNumber: tweet.likesNumber + 1,
-          };
+          }
         }
-        return tweet;
-      });
+        return tweet
+      })
     },
     handleAfterDeleteLike(tweetId) {
-      console.log("delete like");
+      console.log("delete like")
       this.tweets = this.tweets.map((tweet) => {
         if (tweet.id === tweetId) {
           return {
             ...tweet,
             isLiked: false,
             likesNumber: tweet.likesNumber - 1,
-          };
+          }
         }
-        return tweet;
-      });
+        return tweet
+      })
     },
     handleAfterReply(replyData) {
-      console.log("replied");
-      console.log(replyData);
-      const { tweetId } = replyData;
+      console.log("replied")
+      console.log(replyData)
+      const { tweetId } = replyData
       this.tweets = this.tweets.map((tweet) => {
         if (tweet.id === tweetId) {
-          console.log("this tweet is", tweet);
+          console.log("this tweet is", tweet)
           return {
             ...tweet,
             repliesNumber: tweet.repliesNumber + 1,
-          };
+          }
         }
-        return tweet;
-      });
+        return tweet
+      })
     },
-    handleAfterAddFollowed() {
-      this.user.isFollowed = true;
-      //串接api，put資料更改user的追蹤狀態
-      console.log(this.user);
+    async handleAfterAddFollowed(payLoad) {
+      try {
+        const {data} = await followApi.addFollow({payLoad})
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.user.isFollowed = true
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者加入追蹤，請稍後再試'
+        })
+      }      
     },
-    handleAfterCencelFollowed() {
-      this.user.isFollowed = false;
-      //串接api，put資料更改user的追蹤狀態
-      console.log(this.user);
-    },
+    async handleAfterCencelFollowed(userId) {
+      try {
+        const {data} = await followApi.removeFollow({userId})
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.user.isFollowed = false
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者移除追蹤，請稍後再試'
+        })
+      } 
+    }
+  },
+   //監聽切換頁面的事件
+  beforeRouteUpdate(to,from,next) {
+    const {id : userId} = to.params
+    this.fetchUser(userId)
+    next()
   },
   created() {
-    const { id: userId } = this.$route.params;
-    this.fetchUser(userId);
-    this.fetchTweetsLiked(userId);
-  },
-};
+    const { id: userId } = this.$route.params
+    this.fetchUser(userId)
+    this.fetchTweetsLiked(userId)
+  }
+}
 </script>
 
 <style scoped>

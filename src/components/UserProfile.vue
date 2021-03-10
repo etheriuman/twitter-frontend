@@ -22,7 +22,7 @@
           </button>
           <button
             v-if="!user.isFollowed"
-            @click.prevent.stop="addFollowed"
+            @click.prevent.stop="addFollowed(user.id)"
             type="button"
             class="user-follow btn btn-outline-primary"
           >
@@ -30,7 +30,7 @@
           </button>
           <button
             v-else
-            @click.prevent.stop="cancelFollowed"
+            @click.prevent.stop="cancelFollowed(user.id)"
             type="button"
             class="user-follow btn btn-outline-primary"
           >
@@ -72,24 +72,10 @@
 </template>
 
 <script>
-import UserProfileNavTabs from "./UserProfileNavTabs.vue";
-import UserProfileEdiiting from "./UserProfileEditing";
-
-const dummyCurrentUser = {
-  //設定currentUser，判斷如果是使用者的話則可以編輯個人資料
-  id: 1,
-  name: "John Doe",
-  account: "@heyjohn",
-  email: "helloworld@gmail.com", // 當前使用者email
-  tweetsNumber: "12", // 當前使用者推文數
-  avatar: "https://randomuser.me/portraits/women/17.jpg", // 當前使用者照片
-  cover:
-    "http://5b0988e595225.cdn.sohucs.com/images/20180914/9d15e25d6b1946f28b196f597e3002ba.jpeg", // 當前使用者封面照片
-  introduction:
-    "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, ", // 當前使用者簡介
-  followingsNumber: "26", // 當前使用者追蹤數
-  followersNumber: 44, // 當前使用者跟隨數
-};
+import UserProfileNavTabs from "./UserProfileNavTabs.vue"
+import UserProfileEdiiting from "./UserProfileEditing"
+import usersApi from "./../apis/users.js"
+import { Toast } from "./../utils/helpers.js"
 
 export default {
   name: "UserProfile",
@@ -100,37 +86,54 @@ export default {
   props: {
     initialUser: {
       type: Object,
-      required: true,
+      default: undefined
     },
   },
   data() {
     return {
       currentUser: "",
-      user: this.initialUser,
-    };
+      user: ""
+    }
   },
   methods: {
-    fetchCurrentUser() {
-      this.currentUser = dummyCurrentUser;
+    async fetchCurrentUser() {
+      try {
+        const {data} =  await usersApi.getCurrentUser ()
+        this.currentUser = data
+      } catch (error) {
+        this.isLoading = false
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法取得當前使用者資料，請稍後再試'
+        }) 
+      }  
     },
-    addFollowed() {
-      this.user.isFollowed = true;
-      this.$emit("afterAddFollowed");
+    fetchUser() {
+      this.user = this.initialUser
     },
-    cancelFollowed() {
-      this.user.isFollowed = false;
-      this.$emit("afterCancelFollowed");
+    addFollowed(userId) {
+      const payLoad = {id : userId}
+      this.$emit("afterAddFollowed", payLoad)
+    },
+    cancelFollowed(userId) {
+      this.$emit("afterCancelFollowed",userId)
     },
     handleAfterSubmit(formData) {
       for (let [name, value] of formData.entries()) {
-        console.log(name + ": " + value);
+        console.log(name + ": " + value)
       }
     },
   },
-  created() {
-    this.fetchCurrentUser();
+  watch: {
+    initialUser() {
+      this.fetchUser()
+    }
   },
-};
+  created() {
+    this.fetchCurrentUser()
+  },
+}
 </script>
 
 

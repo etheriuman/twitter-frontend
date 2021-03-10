@@ -31,53 +31,9 @@ import PageHead from "./../components/PageHead";
 import UserFollowsNavTabs from "./../components/UserFollowsNavTabs.vue";
 import UserCard from "./../components/UserCard";
 import Recommendation from "./../components/Recommendation";
-
-const dummyUser = {
-  //點擊的使用者個人資料
-  id: 1,
-  name: "John Doe",
-  account: "@heyjohn",
-  email: "helloworld@gmail.com", // 使用者email
-  tweetsNumber: "12", // 使用者推文數
-  avatar: "https://randomuser.me/portraits/women/17.jpg", // 使用者照片
-  cover:
-    "http://5b0988e595225.cdn.sohucs.com/images/20180914/9d15e25d6b1946f28b196f597e3002ba.jpeg", // 使用者封面照片
-  introduction:
-    "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, ", // 使用者簡介
-  followingsNumber: "26", // 使用者追蹤數
-  followersNumber: 44, // 使用者跟隨數
-  isFollowed: false, // 是否追蹤中
-};
-const dummyData = [
-  // 使用者追蹤者串
-  {
-    id: 1, // 追蹤者id
-    name: "Amy Chen", // 追蹤者名稱
-    account: "@amy", // 追蹤者帳號
-    avatar: "https://randomuser.me/api/portraits/women/60.jpg", // 追蹤者照片
-    introduction:
-      "ontrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.", // 追蹤者簡介
-    isFollowed: true, // 是否已追蹤
-  },
-  {
-    id: 2, // 追蹤者id
-    name: "Lisa Lee", // 追蹤者名稱
-    account: "@lisa", // 追蹤者帳號
-    avatar: "https://randomuser.me/api/portraits/women/6.jpg", // 追蹤者照片
-    introduction:
-      "ontrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.", // 追蹤者簡介
-    isFollowed: false, // 是否已追蹤
-  },
-  {
-    id: 3, // 追蹤者id
-    name: "Sammi Lee", // 追蹤者名稱
-    account: "@sammi", // 追蹤者帳號
-    avatar: "https://randomuser.me/api/portraits/women/3.jpg", // 追蹤者照片
-    introduction:
-      "ontrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.", // 追蹤者簡介
-    isFollowed: true, // 是否已追蹤
-  },
-];
+import usersApi from "./../apis/users.js"
+import followApi from "./../apis/follow.js"
+import { Toast } from "./../utils/helpers.js"
 
 export default {
   name: "UserFollowers",
@@ -99,46 +55,91 @@ export default {
     };
   },
   methods: {
-    fetchUser(userId) {
-      //透過userId取得使用者名稱與追蹤總推文數，將資料帶入PageHead
-      const { id, name, tweetsNumber } = dummyUser;
-      this.user.id = id;
-      this.user.name = name;
-      this.user.tweetsNumber = tweetsNumber;
-      console.log(userId);
+    async fetchUser(userId) {
+      try {
+        this.isLoading = true
+        const { data } = await usersApi.get({userId})
+        const { id, name, tweetsNumber } = data;
+        this.user.id = id;
+        this.user.name = name;
+        this.user.tweetsNumber = tweetsNumber;
+        this.isLoading = false
+      } catch(error) {
+        this.isLoading = false
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法取得使用者資料，請稍後再試'
+        })
+      }
     },
-    fetchFollowers(userId) {
-      //透過userId取得api使用者追蹤者清單
-      this.followers = dummyData;
-      console.log(userId);
+    async fetchFollowers(userId) {
+      try {
+        const {data} = await usersApi.getFollowers({userId})
+        this.followers = data.map(follower => ({
+          ...follower,
+          followId: follower.followerId
+        }))
+      } catch(error) {
+        this.isLoading = false
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法取得使用者正在追蹤清單，請稍後再試'
+        })
+      }
     },
-    handleAfterAddFollow(payLoad) {
+    async handleAfterAddFollow(payLoad) {
       //串接後端api POST /followships/:followingId
-      this.followers = this.followers.map((follower) => {
-        if (follower.id === payLoad) {
-          return {
-            ...follower,
-            isFollowed: true,
-          };
+      try {
+        const {data} = await followApi.addFollow({payLoad})
+        if (data.status !== 'success') {
+          throw new Error(data.message)
         }
-        return follower;
-      });
+        this.followers = this.followers.map((follower) => {
+          if (follower.id === payLoad) {
+            return {
+              ...follower,
+              isFollowed: true,
+            }
+          }
+          return follower
+        })
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者加入追蹤，請稍後再試'
+        })
+      }
     },
-    handleAfterDeleteFollow(payLoad) {
+    async handleAfterDeleteFollow(followId) {
       //串接後端api DELETE /followships/:followingId
-      this.followers = this.followers.map((follower) => {
-        if (follower.id === payLoad) {
-          return {
-            ...follower,
-            isFollowed: false,
-          };
+      try {
+        const {data} = await followApi.removeFollow({followId})
+        if (data.status !== 'success') {
+          throw new Error(data.message)
         }
-        return follower;
-      });
+        this.followers = this.followers.map((follower) => {
+          if (follower.id === payLoad) {
+            return {
+              ...follower,
+              isFollowed: false,
+            }
+          }
+          return follower;
+        })
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者移除追蹤，請稍後再試'
+        })
+      }       
     },
   },
   created() {
-    const { id: userId } = this.$route.params;
+    const { id: userId } = this.$route.params
     this.fetchUser(userId);
     this.fetchFollowers(userId);
   },

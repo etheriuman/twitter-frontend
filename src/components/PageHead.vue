@@ -30,25 +30,25 @@ export default {
     return {
       displayArrow: false,
       currentRouterName: ''
-    };
+    }
   },
   methods: {
     checkArrowIsDisplay() {
-      const currentRouterName = this.$route.name;
+      const currentRouterName = this.$route.name
       if (currentRouterName !== "tweets" && currentRouterName !== "setting") {
         // 當拿到currentUser之後要加下面這段
         // & if currentUser.role !== admin >> this.displayArrow = true
-        this.displayArrow = true;
+        this.displayArrow = true
       }
-      return;
+      return
     },
     handleCurrentRouterName(currentRouterName) {
       if (currentRouterName === "setting") {
-        this.currentRouterName = "帳戶設定";
+        this.currentRouterName = "帳戶設定"
       } else if (currentRouterName === "tweets") {
-        this.currentRouterName = "首頁";
+        this.currentRouterName = "首頁"
       } else if (currentRouterName === "tweet") {
-        this.currentRouterName = "推文";
+        this.currentRouterName = "推文"
       } else if (
         currentRouterName === "user-tweets" ||
         currentRouterName === "user-replies" ||
@@ -56,22 +56,22 @@ export default {
         currentRouterName === "user-followings" ||
         currentRouterName === "user-followers"
       ) {
-        this.currentRouterName = this.user.name;
+        this.currentRouterName = this.user.name
       } else if (currentRouterName === "admin-tweets") {
-        this.currentRouterName = "推文清單";
+        this.currentRouterName = "推文清單"
       } else if (currentRouterName === "admin-users") {
-        this.currentRouterName = "使用者清單";
+        this.currentRouterName = "使用者清單"
       } else {
-        return "";
+        return ""
       }
     }
   },
   created() {
-    const currentRouterName = this.$route.name;
-    this.checkArrowIsDisplay();
-    this.handleCurrentRouterName(currentRouterName);
+    const currentRouterName = this.$route.name
+    this.checkArrowIsDisplay()
+    this.handleCurrentRouterName(currentRouterName)
   },
-};
+}
 </script>
 
 <style scoped>
