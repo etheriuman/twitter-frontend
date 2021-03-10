@@ -34,7 +34,6 @@ import Recommendation from "./../components/Recommendation";
 import tweetsAPI from './../apis/tweets'
 import { Toast } from './../utils/helpers'
 
-
 export default {
   components: {
     Navbar,
@@ -65,9 +64,7 @@ export default {
       }
     },
     handleAfterSubmit() {
-      // 因為需要取得正確createdAt所以選擇重新fetch一次
-      console.log("refetch");
-      this.fetchTweets();
+      this.fetchTweets()
     },
     handleAfterAddLike(tweetId) {
       console.log("add like");

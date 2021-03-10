@@ -14,7 +14,7 @@
         v-model="description"
         required
         />
-        <button type="submit" class="tweeting-submit btn btn-primary">
+        <button type="submit" :disabled="isProcessing" class="tweeting-submit btn btn-primary">
           推文
         </button>
       </div>
@@ -23,19 +23,55 @@
 </template>
 
 <script>
+import tweetsAPI from './../apis/tweets'
+import { Toast } from './../utils/helpers'
+
 export default {
   data() {
     return {
-      description: ''
+      description: '',
+      isProcessing: false
     }
   },
   methods: {
-    handleSubmit() {
-      // API POST request ....
-      // 將內容回傳給tweets
-      this.$emit('after-submit')
-      // 清空欄位
-      this.description = ''
+    async handleSubmit() {
+      try {
+        const length = this.description.length
+        if (!length) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入推文內容'
+          })
+          return
+        }
+        if (length > 140) {
+          Toast.fire({
+            icon: 'warning',
+            title: '推文字數過長，請小於140字'
+          })
+          return
+        }
+        const payLoad = {
+          description: this.description
+        }
+        this.isProcessing = true
+        const { data } = await tweetsAPI.createTweet({ payLoad })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessing = false
+        this.$emit('after-submit')
+        // 清空欄位
+        this.description = ''
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法新增推文，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(err)
+      }
+      
     }
   }
 }
