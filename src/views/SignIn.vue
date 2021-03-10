@@ -39,7 +39,7 @@
         />
       </div>
       <div class="form-label-group button-div">
-        <button class="btn btn-primary btn-block submit-button" type="submit">
+        <button class="btn btn-primary btn-block submit-button" :disabled="isProcessing" type="submit">
           登入
         </button>
       </div>
@@ -57,22 +57,58 @@
 </template>
 
 <script>
+import authorizationAPI from './../apis/authorization'
+import { Toast } from './../utils/helpers'
 
 export default {
   data() {
     return {
       account: '',
       password: '',
+      isProcessing: false
     }
   },
   methods:{
-    handleFormSubmit() {
-      const payLoad = {
+    async handleFormSubmit() {
+      try {
+        if (!this.account) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入帳號'
+          })
+          return
+        }
+        if (!this.password) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入密碼'
+          })
+          return
+        }
+        const payLoad = {
         account: this.account,
         password: this.password
+        }
+        this.isProcessing = true
+        // API POST request ...
+        const { data } = await authorizationAPI.users.signIn({ payLoad })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        // 成功就存入token
+        localStorage.setItem('token', data.token)
+        // 修改store資料
+        this.$store.commit('setCurrentUser', data.user)
+        // 跳轉
+        this.$router.push('/tweets')
+      } catch(err) {
+        Toast.fire({
+          icon: 'warning',
+          title: '請確認輸入了正確的帳號密碼'
+        })
+        this.isProcessing = false
+        console.log(err)
       }
-      console.log(payLoad)
-      // API POST request ...
     },
     autoFocus() {
       this.$refs.account.focus()
