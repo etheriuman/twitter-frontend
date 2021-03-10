@@ -39,10 +39,10 @@
             </div>
           </div>
           <!-- 回覆區域 -->
-          <form class="modal-body" @submit.prevent.stop="handleSubmit">
+          <form class="modal-body" @submit.prevent.stop="handleSubmit(replyingTweet.id)">
             <div class="modal-body-side">
               <!-- dynamic avatar -->
-              <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
+              <img class="avatar" :src="currentUser.avatar" alt="">
             </div>
             <div class="modal-body-content">
               <textarea 
@@ -54,7 +54,7 @@
               v-model="comment"
               required
               />
-              <button type="submit" class="tweeting-submit btn btn-primary">
+              <button type="submit" :disabled="isProcessing" class="tweeting-submit btn btn-primary">
                 推文
               </button>
             </div>
@@ -65,8 +65,11 @@
 </template>
 
 <script>
-import { fromNowFilter } from './../utils/mixins'
 import $ from 'jquery'
+import repliesAPI from './../apis/replies'
+import { fromNowFilter } from './../utils/mixins'
+import { Toast } from './../utils/helpers'
+import { mapState } from 'vuex'
 
 export default {
   props: {
@@ -81,8 +84,12 @@ export default {
   },
   data() {
     return {
-      comment: ''
+      comment: '',
+      isProcessing: false
     }
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   mixins: [fromNowFilter],
   methods: {
@@ -92,30 +99,46 @@ export default {
     cleanUp() {
       this.comment = ''
     },
-    handleSubmit() {
-      const payLoad = {
-        userId: 1, // currentUser.id
-        comment: this.comment
+    async handleSubmit(tweetId) {
+      try {
+        const length = this.comment.length
+        if (!length) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入回覆內容'
+          })
+          return
+        }
+        if (length > 140) {
+          Toast.fire({
+            icon: 'warning',
+            title: '回覆字數過長，請小於140字'
+          })
+          return
+        }
+        const payLoad = {
+          comment: this.comment
+        }
+        this.isProcessing = true
+        const { data } = await repliesAPI.addReply({ tweetId, payLoad })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessing = false
+        // 回傳資料給Tweet，讓他把資料塞進去
+        this.$parent.$emit('after-reply', tweetId)
+        // 清空欄位
+        this.cleanUp()
+        // 關閉modal
+        $(`#${this.replyingId}`).modal('hide')
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法新增回覆，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(err)
       }
-      // 檢查description.length是否 > 0 , < 140
-      console.log(payLoad)
-      // API POST request...
-
-      console.log('replyingTweet:',this.replyingTweet)
-
-      const replyData = {
-        tweetId: this.replyingTweet.id,
-        comment: this.comment
-      }
-
-      // 回傳資料給Tweet，讓他把資料塞進去
-      this.$parent.$emit('after-reply', replyData)
-      
-      // 清空欄位
-      this.cleanUp()
-
-      // 關閉modal
-      $(`#${this.replyingId}`).modal('hide')
     }
   },
   mounted() {

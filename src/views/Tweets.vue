@@ -92,20 +92,17 @@ export default {
         return tweet;
       });
     },
-    handleAfterReply(replyData) {
-      console.log("replied");
-      console.log(replyData);
-      const { tweetId } = replyData;
+    handleAfterReply(tweetId) {
       this.tweets = this.tweets.map((tweet) => {
         if (tweet.id === tweetId) {
-          console.log("this tweet is", tweet);
+          console.log("this tweet is", tweet)
           return {
             ...tweet,
             repliesNumber: tweet.repliesNumber + 1,
-          };
+          }
         }
-        return tweet;
-      });
+        return tweet
+      })
     },
   },
   created() {
