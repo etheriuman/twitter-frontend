@@ -6,14 +6,14 @@
         跟隨誰
       </li>
       <li 
-      v-for="user in users" 
+      v-for="user in showingUsers" 
       :key="user.id"
       class="list-group-item"
       >
         <div class="main-content">
           <div class="main-left">
             <router-link :to="{ name: 'user-tweets', params: {id: user.id} }">
-              <img class="avatar" :src="user.avatar" alt="avatar">
+              <img class="avatar" :src="user.avatar | emptyImage" alt="avatar">
             </router-link>
           </div>
           <div class="main-right">
@@ -21,12 +21,13 @@
             <p class="text-muted">{{user.account}}</p>
           </div>
         </div>
-        <div class="side-content">
+        <div class="side-content" v-if="user.id !== currentUser.id">
           <button 
           v-if="user.isFollowed"
           type="button"
           class="btn btn-sm btn-primary follow-button"
           @click.prevent.stop="deleteFollow(user.id)"
+          :disabled="user.id === isProcessingId"
           >
             正在跟隨
           </button>
@@ -35,13 +36,19 @@
           type="button"
           class="btn btn-sm btn-outline-primary follow-button"
           @click.prevent.stop="addFollow(user.id)"
+          :disabled="user.id === isProcessingId"
           >
             跟隨
           </button>
         </div>
       </li>
       <li class="list-group-item">
-        <button class="show-more" type="btn">
+        <button
+        class="show-more"
+        type="btn"
+        @click.prevent.stop="pushUsers(showingUsers.length)"
+        v-if="users.length !== showingUsers.length"
+        >
             顯示更多
         </button>
       </li>
@@ -50,91 +57,111 @@
 </template>
 
 <script>
-const dummyData = {
-  users: [
-		{
-			id: 1, // 使用者id
-			name: 'Pizza Hut', // 使用者名稱
-			avatar: 'https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/05/13/Pictures/_67aa6b5c-94d7-11ea-9070-932bbf5d90a5.jpg', // 使用者照片
-			account: '@pizzahut', // 使用者帳號
-			isFollowed: true // 是否追蹤中
-		},
-		{
-			id: 2, // 使用者id
-			name: 'Ether Huang', // 使用者名稱
-			avatar: 'https://media.nu.nl/m/m1mxngvaigrv_wd1280.jpg/disney-verschuift-release-avatar-2-en-kondigt-nieuwe-star-wars-films-aan.jpg', // 使用者照片
-			account: '@etherhuang', // 使用者帳號
-			isFollowed: false // 是否追蹤中
-		},
-    {
-			id: 3, // 使用者id
-			name: 'Pizza Hut', // 使用者名稱
-			avatar: 'https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/05/13/Pictures/_67aa6b5c-94d7-11ea-9070-932bbf5d90a5.jpg', // 使用者照片
-			account: '@pizzahut', // 使用者帳號
-			isFollowed: true // 是否追蹤中
-		},
-		{
-			id: 4, // 使用者id
-			name: 'Ether Huang', // 使用者名稱
-			avatar: 'https://media.nu.nl/m/m1mxngvaigrv_wd1280.jpg/disney-verschuift-release-avatar-2-en-kondigt-nieuwe-star-wars-films-aan.jpg', // 使用者照片
-			account: '@etherhuang', // 使用者帳號
-			isFollowed: false // 是否追蹤中
-		},
-    {
-			id: 5, // 使用者id
-			name: 'Pizza Hut', // 使用者名稱
-			avatar: 'https://images.hindustantimes.com/rf/image_size_630x354/HT/p2/2020/05/13/Pictures/_67aa6b5c-94d7-11ea-9070-932bbf5d90a5.jpg', // 使用者照片
-			account: '@pizzahut', // 使用者帳號
-			isFollowed: true // 是否追蹤中
-		},
-		{
-			id: 6, // 使用者id
-			name: 'Ether Huang', // 使用者名稱
-			avatar: 'https://media.nu.nl/m/m1mxngvaigrv_wd1280.jpg/disney-verschuift-release-avatar-2-en-kondigt-nieuwe-star-wars-films-aan.jpg', // 使用者照片
-			account: '@etherhuang', // 使用者帳號
-			isFollowed: false // 是否追蹤中
-		},
-	]
-}
+import usersAPI from './../apis/users'
+import followAPI from './../apis/follow'
+import { Toast } from './../utils/helpers'
+import { emptyImageFilter } from './../utils/mixins'
+import { mapState } from 'vuex'
 
 export default {
   data() {
     return {
-      users: []
+      users: [],
+      showingUsers: [],
+      isProcessingId: -1
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   methods: {
-    fetchUsers() {
-      this.users = dummyData.users
-    },
-    addFollow(userId) {
-      // API POST request ...
-      this.users = this.users.map(user => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: true
-          }
+    async fetchUsers() {
+      try {
+        const response = await usersAPI.getTopUsers()
+        if (response.statusText !== 'OK') {
+          throw new Error(response.statusText)
         }
-        return user
-      })
+        this.users = response.data.users
+        this.pushUsers(0)
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得推薦名單，請稍後再試'
+        })
+      }
     },
-    deleteFollow(userId) {
-      // API DELETE request ...
-      this.users = this.users.map(user => {
-        if (user.id === userId) {
-          return {
-            ...user,
-            isFollowed: false
-          }
+    async addFollow(userId) {
+      try {
+        const payLoad = {
+          id: userId
         }
-        return user
-      })
+        this.isProcessingId = userId
+        const { data } = await followAPI.addFollow({ payLoad })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessingId = -1
+        this.showingUsers = this.showingUsers.map(user => {
+          if (user.id === userId) {
+            return {
+              ...user,
+              isFollowed: true
+            }
+          }
+          return user
+        })
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法追蹤該使用者，請稍後再試'
+        })
+        this.isProcessingId = -1
+        console.log(err)
+      }
+    },
+    async deleteFollow(userId) {
+      try {
+        this.isProcessingId = userId
+        const { data } = await followAPI.removeFollow({ followingId: userId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessingId = -1
+        this.showingUsers = this.showingUsers.map(user => {
+          if (user.id === userId) {
+            return {
+              ...user,
+              isFollowed: false
+            }
+          }
+          return user
+        })
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法退追該使用者，請稍後再試'
+        })
+        this.isProcessingId = -1
+        console.log(err)
+      }
+    },
+    pushUsers(index) {
+      for (let i = index; i < index+6; i++) {
+        if (i === this.users.length) {
+          return
+        }
+        this.showingUsers.push(this.users[i])
+      }
+    }
+  },
+  mixins: [emptyImageFilter],
+  watch: {
+    showingUsers(data) {
+      this.showingUsers = data
     }
   },
   created() {
     this.fetchUsers()
-    console.log(this.users)
   }
 }
 </script>
