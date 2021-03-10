@@ -75,5 +75,8 @@ export default {
   margin-right: 10px;
 }
 
+.content-body p {
+  word-break: break-all;
+}
 
 </style>

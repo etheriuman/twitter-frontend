@@ -28,73 +28,13 @@
 </template>
 
 <script>
-import Navbar from "./../components/Navbar";
-import PageHead from "./../components/PageHead";
-import Recommendation from "./../components/Recommendation";
-import TweetExtend from "./../components/TweetExtend";
-import ReplyCard from "./../components/ReplyCard";
-
-const dummyData = {
-  tweet: {
-    id: 2, // 推文id
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sit voluptatem repellat autem in molestiae saepe.333", // 推文內容
-    likesNumber: 23, // 推文like數
-    repliesNumber: 3, // 推文回覆數
-    createdAt: "2011-04-20T09:30:51.01", // 推文發布時間
-    isLiked: true, // 是否按過like
-    User: {
-      // 推主資料
-      id: 1, // 連結用user.id
-      name: "Pizza Hut", // 推主名稱
-      account: "@pizzahut", // 推主帳號
-      avatar:
-        "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-    },
-    Replies: [
-      //推文回覆串
-      {
-        id: 5, // 回覆id
-        comment: "Yeah! I think so", // 回覆內容
-        createdAt: "", // 回覆發布時間
-        User: {
-          // 回覆者資料
-          id: 4, // 連結用user.id
-          name: "Ricardo Milos", // 回覆者名稱
-          account: "@ricardomilos", // 回覆者帳號
-          avatar:
-            "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 回覆者照片
-        },
-      },
-      {
-        id: 3, // 回覆id
-        comment: "No! I dont think so", // 回覆內容
-        createdAt: "", // 回覆發布時間
-        User: {
-          // 回覆者資料
-          id: 5, // 連結用user.id
-          name: "Joe Biden", // 回覆者名稱
-          account: "@joebiden", // 回覆者帳號
-          avatar:
-            "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 回覆者照片
-        },
-      },
-      {
-        id: 2, // 回覆id
-        comment: "Well! I dont know", // 回覆內容
-        createdAt: "", // 回覆發布時間
-        User: {
-          // 回覆者資料
-          id: 6, // 連結用user.id
-          name: "Donald Trump", // 回覆者名稱
-          account: "@donaldtrump", // 回覆者帳號
-          avatar:
-            "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 回覆者照片
-        },
-      },
-    ],
-  },
-};
+import Navbar from './../components/Navbar'
+import PageHead from './../components/PageHead'
+import Recommendation from './../components/Recommendation'
+import TweetExtend from './../components/TweetExtend'
+import ReplyCard from './../components/ReplyCard'
+import tweetsAPI from './../apis/tweets'
+import { Toast } from './../utils/helpers'
 
 export default {
   components: {
@@ -113,8 +53,20 @@ export default {
     handleAfterSubmit() {
       console.log("new tweet uploaded");
     },
-    fetchTweet() {
-      this.tweet = dummyData.tweet;
+    async fetchTweet(tweetId) {
+      try {
+        const response = await tweetsAPI.getTweet({ tweetId })
+        if (response.statusText !== 'OK') {
+          throw new Error(response.statusText)
+        }
+        this.tweet = response.data
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得推文資訊，請稍後再試'
+        })
+        console.log(err)
+      }
     },
     handleAfterAddLike() {
       console.log("add like");
@@ -132,14 +84,14 @@ export default {
         likesNumber: this.tweet.likesNumber - 1,
       };
     },
-    handleAfterReply(replyData) {
-      console.log(replyData);
-      // 目前資料是dummyData 所以 refetch之後評論數不會增加
-      this.fetchTweet();
+    handleAfterReply(tweetId) {
+      // 重新抓取資料
+      this.fetchTweet(tweetId)
     },
   },
   created() {
-    this.fetchTweet();
+    const { id } = this.$route.params
+    this.fetchTweet(id)
   },
 };
 </script>
