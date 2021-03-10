@@ -26,11 +26,11 @@
 </template>
 
 <script>
-import Navbar from "./../components/Navbar";
-import PageHead from "./../components/PageHead";
-import UserFollowsNavTabs from "./../components/UserFollowsNavTabs.vue";
-import UserCard from "./../components/UserCard";
-import Recommendation from "./../components/Recommendation";
+import Navbar from "./../components/Navbar"
+import PageHead from "./../components/PageHead"
+import UserFollowsNavTabs from "./../components/UserFollowsNavTabs.vue"
+import UserCard from "./../components/UserCard"
+import Recommendation from "./../components/Recommendation"
 import usersApi from "./../apis/users.js"
 import followApi from "./../apis/follow.js"
 import { Toast } from "./../utils/helpers.js"
@@ -52,17 +52,17 @@ export default {
         tweetsNumber: 0,
       },
       followers: [],
-    };
+    }
   },
   methods: {
     async fetchUser(userId) {
       try {
         this.isLoading = true
         const { data } = await usersApi.get({userId})
-        const { id, name, tweetsNumber } = data;
-        this.user.id = id;
-        this.user.name = name;
-        this.user.tweetsNumber = tweetsNumber;
+        const { id, name, tweetsNumber } = data
+        this.user.id = id
+        this.user.name = name
+        this.user.tweetsNumber = tweetsNumber
         this.isLoading = false
       } catch(error) {
         this.isLoading = false
@@ -85,7 +85,7 @@ export default {
         console.log (error)
         Toast.fire ({
           icon: 'error',
-          title: '無法取得使用者正在追蹤清單，請稍後再試'
+          title: '無法取得使用者追蹤清單，請稍後再試'
         })
       }
     },
@@ -121,13 +121,13 @@ export default {
           throw new Error(data.message)
         }
         this.followers = this.followers.map((follower) => {
-          if (follower.id === payLoad) {
+          if (follower.id === followId) {
             return {
               ...follower,
               isFollowed: false,
             }
           }
-          return follower;
+          return follower
         })
       } catch (error) {
         console.log (error)
@@ -140,10 +140,10 @@ export default {
   },
   created() {
     const { id: userId } = this.$route.params
-    this.fetchUser(userId);
-    this.fetchFollowers(userId);
+    this.fetchUser(userId)
+    this.fetchFollowers(userId)
   },
-};
+}
 </script>
 
 <style scoped>

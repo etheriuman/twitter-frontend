@@ -74,7 +74,7 @@ export default {
       try {
         this.isLoading = true
         const {data} = await usersApi.getRepliedTweets({userId})
-        this.tweets = data.filter( (tweet) => userId === tweet.User.id.toString())
+        this.tweets = data
         this.isLoading = false
       } catch (error) {
         this.isLoading = false
@@ -148,7 +148,7 @@ export default {
     },
     async handleAfterCencelFollowed(userId) {
       try {
-        const {data} = await followApi.removeFollow({userId})
+        const {data} = await followApi.removeFollow({followId:userId})
         if (data.status !== 'success') {
           throw new Error(data.message)
         }

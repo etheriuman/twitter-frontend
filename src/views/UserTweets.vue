@@ -149,7 +149,7 @@ export default {
     },
     async handleAfterCencelFollowed(userId) {
       try {
-        const {data} = await followApi.removeFollow({userId})
+        const {data} = await followApi.removeFollow({followId:userId})
         if (data.status !== 'success') {
           throw new Error(data.message)
         }

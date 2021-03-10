@@ -66,6 +66,13 @@ export default {
       }
     }
   },
+  watch: {
+    user() {
+      console.log('---------')
+      const currentRouterName = this.$route.name
+      this.handleCurrentRouterName(currentRouterName)
+    }
+  },
   created() {
     const currentRouterName = this.$route.name
     this.checkArrowIsDisplay()

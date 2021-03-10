@@ -41,30 +41,29 @@ export default {
     initialFollow: {
       type: Object,
       required: true,
-    },
+    }
   },
   data() {
     return {
-      follow: this.initialFollow,
-    };
+      follow: this.initialFollow
+    }
   },
   methods: {
     addFollow(followId) {
-      follow.isFollowed = true
+      this.follow.isFollowed = true
       const payLoad = {id: followId}
-      this.$emit("afterAddFollow", payLoad);
+      this.$emit("afterAddFollow", payLoad)
     },
-    deleteFollow(followId) {
-      follow.isFollowed = false
-      this.$emit("afterDeleteFollow", followId);
+    deleteFollow(followId) {      
+      this.$emit("afterDeleteFollow", followId)
     },
   },
   watch: {
     initialFollow() {
-      this.follow = this.initialFollow;
+      this.follow = this.initialFollow
     },
-  },
-};
+  }
+}
 </script>
 
 <style scoped>

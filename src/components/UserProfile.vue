@@ -10,7 +10,7 @@
       />
       <div class="profile card-body">
         <img :src="initialUser.avatar" class="avatar mb-5" alt="avatar" />
-        <div class="button-group" v-if="currentUser.id !== initialUser.id">
+        <div class="button-group" v-if="currentUser.id.toString() !== initialUser.id">
           <button type="button" class="user-mail btn btn-outline-primary">
             <font-awesome-icon icon="envelope" />
           </button>
@@ -38,11 +38,11 @@
           </button>
         </div>
         <button
-          v-if="currentUser.id === initialUser.id"
+          v-if="currentUser.id.toString() === initialUser.id"
           type="button"
           class="newTweet btn btn-outline-primary"
           data-toggle="modal"
-          data-target="#exampleModal"
+          data-target="#userEditing"
         >
           編輯個人資料
         </button>
@@ -53,10 +53,10 @@
             {{ user.introduction }}
           </p>
           <div class="follow">
-            <router-link to="/users/:id/followings">
+            <router-link :to="{name:'user-followings', params:{id:user.id}}">
               <span>{{ user.followingsNumber }}個</span>跟隨中
             </router-link>
-            <router-link to="/users/:id/followers">
+            <router-link :to="{name:'user-followers', params:{id:user.id}}">
               <span>{{ user.followersNumber }}位</span>跟隨者
             </router-link>
           </div>
@@ -87,7 +87,7 @@ export default {
     initialUser: {
       type: Object,
       default: undefined
-    },
+    }
   },
   data() {
     return {
@@ -119,14 +119,24 @@ export default {
     cancelFollowed(userId) {
       this.$emit("afterCancelFollowed",userId)
     },
-    handleAfterSubmit(formData) {
-      for (let [name, value] of formData.entries()) {
-        console.log(name + ": " + value)
+    async handleAfterSubmit(formData) {
+      try {
+        const {data} = await usersApi.set({ userId:this.currentUser.id, formData })
+        if (data.status != 'success') {
+          throw new Error(data.message)
+        }
+      } catch(error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法更新使用者資料，請稍後再試'
+        })
       }
     },
   },
   watch: {
     initialUser() {
+      console.log(this.initialUser)
       this.fetchUser()
     }
   },

@@ -3,7 +3,8 @@
   <!-- Modal -->
   <div
     class="modal fade"
-    id="exampleModal"
+    ref="userEditing"
+    id="userEditing"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLabel"
@@ -122,6 +123,7 @@
 </template>
 
 <script>
+import $ from 'jquery'
 export default {
   name: "UserProfileEditing",
   props: {
@@ -173,6 +175,7 @@ export default {
       const form = e.target
       const formData = new FormData(form)
       this.$emit("afterSubmit", formData)
+       $('#userEditing').modal('hide')
     },
   }
 }
