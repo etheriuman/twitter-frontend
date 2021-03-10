@@ -28,16 +28,16 @@
         <div class="modal-body p-0">
           <div class="user-profile">
             <div class="card" style="width: 100%">
-              <!-- user cover -->
+              <!-- cover -->
               <img
                 class="card-img-top"
-                :src="currentUser.cover"
+                :src="cover"
                 alt="Card image cap"
                 style="height: 200px"
               />
               <div class="form-group">
                 <label for="cover">
-                  <!-- 上傳 user cover 檔案 -->
+                  <!-- 上傳 cover 檔案 -->
                   <font-awesome-icon icon="camera" class="card-top-camera" />
                 </label>
                 <input
@@ -53,11 +53,11 @@
                 <font-awesome-icon icon="times" class="card-top-times" />
               </label>
               <div class="profile card-body pt-0">
-                <!-- user avatar -->
-                <img :src="currentUser.avatar" class="avatar mb-5" alt="" />
+                <!-- avatar -->
+                <img :src="avatar" class="avatar mb-5" alt="" />
                 <div class="form-group">
                   <label for="avatar">
-                    <!-- 上傳 user avatar 檔案 -->
+                    <!-- 上傳 avatar 檔案 -->
                     <font-awesome-icon icon="camera" class="card-body-camera" />
                   </label>
                   <input
@@ -71,10 +71,10 @@
                 </div>
                 <div class="profile-info">
                   <div class="form-label-group text-muted">
-                    <!-- user name -->
+                    <!-- name -->
                     <label for="name">名稱</label>
                     <input
-                      v-model="nameCache"
+                      v-model="name"
                       id="name"
                       name="name"
                       type="text"
@@ -84,18 +84,18 @@
                       autofocus
                     />
                   </div>
-                  <!-- user name 暫存檔長度限制超過50個字顯示紅字-->
-                  <p v-if="nameCache.length <= 50" class="textLimit">
-                    {{ nameCache.length }}/50
+                  <!-- name 長度限制超過50個字顯示紅字-->
+                  <p v-if="name && name.length <= 50" class="textLimit">
+                    {{ name && name.length }}/50
                   </p>
                   <p v-else class="textLimit" style="color: red">
-                    {{ nameCache.length }}/50
+                    {{ name && name.length }}/50
                   </p>
-                  <div class="form-label-group text-muted">
-                    <!-- user introduction 暫存檔 -->
+                  <div class="form-label-group text-muted mt-3">
+                    <!-- introduction -->
                     <label for="introduction">自我介紹</label>
                     <textarea
-                      v-model="introCache"
+                      v-model="introduction"
                       id="introduction"
                       name="introduction"
                       class="form-control h-25 p-0"
@@ -104,12 +104,12 @@
                       autofocus
                     ></textarea>
                   </div>
-                  <!-- user introduction 暫存檔長度限制超過50個字顯示紅字-->
-                  <p v-if="introCache.length <= 50" class="textLimit">
-                    {{ introCache.length }}/50
+                  <!-- introduction長度限制超過50個字顯示紅字-->
+                  <p v-if="introduction && introduction.length <= 50" class="textLimit">
+                    {{ introduction && introduction.length }}/50
                   </p>
                   <p v-else class="textLimit" style="color: red">
-                    {{ introCache.length }}/50
+                    {{introduction && introduction.length }}/50
                   </p>
                 </div>
               </div>
@@ -128,59 +128,54 @@ export default {
     initialCurrentUser: {
       type: Object,
       required: true,
-    },
+    }
   },
   data() {
     return {
-      currentUser: this.initialCurrentUser,
-      coverCache: this.initialCurrentUser.cover,
-      avatarCache: this.initialCurrentUser.avatar,
-      nameCache: "",
-      introCache: "",
-    };
+      name: this.initialCurrentUser.name,
+      avatar: this.initialCurrentUser.avatar,
+      cover: this.initialCurrentUser.cover,
+      introduction: this.initialCurrentUser.introduction
+    }
   },
   methods: {
-    fetchNameCache() {
-      this.nameCache = this.currentUser.name;
-    },
-    fetchIntroCache() {
-      this.introCache = this.currentUser.introduction;
+    resetStatus(){
+      this.name = this.initialCurrentUser.name,
+      this.avatar = this.initialCurrentUser.avatar,
+      this.cover = this.initialCurrentUser.cover,
+      this.introduction = this.initialCurrentUser.introduction
     },
     handleClose() {
-      this.nameCache = this.currentUser.name;
-      this.introCache = this.currentUser.introduction;
+      this.resetStatus()
     },
     handleCoverChange(e) {
-      const { files } = e.target;
+      const { files } = e.target
       if (files.length === 0) {
-        return;
+        return
       } else {
-        const imageURL = window.URL.createObjectURL(files[0]);
-        this.currentUser.cover = imageURL;
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.cover = imageURL
       }
     },
     handleCoverCancelChange() {
-      this.currentUser.cover = this.coverCache;
+      this.cover = this.initialCurrentUser.cover
     },
     handleAvatarChange(e) {
-      const { files } = e.target;
+      const { files } = e.target
       if (files.length === 0) {
-        return;
+        return
       } else {
-        const imageURL = window.URL.createObjectURL(files[0]);
-        this.currentUser.avatar = imageURL;
+        const imageURL = window.URL.createObjectURL(files[0])
+        this.avatar = imageURL
       }
     },
     handleSubmit(e) {
-      const form = e.target;
-      const formData = new FormData(form);
-      this.$emit("afterSubmit", formData);
+      const form = e.target
+      const formData = new FormData(form)
+      this.$emit("afterSubmit", formData)
     },
-  },
-  created() {
-    this.fetchNameCache(), this.fetchIntroCache();
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -247,7 +242,8 @@ textarea {
   background-color: #f5f8fa;
 }
 .textLimit {
-  position: relative;
+  position: absolute;
   right: 0;
+  color: #657786;
 }
 </style>
