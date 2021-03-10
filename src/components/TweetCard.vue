@@ -4,9 +4,12 @@
     <div class="card-body">
       <div class="card-body-side">
         <!-- user avatar -->
-        <router-link :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
+        <router-link v-if="currentUser.role !== 'admin'" :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
           <img class="avatar" :src="tweet.User.avatar" alt="">
         </router-link>
+        <template v-else>
+          <img class="avatar" :src="tweet.User.avatar" alt="">
+        </template>
       </div>
       <div class="card-body-content">
         <!-- tweetCard header -->
@@ -20,7 +23,7 @@
           type="button" 
           class="close" 
           v-if="currentUser.role === 'admin'"
-          @click.prevent.stop="deleteTweet"
+          @click.prevent.stop="deleteTweet(tweet.id)"
           >
             <span>&times;</span>
           </button>
@@ -51,12 +54,12 @@
           </div>
           <!-- 如果有like就顯示 -->
           <div class="liked" v-if="tweet.isLiked">
-            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="deleteLike" />
+            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="deleteLike(tweet.id)" />
             <span>{{tweet.likesNumber}}</span>
           </div>
           <!-- 如果沒like就顯示 -->
           <div class="like" v-else>
-            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="addLike" />
+            <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="addLike(tweet.id)" />
             <span>{{tweet.likesNumber}}</span>
           </div>
         </div>
@@ -69,22 +72,19 @@
 
 <script>
 import Replying from './../components/Replying'
+import likesAPI from './../apis/likes'
+import adminAPI from './../apis/admin'
+import { Toast } from './../utils/helpers'
+import { mapState } from 'vuex'
 import { fromNowFilter } from './../utils/mixins'
 
-// 當前使用者為管理者
-const dummyCurrentUser = {
-  currentUser: {
-    id: 11, // 當前使用者id
-    name: 'Allen', // 當前使用者名稱
-    account: '@allen', // 當前使用者帳號
-    avatar: 'https://cdn.voicetube.com/assets/thumbnails/aEvItEpMly8.jpg', // 當前使用者照片
-    role: window.location.href.includes('admin')? 'admin' : 'user' // 透過當前路由先判斷當前使用者角色
-  }
-}
 
 export default {
   components: {
     Replying
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   props: {
     initialTweet: {
@@ -96,21 +96,59 @@ export default {
     return {
       tweet: this.initialTweet,
       replyingId: `replying${this.initialTweet.id}`,
-      currentUser: dummyCurrentUser.currentUser
     }
   },
   methods: {
-    addLike() {
-      // api POST request ...
-      this.$emit('after-add-like', this.tweet.id)
+    // 按讚
+    async addLike(tweetId) {
+      try {
+        const { data } = await likesAPI.addLike({ tweetId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        // 回傳事件
+        this.$emit('after-add-like', this.tweet.id)
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法按讚，請稍後再試'
+        })
+        console.log(err)
+      }
     },
-    deleteLike() {
-      // api POST request ...
-      this.$emit('after-delete-like', this.tweet.id)
+    // 取消讚
+    async deleteLike(tweetId) {
+      try {
+        const { data } = await likesAPI.deleteLike({ tweetId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        // 回傳事件
+        this.$emit('after-delete-like', this.tweet.id)
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消讚，請稍後再試'
+        })
+        console.log(err)
+      }
     },
-    deleteTweet() {
-      // api DELETE request ...
-      this.$emit('after-delete-tweet', this.tweet.id)
+    // 管理員刪除推文
+    async deleteTweet(tweetId) {
+      try {
+        const { data } = await adminAPI.deleteTweets({ tweetId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        // 回傳事件
+        this.$emit('after-delete-tweet', this.tweet.id)
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法刪除推文，請稍後再試'
+        })
+        console.log(err)
+      }
     }
   },
   watch: {
