@@ -4,7 +4,7 @@
     <form class="card-body" @submit.prevent.stop="handleSubmit">
       <div class="card-body-side">
         <!-- dynamic avatar -->
-        <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
+        <img class="avatar" :src="currentUser.avatar" alt="">
       </div>
       <div class="card-body-content">
         <textarea 
@@ -25,6 +25,7 @@
 <script>
 import tweetsAPI from './../apis/tweets'
 import { Toast } from './../utils/helpers'
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -32,6 +33,9 @@ export default {
       description: '',
       isProcessing: false
     }
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   methods: {
     async handleSubmit() {
