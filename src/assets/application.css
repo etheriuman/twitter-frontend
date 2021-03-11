@@ -21,12 +21,13 @@ p, a, span {
 /* --註銷連結樣式-- */
 a, a:hover {
   text-decoration: none;
-  color: #222222;
+  color: #222222!important;
 }
 
 /* --文字顏色設定-- */
 .text-primary,
-.text-primary:hover {
+.text-primary:hover,
+a.text-primary:hover {
   color: #ff6600!important;
 }
 
