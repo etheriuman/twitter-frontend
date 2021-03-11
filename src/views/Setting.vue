@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="column-left column">
-      <Navbar @after-submit="handleAfterSubmit" />
+      <Navbar />
     </div>
     <div class="column-main column">
       <div class="card main-content">
@@ -15,7 +15,7 @@
               <div class="form-label-group">
                 <label for="account">帳號</label>
                 <input
-                  v-model="currentUser.account"
+                  v-model="cacheCurrentUser.account"
                   id="account"
                   ref="account"
                   name="account"
@@ -29,7 +29,7 @@
               <div class="form-label-group">
                 <label for="name">名稱</label>
                 <input
-                  v-model="currentUser.name"
+                  v-model="cacheCurrentUser.name"
                   id="name"
                   name="name"
                   type="text"
@@ -42,7 +42,7 @@
               <div class="form-label-group">
                 <label for="email">Email</label>
                 <input
-                  v-model="currentUser.email"
+                  v-model="cacheCurrentUser.email"
                   id="email"
                   name="email"
                   type="email"
@@ -55,6 +55,7 @@
               <div class="form-label-group">
                 <label for="password">密碼</label>
                 <input
+                  v-model="cacheCurrentUser.password"
                   id="password"
                   name="password"
                   type="password"
@@ -67,8 +68,9 @@
               <div class="form-label-group">
                 <label for="password-check">密碼確認</label>
                 <input
-                  id="password-check"
-                  name="password-check"
+                  v-model="cacheCurrentUser.checkPassword"
+                  id="checkPassword"
+                  name="checkPassword"
                   type="password"
                   class="form-control"
                   autocomplete="new-password"
@@ -79,6 +81,7 @@
                 <button
                   class="btn btn-primary btn-block submit-button"
                   type="submit"
+                  :disabled="isProcessing"
                 >
                   儲存
                 </button>
@@ -92,17 +95,12 @@
 </template>
 
 <script>
-import Navbar from "./../components/Navbar";
-import PageHead from "./../components/PageHead";
+import Navbar from './../components/Navbar'
+import PageHead from './../components/PageHead'
+import { mapState } from 'vuex'
+import usersAPI from './../apis/users'
+import { Toast } from './../utils/helpers'
 
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: "Pizza Hut",
-    account: "@pizzahut",
-    email: "pizzahut@example.com",
-  },
-};
 
 export default {
   components: {
@@ -111,35 +109,132 @@ export default {
   },
   data() {
     return {
-      currentUser: {},
-    };
+      cacheCurrentUser: {
+        id: -1,
+        name: '',
+        account: '',
+        email: '',
+        password: '',
+        checkPassword: ''
+      },
+      isProcessing: false
+    }
+  },
+  computed: {
+      ...mapState(['currentUser'])
   },
   methods: {
-    handleAfterSubmit() {
-      console.log("new tweet uploaded!");
-    },
-    handleFormSubmit(e) {
-      const form = e.target;
-      const formData = new FormData(form);
-      console.log(formData);
-      // API POST request ...
-    },
-    currentUserInIt() {
-      this.currentUser = {
-        ...dummyUser.currentUser,
-      };
+    async handleFormSubmit() {
+      try {
+        if (!this.cacheCurrentUser.account.trim()) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填入帳號'
+          })
+          return
+        }
+        if (!this.cacheCurrentUser.name.trim()) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填入名稱'
+          })
+          return
+        }
+        if (!this.cacheCurrentUser.email.trim()) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填入email'
+          })
+          return
+        }
+        if (!this.cacheCurrentUser.password.trim()) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請填入密碼'
+          })
+          return
+        }
+        if (!this.cacheCurrentUser.checkPassword.trim()) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入密碼確認'
+          })
+          return
+        }
+        if (this.cacheCurrentUser.password !== this.cacheCurrentUser.checkPassword) {
+          Toast.fire({
+            icon: 'warning',
+            title: '密碼確認有誤，請重新填寫'
+          })
+          this.cacheCurrentUser.checkPassword = ''
+          return
+        }
+        const userId = this.cacheCurrentUser.id
+        const payLoad = {
+          name: this.cacheCurrentUser.name,
+          account: this.cacheCurrentUser.account,
+          email: this.cacheCurrentUser.email,
+          password: this.cacheCurrentUser.password,
+          checkPassword: this.cacheCurrentUser.checkPassword
+        }
+        this.isProcessing = true
+        const { data } = await usersAPI.set({ userId, payLoad })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessing = false
+        this.$store.commit('setCurrentUser', {
+          name: this.cacheCurrentUser.name,
+          account: `@${this.cacheCurrentUser.account}`,
+          email: this.cacheCurrentUser.email,
+        })
+        Toast.fire({
+          icon: 'success',
+          title: '更新成功'
+        })
+        this.cacheCurrentUser.password = ''
+        this.cacheCurrentUser.checkPassword = ''
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法編輯資料，請稍後再試'
+        })
+        this.isProcessing = false
+        this.cacheCurrentUser.password = ''
+        this.cacheCurrentUser.checkPassword = ''
+        console.log(err)
+      }
     },
     autoFocus() {
-      this.$refs.account.focus();
-    },
+      this.$refs.account.focus()
+    }
   },
   created() {
-    this.currentUserInIt();
+    const { id, name, account, email } = this.currentUser
+    this.cacheCurrentUser = {
+      ...this.cacheCurrentUser,
+      id,
+      name,
+      account: account.replace('@', ''),
+      email
+    }
+  },
+  watch: {
+    currentUser(data) {
+      const { id, name, account, email } = data
+      this.cacheCurrentUser = {
+        ...this.cacheCurrentUser,
+        id,
+        name,
+        account: account.replace('@', ''),
+        email
+      }
+    }
   },
   mounted() {
     this.autoFocus();
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
