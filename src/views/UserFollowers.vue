@@ -13,6 +13,7 @@
             v-for="follower in followers"
             :key="follower.id"
             :initial-follow="follower"
+            :currentUserId= "currentUserId"
             @afterAddFollow="handleAfterAddFollow"
             @afterDeleteFollow="handleAfterDeleteFollow"
           />
@@ -46,6 +47,7 @@ export default {
   },
   data() {
     return {
+      currentUserId: -1,
       user: {
         id: -1,
         name: "",
@@ -55,6 +57,14 @@ export default {
     }
   },
   methods: {
+    async fetchCurrentUser() {
+      try {
+        const {data} = await usersApi.getCurrentUser()
+        this.currentUserId = data.id
+      } catch(error) {
+        console.log(error)
+      }
+    },
     async fetchUser(userId) {
       try {
         this.isLoading = true
@@ -138,8 +148,14 @@ export default {
       }       
     },
   },
+  beforeRouteUpdate(to,from,next) {
+    const {id : userId} = to.params
+    this.fetchFollowers(userId)
+    next()
+  },
   created() {
     const { id: userId } = this.$route.params
+    this.fetchCurrentUser()
     this.fetchUser(userId)
     this.fetchFollowers(userId)
   },

@@ -32,7 +32,7 @@
               <!-- cover -->
               <img
                 class="card-img-top"
-                :src="cover"
+                :src="cover | emptyImage"
                 alt="Card image cap"
                 style="height: 200px"
               />
@@ -55,7 +55,7 @@
               </label>
               <div class="profile card-body pt-0">
                 <!-- avatar -->
-                <img :src="avatar" class="avatar mb-5" alt="" />
+                <img :src="avatar | emptyImage" class="avatar mb-5" alt="" />
                 <div class="form-group">
                   <label for="avatar">
                     <!-- 上傳 avatar 檔案 -->
@@ -124,8 +124,11 @@
 
 <script>
 import $ from 'jquery'
+import { emptyImageFilter } from "./../utils/mixins.js"
+
 export default {
   name: "UserProfileEditing",
+  mixins: [emptyImageFilter],
   props: {
     initialCurrentUser: {
       type: Object,
@@ -177,6 +180,9 @@ export default {
       this.$emit("afterSubmit", formData)
        $('#userEditing').modal('hide')
     },
+  },
+  created() {
+    this.resetStatus()
   }
 }
 </script>

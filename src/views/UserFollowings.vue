@@ -13,6 +13,7 @@
             v-for="following in followings"
             :key="following.id"
             :initial-follow="following"
+            :currentUserId= "currentUserId"
             @afterDeleteFollow="handleAfterDeleteFollow"
           />
         </ul>
@@ -45,15 +46,24 @@ export default {
   },
   data() {
     return {
+      currentUserId: -1,
       user: {
         id: -1,
         name: "",
-        tweetsNumber: 0,
+        tweetsNumber: 0
       },
       followings: [],
     }
   },
   methods: {
+    async fetchCurrentUser() {
+      try {
+        const {data} = await usersApi.getCurrentUser()
+        this.currentUserId = data.id
+      } catch(error) {
+        console.log(error)
+      }
+    },
     async fetchUser(userId) {
       try {
         const {data} = await usersApi.get({userId})
@@ -72,15 +82,10 @@ export default {
     async fetchFollowings(userId) {
       try {
         const {data} = await usersApi.getFollowings({userId})
-        this.followings = data.map(following => {
-          if (following.isFollowed === true) {
-            return {
-              ...following,
-              followId: following.followingId
-            }
-          }
-          return          
-        })
+        this.followings = data.map(following => ({
+          ...following,
+          followId: following.followingId      
+        }))
       }catch (error) {
         console.log(error)
         Toast.fire({
@@ -109,8 +114,14 @@ export default {
       }
     }
   },
+  beforeRouteUpdate(to,from,next) {
+    const {id : userId} = to.params
+    this.fetchFollowings(userId)
+    next()
+  },
   created() {
     const { id:userId } = this.$route.params
+    this.fetchCurrentUser()
     this.fetchUser(userId)
     this.fetchFollowings(userId)
   },

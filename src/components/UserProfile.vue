@@ -4,13 +4,13 @@
     <div class="card" style="width: 100%">
       <img
         class="card-img-top"
-        :src="user.cover"
+        :src="user.cover | emptyImage"
         alt="Card image cap"
         style="height: 200px"
       />
       <div class="profile card-body">
-        <img :src="initialUser.avatar" class="avatar mb-5" alt="avatar" />
-        <div class="button-group" v-if="currentUser.id.toString() !== initialUser.id">
+        <img :src="initialUser.avatar | emptyImage" class="avatar mb-5" alt="avatar" />
+        <div class="button-group" v-if="currentUser.id != initialUser.id">
           <button type="button" class="user-mail btn btn-outline-primary">
             <font-awesome-icon icon="envelope" />
           </button>
@@ -38,7 +38,7 @@
           </button>
         </div>
         <button
-          v-if="currentUser.id.toString() === initialUser.id"
+          v-if="currentUser.id == initialUser.id"
           type="button"
           class="newTweet btn btn-outline-primary"
           data-toggle="modal"
@@ -62,7 +62,7 @@
           </div>
         </div>
       </div>
-      <UserProfileNavTabs />
+      <UserProfileNavTabs :user="user"/>
     </div>
     <UserProfileEdiiting
       :initial-current-user="currentUser"
@@ -76,9 +76,11 @@ import UserProfileNavTabs from "./UserProfileNavTabs.vue"
 import UserProfileEdiiting from "./UserProfileEditing"
 import usersApi from "./../apis/users.js"
 import { Toast } from "./../utils/helpers.js"
+import { emptyImageFilter } from "./../utils/mixins.js"
 
 export default {
   name: "UserProfile",
+  mixins: [emptyImageFilter],
   components: {
     UserProfileNavTabs,
     UserProfileEdiiting,
@@ -136,13 +138,12 @@ export default {
   },
   watch: {
     initialUser() {
-      console.log(this.initialUser)
       this.fetchUser()
     }
   },
   created() {
     this.fetchCurrentUser()
-  },
+  }
 }
 </script>
 

@@ -74,6 +74,9 @@ export default {
       try {
         this.isLoading = true
         const {data} = await usersApi.getRepliedTweets({userId})
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
         this.tweets = data
         this.isLoading = false
       } catch (error) {
@@ -81,7 +84,7 @@ export default {
         console.log (error)
         Toast.fire ({
           icon: 'error',
-          title: '無法取得使用者推文資料，請稍後再試'
+          title: '無法取得使用者推文回覆資料，請稍後再試'
         })
       }
     },

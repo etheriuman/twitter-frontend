@@ -75,7 +75,7 @@ export default {
       try {
         this.isLoading = true
         const {data} = await usersApi.getTweets({userId})
-        this.tweets = data.filter( (tweet) => userId === tweet.User.id.toString())
+        this.tweets = data
         this.isLoading = false
       } catch (error) {
         this.isLoading = false

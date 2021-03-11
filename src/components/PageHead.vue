@@ -57,6 +57,7 @@ export default {
         currentRouterName === "user-followers"
       ) {
         this.currentRouterName = this.user.name
+        console.log(this.user.name)
       } else if (currentRouterName === "admin-tweets") {
         this.currentRouterName = "推文清單"
       } else if (currentRouterName === "admin-users") {
@@ -68,7 +69,6 @@ export default {
   },
   watch: {
     user() {
-      console.log('---------')
       const currentRouterName = this.$route.name
       this.handleCurrentRouterName(currentRouterName)
     }

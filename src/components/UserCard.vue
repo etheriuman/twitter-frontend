@@ -4,7 +4,7 @@
     <div class="main-content">
       <div class="main-left">
         <router-link :to="{ name: 'user-tweets', params: { id: follow.id } }">
-          <img class="avatar" :src="follow.avatar" alt="avatar" />
+          <img class="avatar" :src="follow.avatar | emptyImage" alt="avatar" />
         </router-link>
       </div>
       <div class="main-right">
@@ -15,7 +15,7 @@
     </div>
     <div class="side-content">
       <button
-        v-if="follow.isFollowed"
+        v-if="follow.isFollowed && (currentUserId != follow.followId)"
         @click.prevent.stop="deleteFollow(follow.followId)"
         type="button"
         class="btn btn-primary follow-button"
@@ -23,7 +23,7 @@
         正在跟隨
       </button>
       <button
-        v-else
+        v-if="(!follow.isFollowed) && (currentUserId != follow.followId)"
         @click.prevent.stop="addFollow(follow.followId)"
         type="button"
         class="btn btn-outline-primary follow-button"
@@ -35,12 +35,19 @@
 </template>
 
 <script>
+import { emptyImageFilter } from "./../utils/mixins.js"
+
 export default {
   name: "UserCard",
+  mixins: [emptyImageFilter],
   props: {
     initialFollow: {
       type: Object,
       required: true,
+    },
+    currentUserId: {
+      type: Number,
+      default: -1
     }
   },
   data() {
@@ -48,7 +55,7 @@ export default {
       follow: this.initialFollow
     }
   },
-  methods: {
+  methods: {    
     addFollow(followId) {
       this.follow.isFollowed = true
       const payLoad = {id: followId}

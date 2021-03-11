@@ -2,15 +2,15 @@
 <template>
   <ul class="nav nav-pills ml-4">
     <li class="nav-item">
-      <router-link :to="{ name:'user-tweets', params:{id}}" class="nav-link" > 推文 </router-link>
+      <router-link :to="{ name:'user-tweets', params:{id:user.id}}" class="nav-link" > 推文 </router-link>
     </li>
     <li class="nav-item">
-      <router-link :to="{ name:'user-replies', params:{id}}" class="nav-link">
+      <router-link :to="{ name:'user-replies', params:{id:user.id}}" class="nav-link">
         推文與回覆
       </router-link>
     </li>
     <li class="nav-item">
-      <router-link :to="{ name:'user-likes', params:{id}}" class="nav-link">
+      <router-link :to="{ name:'user-likes', params:{id:user.id}}" class="nav-link">
         喜歡的內容
       </router-link>
     </li>
@@ -19,14 +19,11 @@
 <script>
 export default {
   name: "UserProfileNavTabs",
-  data() {
-    return {
-      id: ""
+  props: {
+    user: {
+      type: Object,
+      required: true
     }
-  },
-  created() {
-    const {id} = this.$route.params
-    this.id = id
   }
 }
 </script>
