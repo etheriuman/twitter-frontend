@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import { emptyImageFilter } from "./../utils/mixins.js"
-
+import { emptyImageFilter } from './../utils/mixins'
 export default {
   name: "UserCard",
   mixins: [emptyImageFilter],
@@ -55,7 +54,7 @@ export default {
       follow: this.initialFollow
     }
   },
-  methods: {    
+  methods: {
     addFollow(followId) {
       this.follow.isFollowed = true
       const payLoad = {id: followId}

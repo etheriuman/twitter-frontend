@@ -1,13 +1,13 @@
 // 推文卡片
 <template>
-  <div class="list-group-item">
+  <div class="list-group-item" v-if="!isLoading">
     <div class="card-body">
       <div class="card-body-content">
         <!-- tweetCard header -->
         <!-- user avatar -->
         <div class="content-header">
           <router-link :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
-            <img class="avatar" :src="tweet.User.avatar" alt="">
+            <img class="avatar" :src="tweet.User.avatar | emptyImage" alt="">
           </router-link>
           <div class="content-header-description">
             <p><span class="user-name">{{tweet.User.name}}</span></p>
@@ -29,7 +29,6 @@
             <span class="text-lg">{{tweet.repliesNumber}} <span class="text-muted">回覆</span></span>
             <span class="text-lg">{{tweet.likesNumber}} <span class="text-muted">喜歡次數</span></span>
           </div>
-          <!-- 如果有like就顯示 -->
           <div class="content-footer text-lg">
             <div class="reply">
               <font-awesome-icon 
@@ -39,13 +38,20 @@
               :data-target="`#${replyingId}`" 
               />
             </div>
-            <div class="liked" v-if="tweet.isLiked">
-              <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="deleteLike" />
+            <!-- 假like -->
+            <div class="like text-muted" v-if="isProcessing">
+              <font-awesome-icon class="icon" icon="heart"/>
             </div>
-            <!-- 如果沒like就顯示 -->
-            <div class="like" v-else>
-              <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="addLike" />
-            </div>
+            <template v-else>
+              <!-- 如果有like就顯示 -->
+              <div class="liked" v-if="tweet.isLiked">
+                <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="deleteLike(tweet.id)" />
+              </div>
+              <!-- 如果沒like就顯示 -->
+              <div class="like" v-else>
+                <font-awesome-icon class="icon" icon="heart" @click.prevent.stop="addLike(tweet.id)" />
+              </div>
+            </template>
           </div>
         </div>
     </div>
@@ -55,7 +61,9 @@
 
 <script>
 import Replying from './../components/Replying'
-import { fromNowFilter, momentFilter } from './../utils/mixins'
+import { fromNowFilter, momentFilter, emptyImageFilter } from './../utils/mixins'
+import likesAPI from './../apis/likes'
+import { Toast } from './../utils/helpers'
 
 export default {
   components: {
@@ -70,15 +78,51 @@ export default {
   data() {
     return {
       tweet: this.initialTweet,
-      replyingId: `replying${this.initialTweet.id}`
+      replyingId: '',
+      isLoading: true,
+      isProcessing: false
     }
   },
   methods: {
-    addLike() {
-      this.$emit('after-add-like', this.tweet.id)
+    // 按讚
+    async addLike(tweetId) {
+      try {
+        this.isProcessing = true
+        const { data } = await likesAPI.addLike({ tweetId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessing = false
+        // 回傳事件
+        this.$emit('after-add-like', this.tweet.id)
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法按讚，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(err)
+      }
     },
-    deleteLike() {
-      this.$emit('after-delete-like', this.tweet.id)
+    // 取消讚
+    async deleteLike(tweetId) {
+      try {
+        this.isProcessing = true
+        const { data } = await likesAPI.cancelLike({ tweetId })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessing = false
+        // 回傳事件
+        this.$emit('after-delete-like', this.tweet.id)
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取消讚，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(err)
+      }
     }
   },
   watch: {
@@ -87,9 +131,11 @@ export default {
         ...this.tweet,
         ...data
       }
+      this.replyingId = `replying${data.id}`
+      this.isLoading = false
     }
   },
-  mixins: [fromNowFilter, momentFilter]
+  mixins: [fromNowFilter, momentFilter, emptyImageFilter]
 }
 </script>
 

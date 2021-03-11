@@ -4,7 +4,7 @@
     <form class="card-body" @submit.prevent.stop="handleSubmit">
       <div class="card-body-side">
         <!-- dynamic avatar -->
-        <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
+        <img class="avatar" :src="currentUser.avatar | emptyImage" alt="">
       </div>
       <div class="card-body-content">
         <textarea 
@@ -14,7 +14,7 @@
         v-model="description"
         required
         />
-        <button type="submit" class="tweeting-submit btn btn-primary">
+        <button type="submit" :disabled="isProcessing" class="tweeting-submit btn btn-primary">
           推文
         </button>
       </div>
@@ -23,19 +23,61 @@
 </template>
 
 <script>
+import tweetsAPI from './../apis/tweets'
+import { emptyImageFilter } from './../utils/mixins'
+import { Toast } from './../utils/helpers'
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
-      description: ''
+      description: '',
+      isProcessing: false
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
+  mixins: [emptyImageFilter],
   methods: {
-    handleSubmit() {
-      // API POST request ....
-      // 將內容回傳給tweets
-      this.$emit('after-submit')
-      // 清空欄位
-      this.description = ''
+    async handleSubmit() {
+      try {
+        const length = this.description.length
+        if (!length) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入推文內容'
+          })
+          return
+        }
+        if (length > 140) {
+          Toast.fire({
+            icon: 'warning',
+            title: '推文字數過長，請小於140字'
+          })
+          return
+        }
+        const payLoad = {
+          description: this.description
+        }
+        this.isProcessing = true
+        const { data } = await tweetsAPI.createTweet({ payLoad })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessing = false
+        this.$emit('after-submit')
+        // 清空欄位
+        this.description = ''
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法新增推文，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(err)
+      }
+      
     }
   }
 }

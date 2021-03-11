@@ -12,7 +12,7 @@
           <form class="modal-body" @submit.prevent.stop="handleSubmit">
             <div class="modal-body-side">
               <!-- dynamic avatar -->
-              <img class="avatar" src="https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg" alt="">
+              <img class="avatar" :src="currentUser.avatar | emptyImage" alt="">
             </div>
             <div class="modal-body-content">
               <textarea
@@ -24,7 +24,7 @@
               v-model="description"
               required
               />
-              <button type="submit" class="tweeting-submit btn btn-primary">
+              <button type="submit" :disabled="isProcessing" class="tweeting-submit btn btn-primary">
                 推文
               </button>
             </div>
@@ -36,13 +36,22 @@
 
 <script>
 import $ from 'jquery'
+import tweetsAPI from './../apis/tweets'
+import { Toast } from './../utils/helpers'
+import { emptyImageFilter } from './../utils/mixins'
+import { mapState } from 'vuex'
 
 export default {
   data() {
     return {
       description: '',
+      isProcessing: false
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
+  mixins: [emptyImageFilter],
   methods: {
     autoFocus() {
       this.$refs.tweetingArea.focus()
@@ -51,23 +60,46 @@ export default {
       // 清空輸入
       this.description = ''
     },
-    handleSubmit() {
-      const payLoad = {
-        userId: 1, // currentUser.id
-        description: this.description
+    async handleSubmit() {
+      try {
+        const length = this.description.length
+        if (!length) {
+          Toast.fire({
+            icon: 'warning',
+            title: '請輸入推文內容'
+          })
+          return
+        }
+        if (length > 140) {
+          Toast.fire({
+            icon: 'warning',
+            title: '推文字數過長，請小於140字'
+          })
+          return
+        }
+        const payLoad = {
+          description: this.description
+        }
+        this.isProcessing = true
+        const { data } = await tweetsAPI.createTweet({ payLoad })
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.isProcessing = false
+        // 回傳資料給Tweets，讓他把資料塞進去
+        this.$parent.$emit('after-submit')
+        // 清空輸入
+        this.cleanUp()
+        // jQuery 關閉 modal
+        $('#tweeting').modal('hide')
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法新增貼文，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(err)
       }
-      // 檢查description.length是否 > 0 , < 140
-      console.log(payLoad)
-      // API POST request...
-
-      // 回傳資料給Tweets，讓他把資料塞進去
-      this.$parent.$emit('after-submit')
-      
-      // 清空輸入
-      this.cleanUp()
-
-      // jQuery 關閉 modal
-      $('#tweeting').modal('hide')
     }
   },
   mounted(){

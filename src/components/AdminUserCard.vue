@@ -1,11 +1,11 @@
 // 管理者：使用者總表的使用者卡片
 <template>
   <div class="card">
-    <img class="card-img-top" :src="user.cover" alt="user cover">
+    <img class="card-img-top" :src="user.cover | emptyImage" alt="user cover">
     <div class="card-body">
       <!-- 使用者頭像 -->
       <div class="card-body-avatar">
-        <img :src="user.avatar" class="avatar" alt="user avatar">
+        <img :src="user.avatar | emptyImage" class="avatar" alt="user avatar">
       </div>
       <!-- 使用者名稱與帳號 -->
       <div class="card-body-top">
@@ -32,27 +32,31 @@
       </div>
       <!-- 追蹤者數與跟隨者數 -->
       <div class="card-body-bot">
-        <span>{{user.followingsNumber}}<span class="text-muted">位追蹤中 </span></span>
-        <span>{{user.followersNumber}}<span class="text-muted">位跟隨者</span></span>
+        <span>{{user.followingsNumber}}位<span class="text-muted">追蹤中 </span></span>
+        <span>{{user.followersNumber}}位<span class="text-muted">跟隨者</span></span>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { emptyImageFilter } from './../utils/mixins'
+
 export default {
   props: {
     user: {
       type: Object,
       required: true
     }
-  }
+  },
+  mixins: [emptyImageFilter]
 }
 </script>
 
 <style scoped>
 .card {
   width: 100%;
+  height: 100%;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -61,7 +65,12 @@ export default {
   position: relative;
   display: flex;
   flex-flow: column;
-  padding: 30px 10px 10px 10px;
+  padding: 20px 10px 30px 10px;
+}
+
+.card-img-top {
+  height: 45%;
+  object-fit: cover;
 }
 
 .card-body-avatar {
@@ -73,7 +82,7 @@ export default {
 
 .card-body-top {
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .card-body-top p {
@@ -83,7 +92,7 @@ export default {
 .card-body-mid {
   display: flex;
   justify-content: center;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .tweets {

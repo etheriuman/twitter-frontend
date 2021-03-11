@@ -5,7 +5,7 @@
       <div class="card-body-side">
         <!-- user avatar -->
         <router-link :to="{name: 'user-tweets', params: {id:reply.User.id}}">
-          <img class="avatar" :src="reply.User.avatar" alt="">
+          <img class="avatar" :src="reply.User.avatar | emptyImage" alt="">
         </router-link>
       </div>
       <div class="card-body-content">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { fromNowFilter } from './../utils/mixins'
+import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 
 export default {
   props: {
@@ -43,7 +43,7 @@ export default {
       }
     }
   },
-  mixins: [fromNowFilter]
+  mixins: [fromNowFilter, emptyImageFilter]
 }
 </script>
 
@@ -75,5 +75,8 @@ export default {
   margin-right: 10px;
 }
 
+.content-body p {
+  word-break: break-all;
+}
 
 </style>

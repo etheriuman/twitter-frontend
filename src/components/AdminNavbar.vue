@@ -7,10 +7,10 @@
         </router-link>
       </div>
       <div class="tabs">
-        <router-link class="tab" to="/admin/tweets">
+        <router-link class="tab" :class="{'text-primary': activeRouter === 'admin-tweets'}" to="/admin/tweets">
           <font-awesome-icon icon="home" /><span>推文清單</span>
         </router-link>
-        <router-link class="tab" to="/admin/users">
+        <router-link class="tab" :class="{'text-primary': activeRouter === 'admin-users'}" to="/admin/users">
           <font-awesome-icon icon="user" /><span>使用者列表</span>
         </router-link>
       </div>
@@ -25,6 +25,14 @@
 
 <script>
 export default {
+  data() {
+    return {
+      activeRouter: '',
+    }
+  },
+  created() {
+    this.activeRouter = this.$route.name
+  }
   methods: {
     logout() {
       console.log('logout')

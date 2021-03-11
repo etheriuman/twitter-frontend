@@ -26,7 +26,7 @@ export const emptyImageFilter = {
   filters: {
     emptyImage(src) {
       // 目前圖片大小為 350X220 ，可再從網址中更動
-      return src || 'https://via.placeholder.com/350x220/DFDFDF?text=No+Image'
+      return src || 'https://via.placeholder.com/400x200/DFDFDF?text=No+Image'
     }
   }
 }

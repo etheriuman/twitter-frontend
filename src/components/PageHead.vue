@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   props: {
     user: {
@@ -32,13 +34,16 @@ export default {
       currentRouterName: ''
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   methods: {
     checkArrowIsDisplay() {
       const currentRouterName = this.$route.name
-      if (currentRouterName !== "tweets" && currentRouterName !== "setting") {
-        // 當拿到currentUser之後要加下面這段
-        // & if currentUser.role !== admin >> this.displayArrow = true
-        this.displayArrow = true
+      if (currentRouterName !== 'tweets' && currentRouterName !== 'setting') {
+        if (this.currentUser.role !== 'admin') {
+          this.displayArrow = true
+        }
       }
       return
     },
@@ -57,7 +62,6 @@ export default {
         currentRouterName === "user-followers"
       ) {
         this.currentRouterName = this.user.name
-        console.log(this.user.name)
       } else if (currentRouterName === "admin-tweets") {
         this.currentRouterName = "推文清單"
       } else if (currentRouterName === "admin-users") {

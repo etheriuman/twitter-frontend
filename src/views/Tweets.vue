@@ -31,171 +31,8 @@ import PageHead from "./../components/PageHead";
 import NewTweet from "./../components/NewTweet";
 import TweetCard from "./../components/TweetCard";
 import Recommendation from "./../components/Recommendation";
-
-const dummyData = {
-  tweets: [
-    {
-      id: 1, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
-      User: {
-        id: 1, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 2, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 2, // 連結用user.id
-        name: "Woof Woof", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 3, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 3, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 4, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 4, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 5, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 5, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 6, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
-      User: {
-        id: 6, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 7, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
-      User: {
-        id: 7, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 8, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
-      User: {
-        id: 8, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 9, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: false, // 是否按過like
-      User: {
-        id: 9, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-    {
-      id: 10, // 推文id
-      description:
-        "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi ipsa a molestias. Ratione, doloremque culpa?", // 推文內容
-      likesNumber: 22, // 推文like數
-      repliesNumber: 7, // 推文回復數
-      createdAt: "", // 推文發布時間
-      isLiked: true, // 是否按過like
-      User: {
-        id: 10, // 連結用user.id
-        name: "Pizza Hut", // 推主名稱
-        account: "@pizzahut", // 推主帳號
-        avatar:
-          "https://www.meme-arsenal.com/memes/8ab5fe07681cd172915e9472a0a8443d.jpg", // 推主照片
-      },
-    },
-  ],
-};
+import tweetsAPI from './../apis/tweets'
+import { Toast } from './../utils/helpers'
 
 export default {
   components: {
@@ -211,13 +48,23 @@ export default {
     };
   },
   methods: {
-    fetchTweets() {
-      this.tweets = dummyData.tweets;
+    async fetchTweets() {
+      try {
+        const response = await tweetsAPI.getTweets()
+        if (response.statusText !== 'OK') {
+          throw new Error(response.statusText)
+        }
+        this.tweets = response.data
+      } catch(err) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法取得推文，請稍後再試'
+        })
+        console.log(err)
+      }
     },
     handleAfterSubmit() {
-      // 因為需要取得正確createdAt所以選擇重新fetch一次
-      console.log("refetch");
-      this.fetchTweets();
+      this.fetchTweets()
     },
     handleAfterAddLike(tweetId) {
       console.log("add like");
@@ -245,20 +92,17 @@ export default {
         return tweet;
       });
     },
-    handleAfterReply(replyData) {
-      console.log("replied");
-      console.log(replyData);
-      const { tweetId } = replyData;
+    handleAfterReply(tweetId) {
       this.tweets = this.tweets.map((tweet) => {
         if (tweet.id === tweetId) {
-          console.log("this tweet is", tweet);
+          console.log("this tweet is", tweet)
           return {
             ...tweet,
             repliesNumber: tweet.repliesNumber + 1,
-          };
+          }
         }
-        return tweet;
-      });
+        return tweet
+      })
     },
   },
   created() {
