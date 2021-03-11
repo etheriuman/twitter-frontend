@@ -32,7 +32,7 @@ export default {
   },
   created() {
     this.activeRouter = this.$route.name
-  }
+  },
   methods: {
     logout() {
       console.log('logout')
