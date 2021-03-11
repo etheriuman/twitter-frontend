@@ -1,6 +1,6 @@
 // 使用者推文頁
 <template>
-  <div v-show="!isLoading" class="main">
+  <div v-show="!userIsLoading&&!tweetsIsLoading" class="main">
     <div class="column-left column">
       <Navbar @after-submit="handleAfterSubmit" />
     </div>
@@ -52,18 +52,18 @@ export default {
     return {
       user: {},
       tweets: [],
-      isLoading: false
+      userIsLoading: true,
+      tweetsIsLoading: true
     }
   },
   methods: {
     async fetchUser(userId) {
       try {
-        this.isLoading = true
         const {data} = await usersApi.get({userId})
         this.user = data
-        this.isLoading = false
+        this.userIsLoading = false
       } catch (error) {
-        this.isLoading = false
+        this.userIsLoading = false
         console.log (error)
         Toast.fire ({
           icon: 'error',
@@ -73,12 +73,11 @@ export default {
     },
     async fetchTweets(userId) {
       try {
-        this.isLoading = true
         const {data} = await usersApi.getTweets({userId})
         this.tweets = data
-        this.isLoading = false
+        this.tweetsIsLoading = false
       } catch (error) {
-        this.isLoading = false
+        this.tweetsIsLoading = false
         console.log (error)
         Toast.fire ({
           icon: 'error',
