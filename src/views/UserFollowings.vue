@@ -47,11 +47,7 @@ export default {
   data() {
     return {
       currentUserId: -1,
-      user: {
-        id: -1,
-        name: "",
-        tweetsNumber: 0
-      },
+      user: {},
       followings: [],
     }
   },
@@ -67,10 +63,7 @@ export default {
     async fetchUser(userId) {
       try {
         const {data} = await usersApi.get({userId})
-        const { id, name, tweetsNumber } = data
-        this.user.id = id
-        this.user.name = name
-        this.user.tweetsNumber = tweetsNumber
+        this.user = data
       } catch(error) {
         console.log(error)
         Toast.fire ({

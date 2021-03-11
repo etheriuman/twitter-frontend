@@ -74,10 +74,7 @@ export default {
     async fetchReplies(userId) {
       try {
         const {data} = await usersApi.getRepliedTweets({userId})
-        if (data.status !== 'success') {
-          throw new Error(data.message)
-        }
-        this.tweets = data
+        this.tweets.push(...data)
         this.tweetsIsLoading = false
       } catch (error) {
         this.tweetsIsLoading = false
