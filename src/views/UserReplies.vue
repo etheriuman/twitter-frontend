@@ -163,7 +163,8 @@ export default {
       } 
     },
     afterHandleSubmit() {
-      this.fetchUser()
+      const { id: userId } = this.$route.params
+      this.fetchUser(userId)
     }
   },
   //監聽切換頁面的事件

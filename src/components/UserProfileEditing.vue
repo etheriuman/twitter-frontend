@@ -134,10 +134,10 @@ export default {
   mixins: [emptyImageFilter],
   data() {
     return {
-      name: this.currentUser.name,
-      avatar: this.currentUser.avatar,
-      cover: this.currentUser.cover,
-      introduction: this.currentUser.introduction
+      name: '',
+      avatar: '',
+      cover: '',
+      introduction: ''
     }
   },
   methods: {
