@@ -93,8 +93,8 @@ export default {
   },
   data() {
     return {
-      currentUser: "",
-      user: ""
+      currentUser: {},
+      user: {}
     }
   },
   methods: {
