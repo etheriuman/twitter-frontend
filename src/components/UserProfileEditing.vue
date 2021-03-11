@@ -124,31 +124,28 @@
 
 <script>
 import $ from 'jquery'
-import { emptyImageFilter } from "./../utils/mixins.js"
+import usersApi from "./../apis/users"
+import { Toast } from "./../utils/helpers"
+import { mapState } from 'vuex'
+import { emptyImageFilter } from "./../utils/mixins"
 
 export default {
   name: "UserProfileEditing",
   mixins: [emptyImageFilter],
-  props: {
-    initialCurrentUser: {
-      type: Object,
-      required: true,
-    }
-  },
   data() {
     return {
-      name: this.initialCurrentUser.name,
-      avatar: this.initialCurrentUser.avatar,
-      cover: this.initialCurrentUser.cover,
-      introduction: this.initialCurrentUser.introduction
+      name: '',
+      avatar: '',
+      cover: '',
+      introduction: ''
     }
   },
   methods: {
     resetStatus(){
-      this.name = this.initialCurrentUser.name,
-      this.avatar = this.initialCurrentUser.avatar,
-      this.cover = this.initialCurrentUser.cover,
-      this.introduction = this.initialCurrentUser.introduction
+      this.name = this.currentUser.name,
+      this.avatar = this.currentUser.avatar,
+      this.cover = this.currentUser.cover,
+      this.introduction = this.currentUser.introduction
     },
     handleClose() {
       this.resetStatus()
@@ -163,7 +160,7 @@ export default {
       }
     },
     handleCoverCancelChange() {
-      this.cover = this.initialCurrentUser.cover
+      this.cover = this.currentUser.cover
     },
     handleAvatarChange(e) {
       const { files } = e.target
@@ -174,12 +171,32 @@ export default {
         this.avatar = imageURL
       }
     },
-    handleSubmit(e) {
-      const form = e.target
-      const formData = new FormData(form)
-      this.$emit("afterSubmit", formData)
-       $('#userEditing').modal('hide')
+    async handleSubmit(e) {
+      try {
+        const form = e.target
+        const formData = new FormData(form)
+        const {data} = await usersApi.set({ userId:this.currentUser.id, payLoad: formData })
+        if (data.status != 'success') {
+          throw new Error(data.message)
+        }
+        this.$parent.$emit('afterSubmit')
+        $('#userEditing').modal('hide')
+      } catch(error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法更新使用者資料，請稍後再試'
+        })
+      }
     },
+  },
+  computed: {
+    ...mapState(['currentUser'])
+  },
+  watch: {
+    currentUser() {
+      this.resetStatus()
+    }
   },
   created() {
     this.resetStatus()

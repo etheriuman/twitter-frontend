@@ -13,7 +13,7 @@
             v-for="follower in followers"
             :key="follower.id"
             :initial-follow="follower"
-            :currentUserId= "currentUserId"
+            :currentUserId="currentUser.id"
             @afterAddFollow="handleAfterAddFollow"
             @afterDeleteFollow="handleAfterDeleteFollow"
           />
@@ -35,6 +35,7 @@ import Recommendation from "./../components/Recommendation"
 import usersApi from "./../apis/users.js"
 import followApi from "./../apis/follow.js"
 import { Toast } from "./../utils/helpers.js"
+import { mapState } from 'vuex'
 
 export default {
   name: "UserFollowers",
@@ -47,20 +48,11 @@ export default {
   },
   data() {
     return {
-      currentUserId: -1,
       user: {},
       followers: [],
     }
   },
   methods: {
-    async fetchCurrentUser() {
-      try {
-        const {data} = await usersApi.getCurrentUser()
-        this.currentUserId = data.id
-      } catch(error) {
-        console.log(error)
-      }
-    },
     async fetchUser(userId) {
       try {
         const { data } = await usersApi.get({userId})
@@ -143,9 +135,11 @@ export default {
     this.fetchFollowers(userId)
     next()
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   created() {
     const { id: userId } = this.$route.params
-    this.fetchCurrentUser()
     this.fetchUser(userId)
     this.fetchFollowers(userId)
   },
