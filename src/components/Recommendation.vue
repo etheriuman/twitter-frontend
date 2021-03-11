@@ -5,43 +5,45 @@
       <li class="list-group-item">
         跟隨誰
       </li>
-      <li 
-      v-for="user in showingUsers" 
-      :key="user.id"
-      class="list-group-item"
-      >
-        <div class="main-content">
-          <div class="main-left">
-            <router-link :to="{ name: 'user-tweets', params: {id: user.id} }">
-              <img class="avatar" :src="user.avatar | emptyImage" alt="avatar">
-            </router-link>
+      <div class="scroll-bar">
+        <li 
+        v-for="user in showingUsers" 
+        :key="user.id"
+        class="list-group-item"
+        >
+          <div class="main-content">
+            <div class="main-left">
+              <router-link :to="{ name: 'user-tweets', params: {id: user.id} }">
+                <img class="avatar" :src="user.avatar | emptyImage" alt="avatar">
+              </router-link>
+            </div>
+            <div class="main-right">
+              <p>{{user.name}}</p>
+              <p class="text-muted">{{user.account}}</p>
+            </div>
           </div>
-          <div class="main-right">
-            <p>{{user.name}}</p>
-            <p class="text-muted">{{user.account}}</p>
+          <div class="side-content" v-if="user.id !== currentUser.id">
+            <button 
+            v-if="user.isFollowed"
+            type="button"
+            class="btn btn-sm btn-primary follow-button"
+            @click.prevent.stop="deleteFollow(user.id)"
+            :disabled="user.id === isProcessingId"
+            >
+              正在跟隨
+            </button>
+            <button 
+            v-else
+            type="button"
+            class="btn btn-sm btn-outline-primary follow-button"
+            @click.prevent.stop="addFollow(user.id)"
+            :disabled="user.id === isProcessingId"
+            >
+              跟隨
+            </button>
           </div>
-        </div>
-        <div class="side-content" v-if="user.id !== currentUser.id">
-          <button 
-          v-if="user.isFollowed"
-          type="button"
-          class="btn btn-sm btn-primary follow-button"
-          @click.prevent.stop="deleteFollow(user.id)"
-          :disabled="user.id === isProcessingId"
-          >
-            正在跟隨
-          </button>
-          <button 
-          v-else
-          type="button"
-          class="btn btn-sm btn-outline-primary follow-button"
-          @click.prevent.stop="addFollow(user.id)"
-          :disabled="user.id === isProcessingId"
-          >
-            跟隨
-          </button>
-        </div>
-      </li>
+        </li>
+      </div>
       <li class="list-group-item">
         <button
         class="show-more"
@@ -176,6 +178,17 @@ export default {
 
 .list-group {
   border-radius: 15px!important;
+}
+
+.scroll-bar {
+  max-height: 500px;
+  overflow: auto;
+  scrollbar-width: none;
+}
+
+.scroll-bar::-webkit-scrollbar {
+  /* hide from chrome */
+  display: none;
 }
 
 .list-group-item {
