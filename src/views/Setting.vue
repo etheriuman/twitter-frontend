@@ -190,6 +190,28 @@ export default {
         this.isProcessing = true
         const { data } = await usersAPI.set({ userId, payLoad })
         if (data.status !== 'success') {
+          if (data.message === 'this account already exists ') {
+            console.log('帳號被註冊過')
+            Toast.fire({
+              icon: 'warning',
+              title: '此帳號已被註冊過，請換一組'
+            })
+            this.isProcessing = false
+            this.account = ''
+            this.$refs.account.focus()
+            return
+          }
+          if (data.message === 'this email already exists ') {
+            console.log('email被註冊過')
+            Toast.fire({
+              icon: 'warning',
+              title: '此email已被註冊過，請換一組'
+            })
+            this.isProcessing = false
+            this.email = ''
+            this.$refs.email.focus()
+            return
+          }
           throw new Error(data.message)
         }
         this.isProcessing = false
