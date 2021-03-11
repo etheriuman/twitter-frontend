@@ -14,7 +14,7 @@
             :key="following.id"
             :initial-follow="following"
             :currentUserId="currentUser.id"
-            @afterDeleteFollow="handleAfterDeleteFollow"
+            @after-delete-follow="handleAfterDeleteFollow"
           />
         </ul>
       </div>
@@ -32,7 +32,6 @@ import UserFollowsNavTabs from "./../components/UserFollowsNavTabs.vue"
 import UserCard from "./../components/UserCard"
 import Recommendation from "./../components/Recommendation"
 import usersApi from "./../apis/users"
-import followApi from "./../apis/follow"
 import { Toast } from "./../utils/helpers"
 import { mapState } from 'vuex'
 
@@ -48,7 +47,7 @@ export default {
   data() {
     return {
       user: {},
-      followings: [],
+      followings: []
     }
   },
   methods: {
@@ -79,23 +78,11 @@ export default {
         })
       }
     },
-    async handleAfterDeleteFollow(followId) {
-      try {
-        const {data} = await followApi.removeFollow({followId})
-        if (data.status !== 'success') {
-          throw new Error(data.message)
-        }
+    handleAfterDeleteFollow(followId) {
+      if (this.user.id == this.currentUser.id) {
         this.followings = this.followings.filter(
-          (following) => following.id !== followId
+          user => user.followId !== followId
         )
-        const { id:userId } = this.$route.params
-        this.fetchFollowings(userId)
-      } catch (error) {
-        console.log (error)
-        Toast.fire ({
-          icon: 'error',
-          title: '無法將使用者移除追蹤，請稍後再試'
-        })
       }
     }
   },

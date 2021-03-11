@@ -22,8 +22,8 @@
           >
             <span aria-hidden="true">&times;</span>
           </button>
-          <h5 class="modal-title" id="exampleModalLabel">編輯個人資料</h5>
-          <button type="submit" class="btn btn-primary mr-2">儲存</button>
+          <p class="modal-title" id="exampleModalLabel">編輯個人資料</p>
+          <button :disabled="isProcessing" type="submit" class="btn btn-primary mr-3">儲存</button>
         </div>
         <!-- 推主資訊 -->
         <div class="modal-body p-0">
@@ -73,7 +73,7 @@
                 <div class="profile-info">
                   <div class="form-label-group text-muted">
                     <!-- name -->
-                    <label for="name">名稱</label>
+                    <label class="text-sm" for="name">名稱</label>
                     <input
                       v-model="name"
                       id="name"
@@ -94,7 +94,7 @@
                   </p>
                   <div class="form-label-group text-muted mt-3">
                     <!-- introduction -->
-                    <label for="introduction">自我介紹</label>
+                    <label class="text-sm" for="introduction">自我介紹</label>
                     <textarea
                       v-model="introduction"
                       id="introduction"
@@ -137,7 +137,8 @@ export default {
       name: '',
       avatar: '',
       cover: '',
-      introduction: ''
+      introduction: '',
+      isProcessing: false
     }
   },
   methods: {
@@ -175,7 +176,9 @@ export default {
       try {
         const form = e.target
         const formData = new FormData(form)
+        this.isProcessing = true
         const {data} = await usersApi.set({ userId:this.currentUser.id, payLoad: formData })
+        this.isProcessing = false
         if (data.status != 'success') {
           throw new Error(data.message)
         }
@@ -187,6 +190,7 @@ export default {
           icon: 'error',
           title: '無法更新使用者資料，請稍後再試'
         })
+        this.isProcessing = false
       }
     },
   },
@@ -200,6 +204,9 @@ export default {
   },
   created() {
     this.resetStatus()
+  },
+  mounted() {
+    $(this.$refs.userEditing).on('hidden.bs.modal', this.resetStatus)
   }
 }
 </script>
@@ -208,10 +215,19 @@ export default {
 .close {
   margin: 0;
 }
+.close span {
+  font-size: 2rem;
+  font-weight: 200;
+  color: #ff6600;
+  opacity: 1;
+  line-height: 100%;
+}
 .modal-title {
   font-weight: 700;
 }
-
+.modal-content {
+  border-radius: 15px;
+}
 .card-img-top {
   background-size: cover;
   opacity: 0.9;
@@ -256,7 +272,6 @@ export default {
 }
 .form-label-group {
   border-radius: 2%;
-  background-color: #f5f8fa;
 }
 .form-label-group label {
   width: 100%;

@@ -1,6 +1,6 @@
 // 使用者reply推文頁面
 <template>
-  <div v-show="!userIsLoading&&!tweetsIsLoading" class="main">
+  <div class="main">
     <div class="column-left column">
       <Navbar @after-submit="handleAfterSubmit" />
     </div>
@@ -9,6 +9,7 @@
         <ul class="list-group list-group-flush">
           <PageHead :user="user" />
           <UserProfile
+            v-show="!userIsLoading&&!tweetsIsLoading"
             :initial-user="user"
             @afterAddFollowed="handleAfterAddFollowed"
             @afterCancelFollowed="handleAfterCencelFollowed"

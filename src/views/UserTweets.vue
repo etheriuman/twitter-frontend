@@ -1,6 +1,6 @@
 // 使用者推文頁
 <template>
-  <div v-show="!userIsLoading&&!tweetsIsLoading" class="main">
+  <div class="main">
     <div class="column-left column">
       <Navbar @after-submit="handleAfterSubmit" />
     </div>
@@ -8,8 +8,10 @@
       <div class="card main-content">
         <ul class="list-group list-group-flush">
           <PageHead :user="user" />
-          <UserProfile            
+          <UserProfile
+            v-show="!userIsLoading&&!tweetsIsLoading"
             :initial-user="user"
+            :is-processing="isProcessing"
             @afterAddFollowed="handleAfterAddFollowed"
             @afterCancelFollowed="handleAfterCencelFollowed"
             @afterSubmit="afterHandleSubmit"
@@ -54,7 +56,8 @@ export default {
       user: {},
       tweets: [],
       userIsLoading: true,
-      tweetsIsLoading: true
+      tweetsIsLoading: true,
+      isProcessing: false
     }
   },
   methods: {
@@ -134,7 +137,9 @@ export default {
     },
     async handleAfterAddFollowed(payLoad) {
       try {
+        this.isProcessing = true
         const {data} = await followApi.addFollow({payLoad})
+        this.isProcessing = false
         if (data.status !== 'success') {
           throw new Error(data.message)
         }
@@ -145,11 +150,14 @@ export default {
           icon: 'error',
           title: '無法將使用者加入追蹤，請稍後再試'
         })
+        this.isProcessing = false
       }      
     },
     async handleAfterCencelFollowed(userId) {
       try {
+        this.isProcessing = true
         const {data} = await followApi.removeFollow({followId:userId})
+        this.isProcessing = false
         if (data.status !== 'success') {
           throw new Error(data.message)
         }
@@ -160,6 +168,7 @@ export default {
           icon: 'error',
           title: '無法將使用者移除追蹤，請稍後再試'
         })
+        this.isProcessing = false
       } 
     },
     afterHandleSubmit() {

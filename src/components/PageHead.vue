@@ -3,7 +3,7 @@
   <div class="list-group-item">
     <div class="card-body d-flex align-items-center ml-2">
       <!-- 如果displayArrow成立、當前頁面又沒有userData，表示在單一推文頁 -->
-      <router-link to="/tweets" v-if="displayArrow">
+      <router-link :to="arrowDirection" v-if="displayArrow">
         <font-awesome-icon class="icon" icon="arrow-left" />
       </router-link>
       <!-- dynamic 標頭 -->
@@ -31,7 +31,8 @@ export default {
   data() {
     return {
       displayArrow: false,
-      currentRouterName: ''
+      currentRouterName: '',
+      arrowDirection: '/tweets'
     }
   },
   computed: {
@@ -40,7 +41,7 @@ export default {
   methods: {
     checkArrowIsDisplay() {
       const currentRouterName = this.$route.name
-      if (currentRouterName !== 'tweets' && currentRouterName !== 'setting') {
+      if (currentRouterName !== 'tweets' && currentRouterName !== 'setting' && currentRouterName !== 'user-tweets') {
         if (this.currentUser.role !== 'admin') {
           this.displayArrow = true
         }
@@ -72,9 +73,10 @@ export default {
     }
   },
   watch: {
-    user() {
+    user(data) {
       const currentRouterName = this.$route.name
       this.handleCurrentRouterName(currentRouterName)
+      this.arrowDirection = `/users/${data.id}`
     }
   },
   created() {
@@ -104,5 +106,6 @@ export default {
 
 .icon {
   margin-right: 20px;
+  color: #000000!important;
 }
 </style>
