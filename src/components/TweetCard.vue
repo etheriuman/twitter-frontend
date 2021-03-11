@@ -5,10 +5,10 @@
       <div class="card-body-side">
         <!-- user avatar -->
         <router-link v-if="currentUser.role !== 'admin'" :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
-          <img class="avatar" :src="tweet.User.avatar" alt="">
+          <img class="avatar" :src="tweet.User.avatar | emptyImage" alt="">
         </router-link>
         <template v-else>
-          <img class="avatar" :src="tweet.User.avatar" alt="">
+          <img class="avatar" :src="tweet.User.avatar | emptyImage" alt="">
         </template>
       </div>
       <div class="card-body-content">
@@ -94,7 +94,7 @@ import likesAPI from './../apis/likes'
 import adminAPI from './../apis/admin'
 import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
-import { fromNowFilter } from './../utils/mixins'
+import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 
 
 export default {
@@ -187,7 +187,7 @@ export default {
       }
     }
   },
-  mixins: [fromNowFilter]
+  mixins: [fromNowFilter, emptyImageFilter]
 }
 </script>
 

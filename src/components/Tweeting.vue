@@ -12,7 +12,7 @@
           <form class="modal-body" @submit.prevent.stop="handleSubmit">
             <div class="modal-body-side">
               <!-- dynamic avatar -->
-              <img class="avatar" :src="currentUser.avatar" alt="">
+              <img class="avatar" :src="currentUser.avatar | emptyImage" alt="">
             </div>
             <div class="modal-body-content">
               <textarea
@@ -38,6 +38,7 @@
 import $ from 'jquery'
 import tweetsAPI from './../apis/tweets'
 import { Toast } from './../utils/helpers'
+import { emptyImageFilter } from './../utils/mixins'
 import { mapState } from 'vuex'
 
 export default {
@@ -50,6 +51,7 @@ export default {
   computed: {
     ...mapState(['currentUser'])
   },
+  mixins: [emptyImageFilter],
   methods: {
     autoFocus() {
       this.$refs.tweetingArea.focus()

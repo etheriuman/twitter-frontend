@@ -113,7 +113,7 @@ export default {
     async handleFormSubmit() {
       try {
         // 檢查表單內容
-        if (!this.account) {
+        if (!this.account.trim()) {
           Toast.fire({
             icon: 'warning',
             title: '請填寫帳號'
@@ -121,7 +121,7 @@ export default {
           this.$refs.account.focus()
           return
         }
-        if (!this.name) {
+        if (!this.name.trim()) {
           Toast.fire({
             icon: 'warning',
             title: '請填寫名稱'
@@ -129,7 +129,7 @@ export default {
           this.$refs.name.focus()
           return
         }
-        if (!this.email) {
+        if (!this.email.trim()) {
           Toast.fire({
             icon: 'warning',
             title: '請填寫email'
@@ -173,9 +173,34 @@ export default {
         const { data } = await signUpAPI.signUp({ payLoad })
         console.log(data)
         if (data.status !== 'success') {
+          if (data.message === 'this account already exists ') {
+            console.log('帳號被註冊過')
+            Toast.fire({
+              icon: 'warning',
+              title: '此帳號已被註冊過，請換一組'
+            })
+            this.isProcessing = false
+            this.account = ''
+            this.$refs.account.focus()
+            return
+          }
+          if (data.message === 'this email already exists ') {
+            Toast.fire({
+              icon: 'warning',
+              title: '此email已被註冊過，請換一組'
+            })
+            this.isProcessing = false
+            this.email = ''
+            this.$refs.email.focus()
+            return
+          }
           throw new Error(data.message)
         }
         // 註冊成功頁面跳轉
+        Toast.fire({
+          icon: 'success',
+          title: '註冊成功'
+        })
         this.$router.push('/signin')
       } catch(err) {
         Toast.fire({

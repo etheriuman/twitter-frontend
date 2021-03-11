@@ -14,7 +14,7 @@
             <div class="card-body-side">
               <!-- user avatar -->
               <router-link :to="{name: 'user-tweets', params: {id:replyingTweet.User.id}}">
-                <img class="avatar" :src="replyingTweet.User.avatar" alt="">
+                <img class="avatar" :src="replyingTweet.User.avatar | emptyImage" alt="">
               </router-link>
               <span class="line"></span>
             </div>
@@ -42,7 +42,7 @@
           <form class="modal-body" @submit.prevent.stop="handleSubmit(replyingTweet.id)">
             <div class="modal-body-side">
               <!-- dynamic avatar -->
-              <img class="avatar" :src="currentUser.avatar" alt="">
+              <img class="avatar" :src="currentUser.avatar | emptyImage" alt="">
             </div>
             <div class="modal-body-content">
               <textarea 
@@ -67,7 +67,7 @@
 <script>
 import $ from 'jquery'
 import repliesAPI from './../apis/replies'
-import { fromNowFilter } from './../utils/mixins'
+import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
 
@@ -91,7 +91,7 @@ export default {
   computed: {
     ...mapState(['currentUser'])
   },
-  mixins: [fromNowFilter],
+  mixins: [fromNowFilter, emptyImageFilter],
   methods: {
     autoFocus() {
       this.$refs.replyingArea.focus()

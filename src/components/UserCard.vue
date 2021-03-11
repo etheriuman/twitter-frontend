@@ -4,7 +4,7 @@
     <div class="main-content">
       <div class="main-left">
         <router-link :to="{ name: 'user-tweets', params: { id: follow.id } }">
-          <img class="avatar" :src="follow.avatar" alt="avatar" />
+          <img class="avatar" :src="follow.avatar | emptyImage" alt="avatar" />
         </router-link>
       </div>
       <div class="main-right">
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { emptyImageFilter } from './../utils/mixins'
+
 export default {
   name: "UserCard",
   props: {
@@ -48,6 +50,7 @@ export default {
       follow: this.initialFollow,
     };
   },
+  mixins: [emptyImageFilter],
   methods: {
     fetchFollow() {},
     addFollow(followId) {

@@ -7,7 +7,7 @@
         <!-- user avatar -->
         <div class="content-header">
           <router-link :to="{name: 'user-tweets', params: {id:tweet.User.id}}">
-            <img class="avatar" :src="tweet.User.avatar" alt="">
+            <img class="avatar" :src="tweet.User.avatar | emptyImage" alt="">
           </router-link>
           <div class="content-header-description">
             <p><span class="user-name">{{tweet.User.name}}</span></p>
@@ -61,7 +61,7 @@
 
 <script>
 import Replying from './../components/Replying'
-import { fromNowFilter, momentFilter } from './../utils/mixins'
+import { fromNowFilter, momentFilter, emptyImageFilter } from './../utils/mixins'
 import likesAPI from './../apis/likes'
 import { Toast } from './../utils/helpers'
 
@@ -135,7 +135,7 @@ export default {
       this.isLoading = false
     }
   },
-  mixins: [fromNowFilter, momentFilter]
+  mixins: [fromNowFilter, momentFilter, emptyImageFilter]
 }
 </script>
 

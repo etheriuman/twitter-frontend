@@ -31,6 +31,7 @@
                 <input
                   v-model="cacheCurrentUser.name"
                   id="name"
+                  ref="name"
                   name="name"
                   type="text"
                   class="form-control"
@@ -44,6 +45,7 @@
                 <input
                   v-model="cacheCurrentUser.email"
                   id="email"
+                  ref="email"
                   name="email"
                   type="email"
                   class="form-control"
@@ -57,6 +59,7 @@
                 <input
                   v-model="cacheCurrentUser.password"
                   id="password"
+                  ref="password"
                   name="password"
                   type="password"
                   class="form-control"
@@ -70,6 +73,7 @@
                 <input
                   v-model="cacheCurrentUser.checkPassword"
                   id="checkPassword"
+                  ref="checkPassword"
                   name="checkPassword"
                   type="password"
                   class="form-control"
@@ -131,6 +135,7 @@ export default {
             icon: 'warning',
             title: '請填入帳號'
           })
+          this.$refs.account.focus()
           return
         }
         if (!this.cacheCurrentUser.name.trim()) {
@@ -138,6 +143,7 @@ export default {
             icon: 'warning',
             title: '請填入名稱'
           })
+          this.$refs.name.focus()
           return
         }
         if (!this.cacheCurrentUser.email.trim()) {
@@ -145,6 +151,7 @@ export default {
             icon: 'warning',
             title: '請填入email'
           })
+          this.$refs.email.focus()
           return
         }
         if (!this.cacheCurrentUser.password.trim()) {
@@ -152,6 +159,7 @@ export default {
             icon: 'warning',
             title: '請填入密碼'
           })
+          this.$refs.password.focus()
           return
         }
         if (!this.cacheCurrentUser.checkPassword.trim()) {
@@ -159,6 +167,7 @@ export default {
             icon: 'warning',
             title: '請輸入密碼確認'
           })
+          this.$refs.checkPassword.focus()
           return
         }
         if (this.cacheCurrentUser.password !== this.cacheCurrentUser.checkPassword) {
@@ -167,6 +176,7 @@ export default {
             title: '密碼確認有誤，請重新填寫'
           })
           this.cacheCurrentUser.checkPassword = ''
+          this.$refs.checkPassword.focus()
           return
         }
         const userId = this.cacheCurrentUser.id

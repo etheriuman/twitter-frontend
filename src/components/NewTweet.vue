@@ -4,7 +4,7 @@
     <form class="card-body" @submit.prevent.stop="handleSubmit">
       <div class="card-body-side">
         <!-- dynamic avatar -->
-        <img class="avatar" :src="currentUser.avatar" alt="">
+        <img class="avatar" :src="currentUser.avatar | emptyImage" alt="">
       </div>
       <div class="card-body-content">
         <textarea 
@@ -24,6 +24,7 @@
 
 <script>
 import tweetsAPI from './../apis/tweets'
+import { emptyImageFilter } from './../utils/mixins'
 import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
 
@@ -37,6 +38,7 @@ export default {
   computed: {
     ...mapState(['currentUser'])
   },
+  mixins: [emptyImageFilter],
   methods: {
     async handleSubmit() {
       try {
