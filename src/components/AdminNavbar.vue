@@ -7,17 +7,17 @@
         </router-link>
       </div>
       <div class="tabs">
-        <router-link class="tab" :class="{'text-primary': activeRouter === 'admin-tweets'}" to="/admin/tweets">
+        <router-link class="tab" to="/admin/tweets">
           <font-awesome-icon icon="home" /><span>推文清單</span>
         </router-link>
-        <router-link class="tab" :class="{'text-primary': activeRouter === 'admin-users'}" to="/admin/users">
+        <router-link class="tab" to="/admin/users">
           <font-awesome-icon icon="user" /><span>使用者列表</span>
         </router-link>
       </div>
     </div>
     <div class="lower-content">
       <button class="logout btn" @click.prevent.stop="logout">
-        登出
+        <font-awesome-icon icon="door-open" /><span>登出</span>
       </button>
     </div>
   </div>
@@ -25,14 +25,7 @@
 
 <script>
 export default {
-  data() {
-    return {
-      activeRouter: '',
-    }
-  },
-  created() {
-    this.activeRouter = this.$route.name
-  },
+
   methods: {
     logout() {
       console.log('logout')
@@ -90,6 +83,10 @@ a {
   width: 100%;
 }
 
+.logout span {
+  padding-left: 10px;
+}
+
 /* mobile 尺寸以下 */
 @media screen and (max-width: 768px) {
   
@@ -144,6 +141,6 @@ a {
   width: 100px;
   text-align: end;
 }
-}
 
+}
 </style>

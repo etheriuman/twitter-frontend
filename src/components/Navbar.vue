@@ -10,7 +10,7 @@
         <router-link class="tab" to="/tweets">
           <font-awesome-icon icon="home" /><span>首頁</span>
         </router-link>
-        <router-link class="tab" to="/users/1">
+        <router-link class="tab" :to="{name: 'user-tweets', params:{id:currentUser.id}}">
           <font-awesome-icon icon="user" /><span>個人資料</span>
         </router-link>
         <router-link class="tab" to="/setting">
@@ -28,7 +28,7 @@
     </div>
     <div class="lower-content">
       <button class="logout btn" @click.prevent.stop="logout">
-        登出
+        <font-awesome-icon icon="door-open" /><span>登出</span>
       </button>
     </div>
     <Tweeting />
@@ -37,10 +37,14 @@
 
 <script>
 import Tweeting from './../components/Tweeting'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     Tweeting
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   methods: {
     logout() {
@@ -110,6 +114,10 @@ a {
 
 .lower-content {
   width: 100%;
+}
+
+.logout span {
+  padding-left: 10px;
 }
 
 /* pad 尺寸以下 */

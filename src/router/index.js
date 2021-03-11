@@ -137,6 +137,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  linkActiveClass: 'text-primary',
   routes
 })
 

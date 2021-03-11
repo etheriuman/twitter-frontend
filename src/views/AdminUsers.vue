@@ -38,7 +38,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await adminAPI.getUsers()
+        const response = await adminAPI.getLightUsers()
         if (response.statusText !== 'OK') {
           throw new Error(response.statusText)
         }
