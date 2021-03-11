@@ -9,8 +9,8 @@
         style="height: 200px"
       />
       <div class="profile card-body">
-        <img :src="initialUser.avatar | emptyImage" class="avatar mb-5" alt="avatar" />
-        <div class="button-group" v-if="currentUser.id != initialUser.id">
+        <img :src="user.avatar | emptyImage" class="avatar mb-5" alt="avatar" />
+        <div class="button-group" v-if="currentUser.id != user.id">
           <button type="button" class="user-mail btn btn-outline-primary">
             <font-awesome-icon icon="envelope" />
           </button>
@@ -38,7 +38,7 @@
           </button>
         </div>
         <button
-          v-if="currentUser.id == initialUser.id"
+          v-if="currentUser.id == user.id"
           type="button"
           class="newTweet btn btn-outline-primary"
           data-toggle="modal"
@@ -64,19 +64,15 @@
       </div>
       <UserProfileNavTabs :user="user"/>
     </div>
-    <UserProfileEdiiting
-      :initial-current-user="currentUser"
-      @afterSubmit="handleAfterSubmit"
-    />
+    <UserProfileEdiiting />
   </div>
 </template>
 
 <script>
 import UserProfileNavTabs from "./UserProfileNavTabs.vue"
 import UserProfileEdiiting from "./UserProfileEditing"
-import usersApi from "./../apis/users.js"
-import { Toast } from "./../utils/helpers.js"
 import { emptyImageFilter } from "./../utils/mixins.js"
+import { mapState } from 'vuex'
 
 export default {
   name: "UserProfile",
@@ -93,24 +89,10 @@ export default {
   },
   data() {
     return {
-      currentUser: {},
       user: {}
     }
   },
   methods: {
-    async fetchCurrentUser() {
-      try {
-        const {data} =  await usersApi.getCurrentUser ()
-        this.currentUser = data
-      } catch (error) {
-        this.isLoading = false
-        console.log (error)
-        Toast.fire ({
-          icon: 'error',
-          title: '無法取得當前使用者資料，請稍後再試'
-        }) 
-      }  
-    },
     fetchUser() {
       this.user = this.initialUser
     },
@@ -120,29 +102,14 @@ export default {
     },
     cancelFollowed(userId) {
       this.$emit("afterCancelFollowed",userId)
-    },
-    async handleAfterSubmit(formData) {
-      try {
-        const {data} = await usersApi.set({ userId:this.currentUser.id, formData })
-        if (data.status != 'success') {
-          throw new Error(data.message)
-        }
-      } catch(error) {
-        console.log (error)
-        Toast.fire ({
-          icon: 'error',
-          title: '無法更新使用者資料，請稍後再試'
-        })
-      }
-    },
+    }
   },
   watch: {
     initialUser() {
       this.fetchUser()
     }
-  },
-  created() {
-    this.fetchCurrentUser()
+  },computed: {
+    ...mapState(['currentUser'])
   }
 }
 </script>

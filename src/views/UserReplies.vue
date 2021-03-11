@@ -12,6 +12,7 @@
             :initial-user="user"
             @afterAddFollowed="handleAfterAddFollowed"
             @afterCancelFollowed="handleAfterCencelFollowed"
+            @afterSubmit="afterHandleSubmit"
           />
           <TweetCard
             v-for="tweet in tweets"
@@ -160,6 +161,9 @@ export default {
           title: '無法將使用者移除追蹤，請稍後再試'
         })
       } 
+    },
+    afterHandleSubmit() {
+      this.fetchUser()
     }
   },
   //監聽切換頁面的事件

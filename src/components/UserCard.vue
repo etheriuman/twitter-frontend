@@ -15,7 +15,7 @@
     </div>
     <div class="side-content">
       <button
-        v-if="follow.isFollowed && (currentUserId != follow.followId)"
+        v-if="follow.isFollowed && (currentUserId !== follow.followId)"
         @click.prevent.stop="deleteFollow(follow.followId)"
         type="button"
         class="btn btn-primary follow-button"
@@ -23,7 +23,7 @@
         正在跟隨
       </button>
       <button
-        v-if="(!follow.isFollowed) && (currentUserId != follow.followId)"
+        v-if="(!follow.isFollowed) && (currentUserId !== follow.followId)"
         @click.prevent.stop="addFollow(follow.followId)"
         type="button"
         class="btn btn-outline-primary follow-button"
@@ -36,6 +36,7 @@
 
 <script>
 import { emptyImageFilter } from './../utils/mixins'
+
 export default {
   name: "UserCard",
   mixins: [emptyImageFilter],
