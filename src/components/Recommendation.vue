@@ -124,7 +124,7 @@ export default {
     async deleteFollow(userId) {
       try {
         this.isProcessingId = userId
-        const { data } = await followAPI.removeFollow({ followingId: userId })
+        const { data } = await followAPI.removeFollow({ followId: userId })
         if (data.status !== 'success') {
           throw new Error(data.message)
         }
