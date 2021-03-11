@@ -4,13 +4,13 @@
     <div class="card" style="width: 100%">
       <img
         class="card-img-top"
-        :src="user.cover"
+        :src="user.cover | emptyImage"
         alt="Card image cap"
         style="height: 200px"
       />
       <div class="profile card-body">
-        <img :src="initialUser.avatar" class="avatar mb-5" alt="avatar" />
-        <div class="button-group" v-if="currentUser.id !== initialUser.id">
+        <img :src="initialUser.avatar | emptyImage" class="avatar mb-5" alt="avatar" />
+        <div class="button-group" v-if="currentUser.id != initialUser.id">
           <button type="button" class="user-mail btn btn-outline-primary">
             <font-awesome-icon icon="envelope" />
           </button>
@@ -22,7 +22,7 @@
           </button>
           <button
             v-if="!user.isFollowed"
-            @click.prevent.stop="addFollowed"
+            @click.prevent.stop="addFollowed(user.id)"
             type="button"
             class="user-follow btn btn-outline-primary"
           >
@@ -30,7 +30,7 @@
           </button>
           <button
             v-else
-            @click.prevent.stop="cancelFollowed"
+            @click.prevent.stop="cancelFollowed(user.id)"
             type="button"
             class="user-follow btn btn-outline-primary"
           >
@@ -38,11 +38,11 @@
           </button>
         </div>
         <button
-          v-if="currentUser.id === initialUser.id"
+          v-if="currentUser.id == initialUser.id"
           type="button"
           class="newTweet btn btn-outline-primary"
           data-toggle="modal"
-          data-target="#exampleModal"
+          data-target="#userEditing"
         >
           編輯個人資料
         </button>
@@ -53,16 +53,16 @@
             {{ user.introduction }}
           </p>
           <div class="follow">
-            <router-link to="/users/:id/followings">
+            <router-link :to="{name:'user-followings', params:{id:user.id}}">
               <span>{{ user.followingsNumber }}個</span>跟隨中
             </router-link>
-            <router-link to="/users/:id/followers">
+            <router-link :to="{name:'user-followers', params:{id:user.id}}">
               <span>{{ user.followersNumber }}位</span>跟隨者
             </router-link>
           </div>
         </div>
       </div>
-      <UserProfileNavTabs />
+      <UserProfileNavTabs :user="user"/>
     </div>
     <UserProfileEdiiting
       :initial-current-user="currentUser"
@@ -72,27 +72,15 @@
 </template>
 
 <script>
-import UserProfileNavTabs from "./UserProfileNavTabs.vue";
-import UserProfileEdiiting from "./UserProfileEditing";
-
-const dummyCurrentUser = {
-  //設定currentUser，判斷如果是使用者的話則可以編輯個人資料
-  id: 1,
-  name: "John Doe",
-  account: "@heyjohn",
-  email: "helloworld@gmail.com", // 當前使用者email
-  tweetsNumber: "12", // 當前使用者推文數
-  avatar: "https://randomuser.me/portraits/women/17.jpg", // 當前使用者照片
-  cover:
-    "http://5b0988e595225.cdn.sohucs.com/images/20180914/9d15e25d6b1946f28b196f597e3002ba.jpeg", // 當前使用者封面照片
-  introduction:
-    "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, ", // 當前使用者簡介
-  followingsNumber: "26", // 當前使用者追蹤數
-  followersNumber: 44, // 當前使用者跟隨數
-};
+import UserProfileNavTabs from "./UserProfileNavTabs.vue"
+import UserProfileEdiiting from "./UserProfileEditing"
+import usersApi from "./../apis/users.js"
+import { Toast } from "./../utils/helpers.js"
+import { emptyImageFilter } from "./../utils/mixins.js"
 
 export default {
   name: "UserProfile",
+  mixins: [emptyImageFilter],
   components: {
     UserProfileNavTabs,
     UserProfileEdiiting,
@@ -100,37 +88,63 @@ export default {
   props: {
     initialUser: {
       type: Object,
-      required: true,
-    },
+      default: undefined
+    }
   },
   data() {
     return {
       currentUser: "",
-      user: this.initialUser,
-    };
+      user: ""
+    }
   },
   methods: {
-    fetchCurrentUser() {
-      this.currentUser = dummyCurrentUser;
+    async fetchCurrentUser() {
+      try {
+        const {data} =  await usersApi.getCurrentUser ()
+        this.currentUser = data
+      } catch (error) {
+        this.isLoading = false
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法取得當前使用者資料，請稍後再試'
+        }) 
+      }  
     },
-    addFollowed() {
-      this.user.isFollowed = true;
-      this.$emit("afterAddFollowed");
+    fetchUser() {
+      this.user = this.initialUser
     },
-    cancelFollowed() {
-      this.user.isFollowed = false;
-      this.$emit("afterCancelFollowed");
+    addFollowed(userId) {
+      const payLoad = {id : userId}
+      this.$emit("afterAddFollowed", payLoad)
     },
-    handleAfterSubmit(formData) {
-      for (let [name, value] of formData.entries()) {
-        console.log(name + ": " + value);
+    cancelFollowed(userId) {
+      this.$emit("afterCancelFollowed",userId)
+    },
+    async handleAfterSubmit(formData) {
+      try {
+        const {data} = await usersApi.set({ userId:this.currentUser.id, formData })
+        if (data.status != 'success') {
+          throw new Error(data.message)
+        }
+      } catch(error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法更新使用者資料，請稍後再試'
+        })
       }
     },
   },
-  created() {
-    this.fetchCurrentUser();
+  watch: {
+    initialUser() {
+      this.fetchUser()
+    }
   },
-};
+  created() {
+    this.fetchCurrentUser()
+  }
+}
 </script>
 
 

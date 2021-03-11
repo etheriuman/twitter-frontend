@@ -15,16 +15,16 @@
     </div>
     <div class="side-content">
       <button
-        v-if="follow.isFollowed"
-        @click.prevent.stop="deleteFollow(follow.id)"
+        v-if="follow.isFollowed && (currentUserId != follow.followId)"
+        @click.prevent.stop="deleteFollow(follow.followId)"
         type="button"
         class="btn btn-primary follow-button"
       >
         正在跟隨
       </button>
       <button
-        v-else
-        @click.prevent.stop="addFollow(follow.id)"
+        v-if="(!follow.isFollowed) && (currentUserId != follow.followId)"
+        @click.prevent.stop="addFollow(follow.followId)"
         type="button"
         class="btn btn-outline-primary follow-button"
       >
@@ -36,40 +36,40 @@
 
 <script>
 import { emptyImageFilter } from './../utils/mixins'
-
 export default {
   name: "UserCard",
+  mixins: [emptyImageFilter],
   props: {
     initialFollow: {
       type: Object,
       required: true,
     },
+    currentUserId: {
+      type: Number,
+      default: -1
+    }
   },
   data() {
     return {
-      follow: this.initialFollow,
-    };
+      follow: this.initialFollow
+    }
   },
-  mixins: [emptyImageFilter],
   methods: {
-    fetchFollow() {},
     addFollow(followId) {
-      // API POST request ...
-      const payLoad = followId;
-      this.$emit("afterAddFollow", payLoad);
+      this.follow.isFollowed = true
+      const payLoad = {id: followId}
+      this.$emit("afterAddFollow", payLoad)
     },
-    deleteFollow(followId) {
-      // API DELETE request ...
-      const payLoad = followId;
-      this.$emit("afterDeleteFollow", payLoad);
+    deleteFollow(followId) {      
+      this.$emit("afterDeleteFollow", followId)
     },
   },
   watch: {
     initialFollow() {
-      this.follow = this.initialFollow;
+      this.follow = this.initialFollow
     },
-  },
-};
+  }
+}
 </script>
 
 <style scoped>

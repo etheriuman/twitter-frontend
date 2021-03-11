@@ -32,7 +32,7 @@ export default {
     return {
       displayArrow: false,
       currentRouterName: ''
-    };
+    }
   },
   computed: {
     ...mapState(['currentUser'])
@@ -69,6 +69,12 @@ export default {
       } else {
         return ""
       }
+    }
+  },
+  watch: {
+    user() {
+      const currentRouterName = this.$route.name
+      this.handleCurrentRouterName(currentRouterName)
     }
   },
   created() {

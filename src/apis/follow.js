@@ -4,7 +4,7 @@ export default {
   addFollow ({ payLoad }) {
     return apiHelper.post('/followships', payLoad)
   },
-  removeFollow ({ followingId }) {
-    return apiHelper.delete(`/followships/${followingId}`)
+  removeFollow({ followId }) {
+    return apiHelper.delete(`/followships/${followId}`)
   }
 }
