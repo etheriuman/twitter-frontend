@@ -3,7 +3,8 @@
   <!-- Modal -->
   <div
     class="modal fade"
-    id="exampleModal"
+    ref="userEditing"
+    id="userEditing"
     tabindex="-1"
     role="dialog"
     aria-labelledby="exampleModalLabel"
@@ -31,7 +32,7 @@
               <!-- cover -->
               <img
                 class="card-img-top"
-                :src="cover"
+                :src="cover | emptyImage"
                 alt="Card image cap"
                 style="height: 200px"
               />
@@ -54,7 +55,7 @@
               </label>
               <div class="profile card-body pt-0">
                 <!-- avatar -->
-                <img :src="avatar" class="avatar mb-5" alt="" />
+                <img :src="avatar | emptyImage" class="avatar mb-5" alt="" />
                 <div class="form-group">
                   <label for="avatar">
                     <!-- 上傳 avatar 檔案 -->
@@ -122,8 +123,12 @@
 </template>
 
 <script>
+import $ from 'jquery'
+import { emptyImageFilter } from "./../utils/mixins.js"
+
 export default {
   name: "UserProfileEditing",
+  mixins: [emptyImageFilter],
   props: {
     initialCurrentUser: {
       type: Object,
@@ -173,7 +178,11 @@ export default {
       const form = e.target
       const formData = new FormData(form)
       this.$emit("afterSubmit", formData)
+       $('#userEditing').modal('hide')
     },
+  },
+  created() {
+    this.resetStatus()
   }
 }
 </script>
