@@ -74,7 +74,6 @@ export default {
     async fetchTweetsLiked(userId) {
       try {
         const {data} = await usersApi.getLikedTweets({userId})
-        console.log(data)
         this.tweets = data
         this.tweetsIsLoading = false
       } catch (error) {
