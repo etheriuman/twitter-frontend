@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="lower-content">
-      <button class="logout btn">
+      <button class="logout btn" @click.prevent.stop="logout">
         登出
       </button>
     </div>
@@ -32,6 +32,13 @@ export default {
   },
   created() {
     this.activeRouter = this.$route.name
+  }
+  methods: {
+    logout() {
+      console.log('logout')
+      this.$store.commit('revokeAuthentication')
+      this.$router.push('/admin/signin')
+    }
   }
 }
 </script>
