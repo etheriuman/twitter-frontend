@@ -9,5 +9,8 @@ export default {
   },
   getUsers() {
     return apiHelper.get('/admin/users')
+  },
+  getLightUsers() {
+    return apiHelper.get('/admin/users/light')
   }
 }
