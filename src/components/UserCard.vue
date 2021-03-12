@@ -126,7 +126,8 @@ export default {
 }
 
 .list-group-item:hover {
-  transform: scale(1.03, 1.03);
+  transform: scale(1.01, 1.01);
+  transition: all .1s ease-out;
 }
 
 .list-group-item:first-child,
