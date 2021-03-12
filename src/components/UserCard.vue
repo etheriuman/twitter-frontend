@@ -15,26 +15,38 @@
     </div>
     <div class="side-content">
       <button
-        v-if="follow.isFollowed && (currentUserId !== follow.followId)"
-        @click.prevent.stop="deleteFollow(follow.followId)"
+        v-if="isProcessing"
         type="button"
-        class="btn btn-primary follow-button"
+        class="btn btn-sm btn-primary follow-button"
+        disabled
       >
-        正在跟隨
+        處理中
       </button>
-      <button
-        v-if="(!follow.isFollowed) && (currentUserId !== follow.followId)"
-        @click.prevent.stop="addFollow(follow.followId)"
-        type="button"
-        class="btn btn-outline-primary follow-button"
-      >
-        跟隨
-      </button>
+      <template v-else>
+        <button
+          v-if="follow.isFollowed && (currentUserId !== follow.followId)"
+          @click.prevent.stop="deleteFollow(follow.followId)"
+          type="button"
+          class="btn btn-sm btn-primary follow-button"
+        >
+          正在跟隨
+        </button>
+        <button
+          v-if="(!follow.isFollowed) && (currentUserId !== follow.followId)"
+          @click.prevent.stop="addFollow(follow.followId)"
+          type="button"
+          class="btn btn-sm btn-outline-primary follow-button"
+        >
+          跟隨
+        </button>
+      </template>
     </div>
   </div>
 </template>
 
 <script>
+import followAPI from './../apis/follow'
+import { Toast } from './../utils/helpers'
 import { emptyImageFilter } from './../utils/mixins'
 
 export default {
@@ -52,17 +64,48 @@ export default {
   },
   data() {
     return {
-      follow: this.initialFollow
+      follow: this.initialFollow,
+      isProcessing: false
     }
   },
   methods: {
-    addFollow(followId) {
-      this.follow.isFollowed = true
-      const payLoad = {id: followId}
-      this.$emit("afterAddFollow", payLoad)
+    async addFollow(followId) {
+      try {
+        const payLoad = {id: followId}
+        this.isProcessing = true
+        const { data } = await followAPI.addFollow({ payLoad })
+        this.isProcessing = false
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.follow.isFollowed = true
+      } catch(error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法追蹤使用者，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(error)
+      }
     },
-    deleteFollow(followId) {      
-      this.$emit("afterDeleteFollow", followId)
+    async deleteFollow(followId) {
+      try {
+        this.isProcessing = true
+        const { data } = await followAPI.removeFollow({ followId })
+        this.isProcessing = false
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.follow.isFollowed = false
+        this.$emit('after-delete-follow', followId)
+      } catch(error) {
+        Toast.fire({
+          icon: 'error',
+          title: '無法退追使用者，請稍後再試'
+        })
+        this.isProcessing = false
+        console.log(error)
+      }
     },
   },
   watch: {
@@ -85,7 +128,7 @@ export default {
 }
 
 .list-group-item {
-  padding: 15px;
+  padding: 15px 10px;
   display: flex;
   flex: 0 1 auto;
   justify-content: space-between;
@@ -114,7 +157,7 @@ export default {
 
 .side-content {
   position: absolute;
-  right: 5%;
+  right: 15px;
   display: flex;
   align-items: center;
 }

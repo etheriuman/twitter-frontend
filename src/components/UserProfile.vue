@@ -20,22 +20,33 @@
           >
             <font-awesome-icon icon="bell" />
           </button>
+          <!-- 假按鈕 -->
           <button
-            v-if="!user.isFollowed"
-            @click.prevent.stop="addFollowed(user.id)"
+            v-if="isProcessing"
             type="button"
             class="user-follow btn btn-outline-primary"
+            disabled
           >
-            追蹤
+            處理中
           </button>
-          <button
-            v-else
-            @click.prevent.stop="cancelFollowed(user.id)"
-            type="button"
-            class="user-follow btn btn-outline-primary"
-          >
-            正在追蹤
-          </button>
+          <template v-else>
+            <button
+              v-if="!user.isFollowed"
+              @click.prevent.stop="addFollowed(user.id)"
+              type="button"
+              class="user-follow btn btn-outline-primary"
+            >
+              追蹤
+            </button>
+            <button
+              v-else
+              @click.prevent.stop="cancelFollowed(user.id)"
+              type="button"
+              class="user-follow btn btn-primary"
+            >
+              正在追蹤
+            </button>
+          </template>
         </div>
         <button
           v-if="currentUser.id == user.id"
@@ -85,6 +96,10 @@ export default {
     initialUser: {
       type: Object,
       default: undefined
+    },
+    isProcessing: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -120,6 +135,10 @@ export default {
 a {
   color: #657786;
 }
+.card {
+  border: none;
+  border-bottom: 1px solid #dedede;
+}
 .user-name {
   font-size: 18px;
   font-weight: 700;
@@ -148,6 +167,11 @@ a {
   position: absolute;
   right: 5%;
 }
+
+.button-group button {
+  margin-left: 10px;
+}
+
 .user-account {
   font-size: 15px;
   color: #657786;
@@ -165,7 +189,7 @@ a {
 }
 .profile {
   position: relative;
-  height: 200px;
+  height: 170px;
 }
 .profile-description {
   position: relative;

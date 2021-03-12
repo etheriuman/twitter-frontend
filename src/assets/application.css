@@ -26,8 +26,8 @@ a, a:hover {
 
 /* --文字顏色設定-- */
 .text-primary,
-.text-primary:hover,
-a.text-primary:hover {
+a.text-primary:hover,
+a.text-primary:focus {
   color: #ff6600!important;
 }
 
@@ -46,6 +46,7 @@ label {
   color: #657786;
 }
 
+
 /* ----------bootstrap改寫---------- */
 
 /* --導覽列設定-- */
@@ -53,14 +54,19 @@ label {
   width: 130px;
   text-align: center;
   color: #657786;
-  border: 0;
-  font-weight: 700;
+  border-bottom: 2px solid rgba(0, 0, 0, 0);
+  font-weight: 400;
 }
-.nav-item :hover {
+
+.nav-item:hover {
   color: #ff6600;
-  border-bottom: 1px solid #ff6600;
+  border-bottom: 2px solid #ff6600;
   border-radius: 0;
-  font-weight: 700;
+  font-weight: 400;
+}
+
+.nav-item a {
+  color: #657786;
 }
 
 /* --表單設定-- */
@@ -69,7 +75,14 @@ label {
   border-bottom: 1px solid;
   border-radius: 0 ;
 }
-
+.form-control:focus {
+  color: #222222;
+  box-shadow: none;
+  border-color: #ff6600;
+}
+input {
+  background-color: none;
+}
 /* --按鈕設定-- */
 .btn,
 .btn:focus {
@@ -155,5 +168,6 @@ label {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  background: #ffffff;
   object-fit: cover;
 }
