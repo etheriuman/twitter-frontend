@@ -1,4 +1,3 @@
-// 推文卡片
 <template>
   <div class="list-group-item" v-if="!isLoading">
     <div class="card-body">

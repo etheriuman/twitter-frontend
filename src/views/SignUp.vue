@@ -1,4 +1,3 @@
-// 註冊頁
 <template>
   <div class="container">
     <!-- logo bar-->

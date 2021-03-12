@@ -1,4 +1,3 @@
-// 新增推文用的 modal
 <template>
   <!-- Modal -->
     <div class="modal fade" ref="tweeting" id="tweeting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

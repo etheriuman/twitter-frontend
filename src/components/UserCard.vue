@@ -1,4 +1,3 @@
-// 使用者追隨追蹤頁會用到的使用者卡片
 <template>
   <div class="list-group-item">
     <div class="main-content">

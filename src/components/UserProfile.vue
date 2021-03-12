@@ -1,4 +1,3 @@
-// 使用者頁面上方的資訊卡片
 <template>
   <div class="user-profile">
     <div class="card" style="width: 100%">

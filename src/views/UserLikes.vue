@@ -1,4 +1,3 @@
-// 使用者likes推文頁面
 <template>
   <div class="main">
     <div class="column-left column">

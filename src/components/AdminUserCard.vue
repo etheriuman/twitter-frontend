@@ -1,4 +1,3 @@
-// 管理者：使用者總表的使用者卡片
 <template>
   <div class="card">
     <img class="card-img-top" :src="user.cover | emptyImage" alt="user cover">

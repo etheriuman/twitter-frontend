@@ -1,4 +1,3 @@
-// 首頁上方的新增推文區塊
 <template>
   <div class="list-group-item">
     <form class="card-body" @submit.prevent.stop="handleSubmit">

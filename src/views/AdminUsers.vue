@@ -1,4 +1,3 @@
-// 管理者總使用者頁
 <template>
   <div class="main">
     <div class="column-left column">

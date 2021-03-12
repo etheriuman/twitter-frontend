@@ -1,4 +1,3 @@
-// 使用者推文頁
 <template>
   <div class="main">
     <div class="column-left column">

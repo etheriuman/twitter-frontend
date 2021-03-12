@@ -1,4 +1,3 @@
-// 使用者追隨與追蹤頁上方的 tabs
 <template>
   <ul class="nav nav-pills">
     <li class="nav-item">

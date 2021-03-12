@@ -1,4 +1,3 @@
-// 頁面最上方標頭
 <template>
   <div class="list-group-item">
     <div class="card-body d-flex align-items-center ml-2">

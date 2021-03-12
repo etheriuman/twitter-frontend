@@ -1,4 +1,3 @@
-// 新增回覆用的 modal
 <template>
   <!-- Modal -->
     <div class="modal fade" ref="replying" :id="replyingId" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

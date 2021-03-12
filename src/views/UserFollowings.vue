@@ -1,4 +1,3 @@
-// 使用者正在追隨者頁
 <template>
   <div class="main">
     <div class="column-left column">

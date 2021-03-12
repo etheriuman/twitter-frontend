@@ -1,4 +1,3 @@
-// 使用者頁面中所用到的 tabs
 <template>
   <ul class="nav nav-pills ml-4">
     <li class="nav-item">

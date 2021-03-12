@@ -1,4 +1,3 @@
-// 使用者編輯自己資料用的 modal
 <template>
   <!-- Modal -->
   <div
