@@ -24,8 +24,7 @@
         <div class="likes">
           <font-awesome-icon 
           class="icon text-muted" 
-          icon="heart" 
-          @click.prevent.stop="deleteLike" 
+          icon="heart"
           />
           <span> {{user.gotLikesNumber}}</span>
         </div>
@@ -59,6 +58,11 @@ export default {
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
+}
+
+.card:hover {
+  transition: all .1s ease-in-out;
+  transform: scale(1.05, 1.05);
 }
 
 .card-body {

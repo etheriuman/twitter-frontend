@@ -8,7 +8,9 @@
         <ul class="list-group list-group-flush">
           <PageHead />
           <NewTweet @after-submit="handleAfterSubmit" />
+          <p class="loading" v-if="isLoading">努力加載中...</p>
           <TweetCard
+            v-else
             v-for="tweet in tweets"
             :key="tweet.id"
             :initial-tweet="tweet"
@@ -26,11 +28,11 @@
 </template>
 
 <script>
-import Navbar from "./../components/Navbar";
-import PageHead from "./../components/PageHead";
-import NewTweet from "./../components/NewTweet";
-import TweetCard from "./../components/TweetCard";
-import Recommendation from "./../components/Recommendation";
+import Navbar from "./../components/Navbar"
+import PageHead from "./../components/PageHead"
+import NewTweet from "./../components/NewTweet"
+import TweetCard from "./../components/TweetCard"
+import Recommendation from "./../components/Recommendation"
 import tweetsAPI from './../apis/tweets'
 import { Toast } from './../utils/helpers'
 
@@ -45,12 +47,14 @@ export default {
   data() {
     return {
       tweets: [],
-    };
+      isLoading: true
+    }
   },
   methods: {
     async fetchTweets() {
       try {
         const response = await tweetsAPI.getTweets()
+        this.isLoading = false
         if (response.statusText !== 'OK') {
           throw new Error(response.statusText)
         }

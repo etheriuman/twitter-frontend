@@ -199,6 +199,11 @@ export default {
   padding: 5px 10px 10px 10px;
 }
 
+.card-body:hover {
+  transform: scale(1.02, 1.02);
+  transition: all .1s ease-in;
+}
+
 .card-body-side {
   width: 60px;
   height: 100%;
@@ -221,6 +226,10 @@ export default {
 
 .content-body {
   margin-bottom: 20px;
+}
+
+.content-body p:hover {
+  color: #ff6600;
 }
 
 .content-footer {

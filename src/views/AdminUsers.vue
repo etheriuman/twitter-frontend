@@ -9,7 +9,8 @@
         <ul class="list-group list-group-flush">
           <PageHead />
           <li class="list-group-item user-card-group">
-            <AdminUserCard v-for="user in users" :key="user.id" :user="user" />
+            <p class="loading" v-if="isLoading">努力加載中...</p>
+            <AdminUserCard v-else v-for="user in users" :key="user.id" :user="user" />
           </li>
         </ul>
       </div>
@@ -33,7 +34,8 @@ export default {
   data() {
     return {
       users: [],
-    };
+      isLoading: true
+    }
   },
   methods: {
     async fetchUsers() {
@@ -42,6 +44,7 @@ export default {
         if (response.statusText !== 'OK') {
           throw new Error(response.statusText)
         }
+        this.isLoading = false
         this.users = response.data
       } catch(err) {
         Toast.fire({
@@ -69,6 +72,7 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   padding: 20px;
   grid-gap: 10px;
+  text-align: center;
 }
 
 /* pad 尺寸 */

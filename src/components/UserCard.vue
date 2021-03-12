@@ -117,21 +117,16 @@ export default {
 </script>
 
 <style scoped>
-.card {
-  width: 90%;
-  margin-top: 20px;
-  border: none;
-}
-
-.list-group {
-  border-radius: 15px !important;
-}
 
 .list-group-item {
   padding: 15px 10px;
   display: flex;
   flex: 0 1 auto;
   justify-content: space-between;
+}
+
+.list-group-item:hover {
+  transform: scale(1.03, 1.03);
 }
 
 .list-group-item:first-child,

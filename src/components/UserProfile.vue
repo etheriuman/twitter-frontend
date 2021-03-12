@@ -73,7 +73,7 @@
           </div>
         </div>
       </div>
-      <UserProfileNavTabs :user="user"/>
+      <UserProfileNavTabs v-if="user.id" :user="user"/>
     </div>
     <UserProfileEdiiting />
   </div>
