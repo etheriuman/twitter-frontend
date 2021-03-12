@@ -54,7 +54,7 @@
               required
               />
               <button type="submit" :disabled="isProcessing" class="tweeting-submit btn btn-primary">
-                推文
+                回覆
               </button>
             </div>
           </form>
