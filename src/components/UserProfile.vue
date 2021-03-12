@@ -114,9 +114,11 @@ export default {
     addFollowed(userId) {
       const payLoad = {id : userId}
       this.$emit("afterAddFollowed", payLoad)
+      this.user.followersNumber = this.user.followersNumber + 1
     },
     cancelFollowed(userId) {
       this.$emit("afterCancelFollowed",userId)
+      this.user.followersNumber = this.user.followersNumber - 1
     }
   },
   watch: {
