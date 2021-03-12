@@ -64,11 +64,11 @@
             {{ user.introduction }}
           </p>
           <div class="follow">
-            <router-link :to="{name:'user-followings', params:{id:user.id}}">
-              <span>{{ user.followingsNumber }}個</span>跟隨中
-            </router-link>
             <router-link :to="{name:'user-followers', params:{id:user.id}}">
               <span>{{ user.followersNumber }}位</span>跟隨者
+            </router-link>
+            <router-link :to="{name:'user-followings', params:{id:user.id}}">
+              <span>{{ user.followingsNumber }}個</span>正在跟隨
             </router-link>
           </div>
         </div>

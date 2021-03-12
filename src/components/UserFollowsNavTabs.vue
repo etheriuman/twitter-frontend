@@ -2,13 +2,13 @@
 <template>
   <ul class="nav nav-pills">
     <li class="nav-item">
-      <router-link :to="{name:'user-followings', params:{id}}" class="nav-link">
-        正在跟隨
+      <router-link :to="{name:'user-followers', params:{id}}" class="nav-link">
+        跟隨者
       </router-link>
     </li>
     <li class="nav-item">
-      <router-link :to="{name:'user-followers', params:{id}}" class="nav-link">
-        跟隨者
+      <router-link :to="{name:'user-followings', params:{id}}" class="nav-link">
+        正在跟隨
       </router-link>
     </li>
   </ul>
