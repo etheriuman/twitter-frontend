@@ -44,6 +44,7 @@ export default new Vuex.Store({
     // 確認使用者登入狀態
     async fetchCurrentUser({ commit }) {
       try {
+        console.log('setCurrentUser')
         const { data } = await usersAPI.getCurrentUser()
         if (data.status === 'error') {
           throw new Error(data.message)
@@ -57,7 +58,7 @@ export default new Vuex.Store({
           avatar,
           role,
           cover,
-          introduction         
+          introduction
         })
         return true
       } catch(err) {

@@ -9,7 +9,9 @@
         <ul class="list-group list-group-flush">
           <PageHead :user="user" />
           <UserFollowsNavTabs />
+          <p class="loading" v-if="isLoading">努力加載中...</p>
           <UserCard
+            v-else
             v-for="following in followings"
             :key="following.id"
             :initial-follow="following"
@@ -47,7 +49,8 @@ export default {
   data() {
     return {
       user: {},
-      followings: []
+      followings: [],
+      isLoading: true
     }
   },
   methods: {
@@ -66,6 +69,7 @@ export default {
     async fetchFollowings(userId) {
       try {
         const {data} = await usersApi.getFollowings({userId})
+        this.isLoading = false
         this.followings = data.map(following => ({
           ...following,
           followId: following.followingId      

@@ -7,7 +7,9 @@
       <div class="card main-content">
         <ul class="list-group list-group-flush">
           <PageHead />
+          <p class="loading" v-if="isLoading">努力加載中...</p>
           <TweetCard
+            v-else
             v-for="tweet in tweets"
             :key="tweet.id"
             :initial-tweet="tweet"
@@ -20,9 +22,9 @@
 </template>
 
 <script>
-import AdminNavbar from "./../components/AdminNavbar";
-import PageHead from "./../components/PageHead";
-import TweetCard from "./../components/TweetCard";
+import AdminNavbar from "./../components/AdminNavbar"
+import PageHead from "./../components/PageHead"
+import TweetCard from "./../components/TweetCard"
 import adminAPI from './../apis/admin'
 import { Toast } from './../utils/helpers'
 
@@ -36,12 +38,14 @@ export default {
   data() {
     return {
       tweets: [],
-    };
+      isLoading: true
+    }
   },
   methods: {
     async fetchTweets() {
       try{
         const response = await adminAPI.getTweets()
+        this.isLoading = false
         if (response.statusText !== 'OK') {
           throw new Error(response.statusText)
         }
@@ -69,6 +73,8 @@ export default {
   grid-template-columns: 220px 1fr;
   grid-template-areas: "left main";
 }
+
+
 
 /* pad 尺寸 */
 @media screen and (max-width: 992px) {

@@ -87,10 +87,10 @@
                   </div>
                   <!-- name 長度限制超過50個字顯示紅字-->
                   <p v-if="name && name.length <= 50" class="textLimit">
-                    {{ name && name.length }}/50
+                    {{ name.length }}/50
                   </p>
-                  <p v-else class="textLimit" style="color: red">
-                    {{ name && name.length }}/50
+                  <p v-else class="textLimit" style="text: red">
+                    {{ name.length }}/50
                   </p>
                   <div class="form-label-group text-muted mt-3">
                     <!-- introduction -->
@@ -107,10 +107,10 @@
                   </div>
                   <!-- introduction長度限制超過50個字顯示紅字-->
                   <p v-if="introduction && introduction.length <= 50" class="textLimit">
-                    {{ introduction && introduction.length }}/50
+                    {{ introduction.length }}/50
                   </p>
                   <p v-else class="textLimit" style="color: red">
-                    {{introduction && introduction.length }}/50
+                    {{ introduction.length }}/50
                   </p>
                 </div>
               </div>
