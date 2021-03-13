@@ -42,12 +42,16 @@ export default {
     self(data){
       console.log(data)
       const myself = {
-        type: "self",
         message: data.msg,
         createdAt: data.createdAt,
         name: data.name,
         account: data.account,
         avatar: data.avatar
+      }
+      if (data.id === this.currentUser.id) {
+        myself.type = 'self'
+      } else {
+        myself.type = 'other'
       }
       this.messages.push(myself)
       console.log(this.messages)
@@ -60,8 +64,7 @@ export default {
     }
   },
   methods: {
-    clickButton: function (text) {
-      this.$socket.emit('connention')
+    clickButton: function (text) {      
       const payLoad = {
         msg: text,
         userId: this.currentUser.id
@@ -73,6 +76,9 @@ export default {
   },
   computed: {
     ...mapState(['currentUser'])
+  },
+  created() {
+    this.$socket.emit('connention')
   }  
 }
 </script>
