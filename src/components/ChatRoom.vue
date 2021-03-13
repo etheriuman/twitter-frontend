@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div class="message-area">
-      <TextBlock />
+      <TextBlock v-for="message in messages" :key="message.index" :message="message"/>
     </div>
     <div class="type-area">
       <div class="text" >
         <input type="text" v-model="text" />
       </div>
-      <div class="submit">
+      <div @click.prevent.stop="clickButton(text)" class="submit">
         <font-awesome-icon class="icon" icon="play" />
       </div>
     </div>
@@ -16,17 +16,59 @@
 
 <script>
 import TextBlock from './../components/TextBlock'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     TextBlock
+  },
+  sockets:{
+    connect: function() {
+      console.log("connect")
+    },
+    other(data){
+      console.log("other",data)
+      const them = {
+        type: "other",
+        message: data.message,
+        createdAt: data.createdAt,
+        userName: data.userName
+      }
+      this.messages.push(...them)
+      console.log(this.messages)
+    },
+    self(data){
+      console.log("self",data)
+      const myself = {
+        type: "self",
+        message: data.message,
+        createdAt: data.createdAt,
+        userName: data.userName
+      }
+      this.messages.push(...myself)
+      console.log(this.messages)
+    }
   },
   data() {
     return {
       text: '',
       messages: []
     }
-  }
+  },
+  methods: {
+    clickButton: function (text) {
+      this.$socket.emit('connention')
+      const payLoad = {
+        msg: text,
+        userId: this.currentUser.id
+      }
+      this.$socket.emit('message', payLoad)
+      this.text = ""
+    }
+  },
+  computed: {
+    ...mapState(['currentUser'])
+  }  
 }
 </script>
 

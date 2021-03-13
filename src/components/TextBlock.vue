@@ -18,12 +18,10 @@
 import { momentFilter } from './../utils/mixins'
 
 export default {
-  data() {
-    return {
-      type: 'self', // or 'other' or 'system'
-      message: '123123123',
-      createdAt: '',
-      userName: ''
+  props: {
+    message: {
+      type: Object,
+      required: true
     }
   },
   mixins: [momentFilter]
