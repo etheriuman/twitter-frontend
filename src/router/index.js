@@ -112,7 +112,7 @@ const routes = [
     beforeEnter: authorizeIsUser
   },
   {
-    path: '/chat/private',
+    path: '/chat/:id',
     name: 'chat-private',
     component: () => import('./../views/ChatPrivate.vue'),
     beforeEnter: authorizeIsUser
