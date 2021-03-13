@@ -1,15 +1,15 @@
 <template>
   <div class="text-block">
-    <div v-if="type === 'self'" class="bubble bubble-self">
-      <p class="message message-self">{{ message }}</p>
-      <p class="text-muted text-sm">{{ createdAt | time }}</p>
+    <div v-if="message.type === 'self'" class="bubble bubble-self">
+      <p class="message message-self">{{ message.message }}</p>
+      <p class="text-muted text-sm">{{ message.createdAt | time }}</p>
     </div>
-    <div v-if="type === 'other'" class="bubble bubble-other">
-      <p class="message message-other">{{ message }}</p>
-      <p class="text-muted text-sm">{{ createdAt | time }}</p>
+    <div v-if="message.type === 'other'" class="bubble bubble-other">
+      <p class="message message-other">{{ message.message }}</p>
+      <p class="text-muted text-sm">{{ message.createdAt | time }}</p>
     </div>
-    <div v-if="type === 'system'" class="bubble bubble-system">
-      <p class=" message message-system">{{ message }}</p>
+    <div v-if="message.type === 'system'" class="bubble bubble-system">
+      <p class=" message message-system">{{ message.message }}</p>
     </div>
   </div>
 </template>
