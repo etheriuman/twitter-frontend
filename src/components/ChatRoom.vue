@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="message-area">
-      <TextBlock v-for="message in messages" :key="message.index" :message="message"/>
+      <TextBlock v-for="(message,index) in messages" :key="index" :payLoad="message"/>
     </div>
     <div class="type-area">
       <div class="text" >
@@ -27,11 +27,14 @@ export default {
       console.log("connect")
     },
     other(data){
+      console.log(data)
       const them = {
         type: "other",
         message: data.msg,
         createdAt: data.createdAt,
-        userName: data.userName
+        name: data.name,
+        account: data.account,
+        avatar: data.avatar
       }
       this.messages.push(them)
       console.log(this.messages)
@@ -42,7 +45,9 @@ export default {
         type: "self",
         message: data.msg,
         createdAt: data.createdAt,
-        userName: data.userName
+        name: data.name,
+        account: data.account,
+        avatar: data.avatar
       }
       this.messages.push(myself)
       console.log(this.messages)
