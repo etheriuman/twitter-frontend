@@ -29,7 +29,7 @@ export default {
     other(data){
       const them = {
         type: "other",
-        message: data.message,
+        message: data.msg,
         createdAt: data.createdAt,
         userName: data.userName
       }
