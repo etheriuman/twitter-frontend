@@ -1,15 +1,15 @@
 <template>
   <div class="text-block">
-    <div v-if="message.type === 'self'" class="bubble bubble-self">
-      <p class="message message-self">{{ message.message }}</p>
-      <p class="text-muted text-sm">{{ message.createdAt | time }}</p>
+    <div v-if="payLoad.type === 'self'" class="bubble bubble-self">
+      <p class="message message-self">{{ payLoad.message }}</p>
+      <p class="text-muted text-sm">{{ payLoad.createdAt | time }}</p>
     </div>
-    <div v-if="message.type === 'other'" class="bubble bubble-other">
-      <p class="message message-other">{{ message.message }}</p>
-      <p class="text-muted text-sm">{{ message.createdAt | time }}</p>
+    <div v-if="payLoad.type === 'other'" class="bubble bubble-other">
+      <p class="message message-other">{{ payLoad.message }}</p>
+      <p class="text-muted text-sm">{{ payLoad.createdAt | time }}</p>
     </div>
-    <div v-if="message.type === 'system'" class="bubble bubble-system">
-      <p class=" message message-system">{{ message.message }}</p>
+    <div v-if="payLoad.type === 'system'" class="bubble bubble-system">
+      <p class=" message message-system">{{ payLoad.message }}</p>
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@ import { momentFilter } from './../utils/mixins'
 
 export default {
   props: {
-    message: {
+    payLoad: {
       type: Object,
       required: true
     }
