@@ -7,12 +7,27 @@
         </router-link>
       </div>
       <div class="tabs">
+        <!-- 首頁 -->
         <router-link class="tab" to="/tweets">
           <font-awesome-icon icon="home" /><span>首頁</span>
         </router-link>
-        <router-link class="tab" :to="{name: 'user-tweets', params:{id:currentUser.id}}">
+        <!-- 通知 -->
+        <router-link class="tab" to="/notification">
+          <font-awesome-icon icon="bell" /><span>通知</span>
+        </router-link>
+        <!-- 公開聊天室 -->
+        <router-link class="tab" to="/chat/public">
+          <font-awesome-icon icon="envelope" /><span>公開聊天室</span>
+        </router-link>
+        <!-- 私人訊息 -->
+        <router-link class="tab" to="/chat/all">
+          <font-awesome-icon icon="paper-plane" /><span>私人訊息</span>
+        </router-link>
+        <!-- 個人資料 -->
+        <router-link class="tab" :to="{name:'user-tweets', params:{id:currentUser.id}}">
           <font-awesome-icon icon="user" /><span>個人資料</span>
         </router-link>
+        <!-- 設定 -->
         <router-link class="tab" to="/setting">
           <font-awesome-icon icon="cog" /><span>設定</span>
         </router-link>
@@ -96,7 +111,7 @@ a {
 
 .tabs {
   width: 100%;
-  height: 120px;
+  height: 250px;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
@@ -188,6 +203,13 @@ a {
   width: 100px;
   text-align: end;
 }
+}
+
+/* mobile 尺寸以下 */
+@media screen and (max-width: 576px) {
+  .tab {
+    margin-right: 10px;
+  }
 }
 
 </style>

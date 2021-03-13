@@ -7,7 +7,7 @@
       </router-link>
       <!-- dynamic 標頭 -->
       <div class="topic">
-        <p>{{ currentRouterName }}</p>
+        <p>{{ staticTitle || currentRouterName }}</p>
         <!-- 如果有user表示在user相關頁面 -->
         <p v-if="user" class="text-muted text-sm">
           {{ user.tweetsNumber }} 推文
@@ -26,6 +26,10 @@ export default {
       type: Object,
       default: undefined,
     },
+    staticTitle: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -40,7 +44,11 @@ export default {
   methods: {
     checkArrowIsDisplay() {
       const currentRouterName = this.$route.name
-      if (currentRouterName !== 'tweets' && currentRouterName !== 'setting' && currentRouterName !== 'user-tweets') {
+      if (currentRouterName !== 'tweets' && 
+          currentRouterName !== 'setting' && 
+          currentRouterName !== 'user-tweets' &&
+          currentRouterName !== 'chat-public' && 
+          currentRouterName !== 'chat-private') {
         if (this.currentUser.role !== 'admin') {
           this.displayArrow = true
         }
@@ -66,6 +74,8 @@ export default {
         this.currentRouterName = "推文清單"
       } else if (currentRouterName === "admin-users") {
         this.currentRouterName = "使用者清單"
+      } else if (currentRouterName === "notification") {
+        this.currentRouterName = "通知"
       } else {
         return ""
       }
