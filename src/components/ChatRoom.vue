@@ -27,25 +27,24 @@ export default {
       console.log("connect")
     },
     other(data){
-      console.log("other",data)
       const them = {
         type: "other",
         message: data.message,
         createdAt: data.createdAt,
         userName: data.userName
       }
-      this.messages.push(...them)
+      this.messages.push(them)
       console.log(this.messages)
     },
     self(data){
-      console.log("self",data)
+      console.log(data)
       const myself = {
         type: "self",
-        message: data.message,
+        message: data.msg,
         createdAt: data.createdAt,
         userName: data.userName
       }
-      this.messages.push(...myself)
+      this.messages.push(myself)
       console.log(this.messages)
     }
   },
@@ -62,6 +61,7 @@ export default {
         msg: text,
         userId: this.currentUser.id
       }
+      console.log(payLoad)
       this.$socket.emit('message', payLoad)
       this.text = ""
     }
