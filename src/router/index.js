@@ -105,6 +105,24 @@ const routes = [
     component: () => import('./../views/UserFollowers.vue'),
     beforeEnter: authorizeIsUser
   },
+  {
+    path: '/chat/public',
+    name: 'chat-public',
+    component: () => import('./../views/ChatPublic.vue'),
+    beforeEnter: authorizeIsUser
+  },
+  {
+    path: '/chat/private',
+    name: 'chat-private',
+    component: () => import('./../views/ChatPrivate.vue'),
+    beforeEnter: authorizeIsUser
+  },
+  {
+    path: '/notification',
+    name: 'notification',
+    component: () => import('./../views/Notification.vue'),
+    beforeEnter: authorizeIsUser
+  },
   // admin paths -----
   {
     path: '/admin',
