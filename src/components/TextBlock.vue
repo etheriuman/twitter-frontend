@@ -1,20 +1,20 @@
 <template>
   <div class="text-block">
-    <div v-if="payLoad.type === 'self'" class="bubble bubble-self">
-      <p class="message message-self">{{ payLoad.message }}</p>
-      <p class="text-muted text-sm">{{ payLoad.createdAt | time }}</p>
+    <div v-if="message.type === 'self'" class="bubble bubble-self">
+      <p class="message message-self">{{ message.text }}</p>
+      <p class="text-muted text-sm">{{ message.createdAt | time }}</p>
     </div>
-    <div v-if="payLoad.type === 'other'" class="bubble bubble-other">
+    <div v-if="message.type === 'other'" class="bubble bubble-other">
       <div class="bubble-other-left">
-          <img :src="payLoad.avatar | emptyImage" alt="user-avatar">
+          <img :src="message.avatar | emptyImage" alt="user-avatar">
       </div>
       <div class="bubble-other-right">
-        <p class="message message-other">{{ payLoad.message }}</p>
-        <p class="text-muted text-sm">{{ payLoad.createdAt | time }}</p>
+        <p class="message message-other">{{ message.text }}</p>
+        <p class="text-muted text-sm">{{ message.createdAt | time }}</p>
       </div>
     </div>
-    <div v-if="payLoad.type === 'system'" class="bubble bubble-system">
-      <p class=" message message-system">{{ payLoad.message }}</p>
+    <div v-if="message.type === 'system'" class="bubble bubble-system">
+      <p class=" message message-system">{{ message.text }}</p>
     </div>
   </div>
 </template>
@@ -24,9 +24,16 @@ import { momentFilter, emptyImageFilter } from './../utils/mixins'
 
 export default {
   props: {
-    payLoad: {
-      type: Object,
-      required: true
+    message: {
+      // type: Object,
+      default: {
+        userId: -1,
+        type: '',
+        userName: '',
+        suerAvatar: '',
+        text: '',
+        createdAt: ''
+      }
     }
   },
   mixins: [momentFilter, emptyImageFilter]
@@ -35,13 +42,13 @@ export default {
 
 <style scoped>
   * {
-    outline: 1px solid pink;
+    /* outline: 1px solid pink; */
   }
 
   .text-block {
     display: flex;
     width: 100%;
-    min-height: 30px;
+    min-height: 50px;
     padding: 10px 20px;
     margin-top: 25px;
   }
