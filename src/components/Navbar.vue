@@ -12,15 +12,24 @@
           <font-awesome-icon icon="home" /><span>首頁</span>
         </router-link>
         <!-- 通知 -->
-        <router-link class="tab" to="/notification">
+        <router-link class="tab" to="/notification" v-if="notificationIsNoti" @click.prevent.stop="seeNotificationNoti" >
+          <font-awesome-icon class="noti" icon="bell" /><span>通知</span>
+        </router-link>
+        <router-link class="tab" to="/notification" v-else>
           <font-awesome-icon icon="bell" /><span>通知</span>
         </router-link>
         <!-- 公開聊天室 -->
-        <router-link class="tab" to="/chat/public">
+        <router-link class="tab" to="/chat/public" v-if="chatPublicIsNoti" @click.prevent.stop="seeChatPublicNoti" >
+          <font-awesome-icon class="noti" icon="envelope" /><span>公開聊天室</span>
+        </router-link>
+        <router-link class="tab" to="/chat/public" v-else>
           <font-awesome-icon icon="envelope" /><span>公開聊天室</span>
         </router-link>
         <!-- 私人訊息 -->
-        <router-link class="tab" to="/chat/all">
+        <router-link class="tab" to="/chat/all" v-if="chatPrivateIsNoti" @click.prevent.stop="seeChatPrivateNoti" >
+          <font-awesome-icon class="noti" icon="paper-plane" /><span>私人訊息</span>
+        </router-link>
+        <router-link class="tab" to="/chat/all" v-else>
           <font-awesome-icon icon="paper-plane" /><span>私人訊息</span>
         </router-link>
         <!-- 個人資料 -->
@@ -55,17 +64,47 @@ import Tweeting from './../components/Tweeting'
 import { mapState } from 'vuex'
 
 export default {
+  data() {
+    return {
+      notificationIsNoti: false,
+      chatPublicIsNoti: false,
+      chatPrivateIsNoti: false
+    }
+  },
   components: {
     Tweeting
   },
   computed: {
     ...mapState(['currentUser'])
   },
+  sockets: {
+    // 接收到通知渲染被通知狀態
+    receivePublic() {
+      this.chatPublicIsNoti = true
+    },
+    receivePrivate() {
+      this.chatPrivateIsNoti = true
+    },
+    receiveNoti() {
+      this.notificationIsNoti = true
+    }
+  },
   methods: {
     logout() {
       console.log('logout')
       this.$store.commit('revokeAuthentication')
       this.$router.push('/signin')
+      this.$socket.emit('sendOffline', { userId: this.currentUser.id })
+    },
+    // 刪除通知
+    seeNotificationNoti() {
+      this.notificationIsNoti = false
+    },
+    seeChatPublicNoti() {
+      this.chatPublicIsNoti = false
+    },
+    seeChatPrivateNoti() {
+      this.chatPrivateIsNoti = false
     }
   }
 }
@@ -193,6 +232,17 @@ a {
   line-height: 30px;
   text-align: center;
   margin-right: 30px;
+}
+
+.noti::after {
+  content: '';
+  display: block;
+  background: firebrick;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  left: 10px;
+  top: 10px;
 }
 
 .tab span {

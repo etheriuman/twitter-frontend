@@ -23,6 +23,16 @@ export default {
   components: {
     TextBlock
   },
+  props: {
+    newOnlineUser: {
+      type: Object,
+      default: undefined
+    },
+    newOfflineUser: {
+      type: Object,
+      default: undefined
+    }
+  },
   data() {
     return {
       text: '',
@@ -54,8 +64,8 @@ export default {
       })
     },
     // 接收公開聊天訊息
-    recievePublic(data) {
-      console.log('recieve public: ',data)
+    receivePublic(data) {
+      console.log('receive public: ',data)
       const { userId, userName, userAvatar, text, createdAt } = data
       let type = ''
       if (!text) {
@@ -107,10 +117,42 @@ export default {
       console.log('public message sent: ',payLoad)
       this.$socket.emit('sendPublic', payLoad)
       this.text = ''
+    },
+    // 接收到私人訊息
+    receivePrivate(data) {
+      const { sendUser, text } = data
+      const { userId, userName, userAvatar } = sendUser
+      const message = {
+        userId,
+        userName,
+        userAvatar,
+        text,
+        type: 'other'
+      }
     }
   },
   computed: {
     ...mapState(['currentUser'])
+  },
+  watch: {
+    // 監聽新傳入的上線者並在訊息陣列中塞入系統訊息
+    newOnlineUser(data) {
+      const { userName } = data
+      const systemMessage = {
+        text: `${userName} 上線`,
+        type: 'system'
+      }
+      this.messages.push(systemMessage)
+    },
+    // 監聽新傳入的下線者並在訊息陣列中塞入系統訊息
+    newOfflineUser(data) {
+      const { userName } = data
+      const systemMessage = {
+        text: `${userName} 離線`,
+        type: 'system'
+      }
+      this.messages.push(systemMessage)
+    }
   },
   mounted() {
     this.$socket.emit('messages')
