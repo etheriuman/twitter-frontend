@@ -6,7 +6,7 @@
     </div>
     <div v-if="message.type === 'other'" class="bubble bubble-other">
       <div class="bubble-other-left">
-          <img :src="message.avatar | emptyImage" alt="user-avatar">
+          <img :src="message.userAvatar | emptyImage" alt="user-avatar">
       </div>
       <div class="bubble-other-right">
         <p class="message message-other">{{ message.text }}</p>
