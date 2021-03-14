@@ -14,7 +14,7 @@
     </div>
     <div class="column-right column">
       <PageHead :static-title="'公開聊天室'" />
-      <ChatRoom />
+      <ChatRoom :new-online-user="newOnlineUser" :new-offline-user="newOfflineUser" />
     </div>
   </div>
 </template>
@@ -28,30 +28,58 @@ import OnlineUser from './../components/OnlineUser'
 
 
 export default {
+  data() {
+    return {
+      isLoading: false,
+      newOnlineUser: {},
+      newOfflineUser: {},
+      onlineUsers: []
+    }
+  },
   components: {
     Navbar,
     PageHead,
     ChatRoom,
     OnlineUser
   },
-  data() {
-    return {
-      isLoading: false,
-      onlineUsers: [
-        {
-          id: 1,
-          name: 'Ether',
-          avatar: '',
-          account: '@ether'
-        },
-        {
-          id: 2,
-          name: 'Belinda',
-          avatar: '',
-          account: '@belinda'
+  sockets: {
+    // 接收線上使用者資料回傳
+    receiveUsers(data) {
+      console.log('receiveUsers: ', data)
+      this.onlineUsers = data
+    },
+    // 接收上線事件
+    receiveOnline(data) {
+      console.log('receiveOnline: ', data)
+      const { userId, userName, userAvatar, userAccount } = data
+      const user = {
+        userId,
+        userName,
+        userAvatar,
+        userAccount
+      }
+      if (this.onlineUsers.every(user => user.id !== userId)) {
+        // 若onlineUsers裡面都沒有這個使用者就push進去
+        this.onlineUsers.push(user)
+        this.newOnlineUser = user
+      }
+    },
+    // 接收下線事件
+    receiveOffline(data) {
+      console.log('receiveOffline: ', data)
+      const { userId } = data
+      this.onlineUsers = this.onlineUsers.map(user => {
+        if (user.id === userId) {
+          this.newOfflineUser = user
+          return
         }
-      ]
+        return user
+      })
     }
+  },
+  mounted() {
+    // mounted 取得線上使用者
+    this.$socket.emit('getUsers')
   }
 }
 </script>

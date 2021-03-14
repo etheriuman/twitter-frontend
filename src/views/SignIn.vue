@@ -57,6 +57,7 @@
 
 <script>
 import authorizationAPI from './../apis/authorization'
+import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
 
 export default {
@@ -98,6 +99,9 @@ export default {
         localStorage.setItem('token', data.token)
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
+        // socket.io 發布上線訊息
+        this.$socket.emit('sendOnline', {userId: this.currentUser.id})
+        console.log(this.currentUser.id)
         // 跳轉
         this.$router.push('/tweets')
       } catch(err) {
@@ -112,6 +116,9 @@ export default {
     autoFocus() {
       this.$refs.account.focus()
     }
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   mounted() {
     this.autoFocus()

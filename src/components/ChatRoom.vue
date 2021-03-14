@@ -2,6 +2,7 @@
   <div class="container">
     <div class="message-area">
       <TextBlock v-for="(message,index) in messages" :key="index" :message="message"/>
+      <div ref="ninja"></div>
     </div>
     <form class="type-area" @submit.prevent.stop="handleSubmit">
       <div class="text" >
@@ -22,6 +23,16 @@ import { Toast } from './../utils/helpers'
 export default {
   components: {
     TextBlock
+  },
+  props: {
+    newOnlineUser: {
+      type: Object,
+      default: undefined
+    },
+    newOfflineUser: {
+      type: Object,
+      default: undefined
+    }
   },
   data() {
     return {
@@ -54,8 +65,8 @@ export default {
       })
     },
     // 接收公開聊天訊息
-    recievePublic(data) {
-      console.log('recieve public: ',data)
+    receivePublic(data) {
+      console.log('receive public: ',data)
       const { userId, userName, userAvatar, text, createdAt } = data
       let type = ''
       if (!text) {
@@ -77,14 +88,19 @@ export default {
     },
   },
   methods: {
+    // scroll 到底部
+    scrollBottom() {
+      this.$refs.ninja.scrollIntoView()
+    },
     // 送出訊息到公開群組
     handleSubmit() {
       // 禁止空白輸出
-      if (!this.text) {
+      if (!this.text.trim()) {
         Toast.fire({
           icon: 'warning',
           title: '請輸入訊息內容再發送'
         })
+        this.text = ''
         return
       }
       // 判斷有沒有傳入訊息目標
@@ -107,13 +123,47 @@ export default {
       console.log('public message sent: ',payLoad)
       this.$socket.emit('sendPublic', payLoad)
       this.text = ''
+    },
+    // 接收到私人訊息
+    receivePrivate(data) {
+      const { sendUser, text } = data
+      const { userId, userName, userAvatar } = sendUser
+      const message = {
+        userId,
+        userName,
+        userAvatar,
+        text,
+        type: 'other'
+      }
+      console.log(message)
     }
   },
   computed: {
     ...mapState(['currentUser'])
   },
+  watch: {
+    // 監聽新傳入的上線者並在訊息陣列中塞入系統訊息
+    newOnlineUser(data) {
+      const { userName } = data
+      const systemMessage = {
+        text: `${userName} 上線`,
+        type: 'system'
+      }
+      this.messages.push(systemMessage)
+    },
+    // 監聽新傳入的下線者並在訊息陣列中塞入系統訊息
+    newOfflineUser(data) {
+      const { userName } = data
+      const systemMessage = {
+        text: `${userName} 離線`,
+        type: 'system'
+      }
+      this.messages.push(systemMessage)
+    }
+  },
   mounted() {
     this.$socket.emit('messages')
+    this.scrollBottom()
   }  
 }
 </script>

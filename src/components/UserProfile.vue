@@ -11,7 +11,9 @@
         <img :src="user.avatar | emptyImage" class="avatar mb-5" alt="avatar" />
         <div class="button-group" v-if="currentUser.id != user.id">
           <button type="button" class="user-mail btn btn-outline-primary">
-            <font-awesome-icon icon="envelope" />
+            <router-link :to="{name: 'chat-private', params: {id: user.id}}">
+              <font-awesome-icon class="chat-private" icon="envelope" />
+            </router-link>
           </button>
           <button
             type="button"
@@ -171,6 +173,13 @@ a {
 
 .button-group button {
   margin-left: 10px;
+}
+
+.chat-private {
+  color: #ff6600;
+}
+.chat-private:hover {
+  color: #eeeeee;
 }
 
 .user-account {

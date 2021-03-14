@@ -37,26 +37,12 @@ export default {
   data() {
     return {
       isLoading: false,
-      onlineUsers: [
-        {
-          id: 1,
-          name: 'Ether',
-          avatar: '',
-          account: '@ether'
-        },
-        {
-          id: 2,
-          name: 'Belinda',
-          avatar: '',
-          account: '@belinda'
-        }
-      ],
-      chattingUser: {
-        id: 2,
-        name: '' || 'Belinda',
-        // ...
-      }
+      onlineUsers: [],
+      chattingUser: {}
     }
+  },
+  sockets: {
+    
   }
 }
 </script>
