@@ -37,7 +37,12 @@ export default {
   data() {
     return {
       isLoading: false,
+      onlineUsers: [],
+      chattingUser: {}
     }
+  },
+  sockets: {
+    
   }
 }
 </script>

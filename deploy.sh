@@ -13,6 +13,6 @@ git add -A
 git commit -m 'deploy'
 
 
-git push -f https://github.com/etheriuman/twitter-frontend.git master:gh-pages
+git push -f https://github.com/etheriuman/twitter-frontend.git chat:gh-pages
 
 cd -

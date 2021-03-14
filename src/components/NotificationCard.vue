@@ -36,7 +36,7 @@ export default {
 
 <style scoped>
 * {
-  outline: 1px solid pink;
+  /* outline: 1px solid pink; */
 }
 .card-body {
   display: flex;

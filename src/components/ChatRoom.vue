@@ -2,6 +2,7 @@
   <div class="container">
     <div class="message-area">
       <TextBlock v-for="(message,index) in messages" :key="index" :message="message"/>
+      <div ref="ninja"></div>
     </div>
     <form class="type-area" @submit.prevent.stop="handleSubmit">
       <div class="text" >
@@ -87,14 +88,19 @@ export default {
     },
   },
   methods: {
+    // scroll 到底部
+    scrollBottom() {
+      this.$refs.ninja.scrollIntoView()
+    },
     // 送出訊息到公開群組
     handleSubmit() {
       // 禁止空白輸出
-      if (!this.text) {
+      if (!this.text.trim()) {
         Toast.fire({
           icon: 'warning',
           title: '請輸入訊息內容再發送'
         })
+        this.text = ''
         return
       }
       // 判斷有沒有傳入訊息目標
@@ -129,6 +135,7 @@ export default {
         text,
         type: 'other'
       }
+      console.log(message)
     }
   },
   computed: {
@@ -156,6 +163,7 @@ export default {
   },
   mounted() {
     this.$socket.emit('messages')
+    this.scrollBottom()
   }  
 }
 </script>
