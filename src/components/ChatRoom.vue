@@ -144,18 +144,18 @@ export default {
   watch: {
     // 監聽新傳入的上線者並在訊息陣列中塞入系統訊息
     newOnlineUser(data) {
-      const { userName } = data
+      const { name } = data
       const systemMessage = {
-        text: `${userName} 上線`,
+        text: `${name} 上線`,
         type: 'system'
       }
       this.messages.push(systemMessage)
     },
     // 監聽新傳入的下線者並在訊息陣列中塞入系統訊息
     newOfflineUser(data) {
-      const { userName } = data
+      const { name } = data
       const systemMessage = {
-        text: `${userName} 離線`,
+        text: `${name} 離線`,
         type: 'system'
       }
       this.messages.push(systemMessage)

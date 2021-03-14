@@ -51,14 +51,14 @@ export default {
     // 接收上線事件
     receiveOnline(data) {
       console.log('receiveOnline: ', data)
-      const { userId, userName, userAvatar, userAccount } = data
+      const { id, name, avatar, account } = data
       const user = {
-        userId,
-        userName,
-        userAvatar,
-        userAccount
+        id,
+        name,
+        avatar,
+        account
       }
-      if (this.onlineUsers.every(user => user.id !== userId)) {
+      if (this.onlineUsers.every(user => user.id !== id)) {
         // 若onlineUsers裡面都沒有這個使用者就push進去
         this.onlineUsers.push(user)
         this.newOnlineUser = user
