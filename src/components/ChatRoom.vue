@@ -102,8 +102,6 @@ export default {
       // 沒有傳訊目標就發送到公開聊天室
       const payLoad = {
         userId: this.currentUser.id,
-        userName: this.currentUser.name,
-        userAvatar: this.currentUser.avatar,
         text: this.text
       }
       console.log('public message sent: ',payLoad)
@@ -126,17 +124,15 @@ export default {
   }
 
   .container {
-    height: 100%;
+    height: calc(100% - 50px);
     padding: 0;
   }
   .message-area {
-    height: calc(100% - 50px);
-    display: flex;
-    flex-flow: column;
+    height: 85vh;
     justify-content: flex-end;
     align-items: center;
     padding: 10px 15px;
-    overflow: auto;
+    overflow: scroll;
     scrollbar-width: none;
   }
   .message-area::-webkit-scrollbar {
@@ -177,4 +173,11 @@ export default {
     text-align: center;
     color: #ff6600;
   }
+
+/* pad 尺寸以下 */
+@media screen and (max-width: 992px) {
+  .message-area {
+    height: calc(85vh - 50px);
+  }
+}
 </style>
