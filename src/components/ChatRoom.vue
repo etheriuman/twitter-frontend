@@ -1,84 +1,121 @@
 <template>
   <div class="container">
     <div class="message-area">
-      <TextBlock v-for="(message,index) in messages" :key="index" :payLoad="message"/>
+      <TextBlock v-for="(message,index) in messages" :key="index" :message="message"/>
     </div>
-    <div class="type-area">
+    <form class="type-area" @submit.prevent.stop="handleSubmit">
       <div class="text" >
-        <input type="text" v-model="text" />
+        <input type="text" v-model="text" required />
       </div>
-      <div @click.prevent.stop="clickButton(text)" class="submit">
+      <button type="submit" class="submit">
         <font-awesome-icon class="icon" icon="play" />
-      </div>
-    </div>
+      </button>
+    </form>
   </div>
 </template>
 
 <script>
 import TextBlock from './../components/TextBlock'
 import { mapState } from 'vuex'
+import { Toast } from './../utils/helpers'
 
 export default {
   components: {
     TextBlock
   },
-  sockets:{
-    connect: function() {
-      console.log("connect")
-    },
-    other(data){
-      console.log(data)
-      const them = {
-        type: "other",
-        message: data.msg,
-        createdAt: data.createdAt,
-        name: data.name,
-        account: data.account,
-        avatar: data.avatar
-      }
-      this.messages.push(them)
-      console.log(this.messages)
-    },
-    self(data){
-      console.log(data)
-      const myself = {
-        message: data.msg,
-        createdAt: data.createdAt,
-        name: data.name,
-        account: data.account,
-        avatar: data.avatar
-      }
-      if (data.id === this.currentUser.id) {
-        myself.type = 'self'
-      } else {
-        myself.type = 'other'
-      }
-      this.messages.push(myself)
-      console.log(this.messages)
-    }
-  },
   data() {
     return {
       text: '',
-      messages: []
+      messages: [],
+      toUserId: undefined
     }
   },
-  methods: {
-    clickButton: function (text) {      
-      const payLoad = {
-        msg: text,
-        userId: this.currentUser.id
+  sockets: {
+    // 取得歷史聊天訊息
+    getAllMessages(data) {
+      console.log('all mesages: ', data)
+      this.messages = data.map(message => {
+        if (!message.text) {
+          return {
+            ...message,
+            type: 'system'
+          }
+        } else if (message.userId === this.currentUser.id) {
+          return {
+            ...message,
+            type: 'self'
+          }
+        } else {
+          return {
+            ...message,
+            type: 'other'
+          }
+        }
+      })
+    },
+    // 接收公開聊天訊息
+    recievePublic(data) {
+      console.log('recieve public: ',data)
+      const { userId, userName, userAvatar, text, createdAt } = data
+      let type = ''
+      if (!text) {
+        type = 'system'
+      } else if (userId === this.currentUser.id) {
+        type = 'self'
+      } else {
+        type = 'other'
       }
-      console.log(payLoad)
-      this.$socket.emit('message', payLoad)
-      this.text = ""
+      const message = {
+        userId,
+        type,
+        userName,
+        userAvatar,
+        text,
+        createdAt
+      }
+      this.messages.push(message)
+    },
+  },
+  methods: {
+    // 送出訊息到公開群組
+    handleSubmit() {
+      // 禁止空白輸出
+      if (!this.text) {
+        Toast.fire({
+          icon: 'warning',
+          title: '請輸入訊息內容再發送'
+        })
+        return
+      }
+      // 判斷有沒有傳入訊息目標
+      if (this.toUserId) {
+        const payLoad = {
+          sendUserId: this.currentUser.id,
+          recieveUserId: this.toUserId,
+          text: this.text
+        }
+        console.log('private message sent: ',payLoad)
+        this.$socket.emit('sendPrivate', payLoad)
+        this.text = ''
+        return
+      }
+      // 沒有傳訊目標就發送到公開聊天室
+      const payLoad = {
+        userId: this.currentUser.id,
+        userName: this.currentUser.name,
+        userAvatar: this.currentUser.avatar,
+        text: this.text
+      }
+      console.log('public message sent: ',payLoad)
+      this.$socket.emit('sendPublic', payLoad)
+      this.text = ''
     }
   },
   computed: {
     ...mapState(['currentUser'])
   },
-  created() {
-    this.$socket.emit('connention')
+  mounted() {
+    this.$socket.emit('messages')
   }  
 }
 </script>
@@ -99,17 +136,17 @@ export default {
     justify-content: flex-end;
     align-items: center;
     padding: 10px 15px;
+    overflow: auto;
+    scrollbar-width: none;
+  }
+  .message-area::-webkit-scrollbar {
+    /* hide from chrome */
+    display: none;
   }
   .type-area {
     display: flex;
     height: 50px;
     border-top: 1px solid #dededede;
-    overflow: auto;
-    scrollbar-width: none;
-  }
-  .type-area::-webkit-scrollbar {
-    /* hide from chrome */
-    display: none;
   }
   .text {
     display: flex;
@@ -132,11 +169,12 @@ export default {
   .submit {
     width: 10%;
     height: 100%;
+    border: #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     min-width: 30px;
     text-align: center;
     color: #ff6600;
-  }
-  .icon {
-    line-height: 100%;
   }
 </style>
