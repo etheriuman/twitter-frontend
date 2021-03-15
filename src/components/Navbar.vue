@@ -92,10 +92,10 @@ export default {
   methods: {
     logout() {
       console.log('logout')
-      this.$store.commit('revokeAuthentication')
-      this.$router.push('/signin')
       this.$socket.emit('sendOffline', { userId: this.currentUser.id })
       console.log(this.currentUser.id)
+      this.$store.commit('revokeAuthentication')
+      this.$router.push('/signin')
     },
     // 刪除通知
     seeNotificationNoti() {

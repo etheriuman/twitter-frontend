@@ -67,14 +67,12 @@ export default {
     // 接收下線事件
     receiveOffline(data) {
       console.log('receiveOffline: ', data)
-      const { userId } = data
-      this.onlineUsers = this.onlineUsers.map(user => {
-        if (user.id === userId) {
-          this.newOfflineUser = user
-          return
-        }
-        return user
-      })
+      const { id } = data
+      this.onlineUsers = this.onlineUsers.filter(user => user.id !== id)
+      this.newOfflineUser = {
+        ...this.newOfflineUser,
+        ...data
+      }
     }
   },
   mounted() {
