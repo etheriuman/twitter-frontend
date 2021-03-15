@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="message-area">
+    <div class="message-area" ref="messageArea">
       <TextBlock v-for="(message,index) in messages" :key="index" :message="message"/>
       <div ref="ninja"></div>
     </div>
@@ -163,8 +163,10 @@ export default {
   },
   mounted() {
     this.$socket.emit('messages')
-    this.scrollBottom()
-  }  
+  },
+  updated() {
+    this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight
+  }
 }
 </script>
 
@@ -198,7 +200,7 @@ export default {
     display: flex;
     align-items: center;
     width: 90%;
-    padding: 0 20px;
+    padding-left: 20px;
   }
   .text input,
   .text input:focus {
@@ -215,7 +217,8 @@ export default {
   .submit {
     width: 10%;
     height: 100%;
-    border: #eeeeee;
+    border: none;
+    background: none;
     display: flex;
     align-items: center;
     justify-content: center;
