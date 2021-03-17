@@ -24,7 +24,8 @@ import Navbar from './../components/Navbar'
 import PageHead from './../components/PageHead'
 import ChatRoom from './../components/ChatRoom'
 import OnlineUser from './../components/OnlineUser'
-// import { Toast } from './../utils/helpers'
+import { mapState } from 'vuex'
+import { Toast } from './../utils/helpers'
 
 
 export default {
@@ -41,6 +42,9 @@ export default {
     PageHead,
     ChatRoom,
     OnlineUser
+  },
+  computed: {
+    ...mapState(['currentUser'])
   },
   sockets: {
     // 接收線上使用者資料回傳
@@ -68,6 +72,15 @@ export default {
     receiveOffline(data) {
       console.log('receiveOffline: ', data)
       const { id } = data
+      if (this.currentUser.id === id) {
+        // 如果發現下線的人是自己就把在聊天室的線上使用者踢出去
+        this.$store.commit('revokeAuthentication')
+        this.$router.push('/signin')
+        Toast.fire({
+          icon: 'warning',
+          title: '此帳號已經被登出，請確定沒有重複登入並重新登入'
+        })
+      }
       this.onlineUsers = this.onlineUsers.filter(user => user.id !== id)
       this.newOfflineUser = {
         ...this.newOfflineUser,

@@ -69,6 +69,7 @@ export default {
 .user-card-group {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
   padding: 20px;
   grid-gap: 10px;
   text-align: center;

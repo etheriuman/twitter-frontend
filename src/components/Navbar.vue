@@ -12,21 +12,21 @@
           <font-awesome-icon icon="home" /><span>首頁</span>
         </router-link>
         <!-- 通知 -->
-        <router-link class="tab noti" to="/notification" v-if="notificationIsNoti" @click.prevent.stop="seeNotificationNoti" >
+        <router-link class="tab noti" to="/notification" v-if="notificationIsNoti" @click.prevent.stop="cancelNotificationNoti" >
           <font-awesome-icon icon="bell" /><span>通知</span>
         </router-link>
         <router-link class="tab" to="/notification" v-else>
           <font-awesome-icon icon="bell" /><span>通知</span>
         </router-link>
         <!-- 公開聊天室 -->
-        <router-link class="tab noti" to="/chat/public" v-if="chatPublicIsNoti" @click.prevent.stop="seeChatPublicNoti" >
+        <router-link class="tab noti" to="/chat/public" v-if="chatPublicIsNoti" @click.prevent.stop="cancelChatPublicNoti" >
           <font-awesome-icon icon="envelope" /><span>公開聊天室</span>
         </router-link>
         <router-link class="tab" to="/chat/public" v-else>
           <font-awesome-icon icon="envelope" /><span>公開聊天室</span>
         </router-link>
         <!-- 私人訊息 -->
-        <router-link class="tab noti" to="/chat/all" v-if="chatPrivateIsNoti" @click.prevent.stop="seeChatPrivateNoti" >
+        <router-link class="tab noti" to="/chat/all" v-if="chatPrivateIsNoti" @click.prevent.stop="cancelChatPrivateNoti" >
           <font-awesome-icon icon="paper-plane" /><span>私人訊息</span>
         </router-link>
         <router-link class="tab" to="/chat/all" v-else>
@@ -98,13 +98,13 @@ export default {
       this.$router.push('/signin')
     },
     // 刪除通知
-    seeNotificationNoti() {
+    cancelNotificationNoti() {
       this.notificationIsNoti = false
     },
-    seeChatPublicNoti() {
+    cancelChatPublicNoti() {
       this.chatPublicIsNoti = false
     },
-    seeChatPrivateNoti() {
+    cancelChatPrivateNoti() {
       this.chatPrivateIsNoti = false
     }
   }
