@@ -19,6 +19,7 @@
 import TextBlock from './../components/TextBlock'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
+import { socket } from './../main'
 
 export default {
   components: {
@@ -41,9 +42,9 @@ export default {
       toUserId: undefined
     }
   },
-  sockets: {
+  created() {
     // 取得歷史聊天訊息
-    getAllMessages(data) {
+    socket.on('getAllMessages', (data) => {
       console.log('all mesages: ', data)
       this.messages = data.map(message => {
         if (!message.text) {
@@ -63,9 +64,9 @@ export default {
           }
         }
       })
-    },
+    })
     // 接收公開聊天訊息
-    receivePublic(data) {
+    socket.on('receivePublic', (data) => {
       console.log('receive public: ',data)
       const { userId, userName, userAvatar, text, createdAt } = data
       let type = ''
@@ -85,7 +86,7 @@ export default {
         createdAt
       }
       this.messages.push(message)
-    },
+    })
   },
   methods: {
     // scroll 到底部
@@ -111,7 +112,7 @@ export default {
           text: this.text
         }
         console.log('private message sent: ',payLoad)
-        this.$socket.emit('sendPrivate', payLoad)
+        socket.emit('sendPrivate', payLoad)
         this.text = ''
         return
       }
@@ -121,7 +122,7 @@ export default {
         text: this.text
       }
       console.log('public message sent: ',payLoad)
-      this.$socket.emit('sendPublic', payLoad)
+      socket.emit('sendPublic', payLoad)
       this.text = ''
     },
     // 接收到私人訊息
@@ -162,7 +163,7 @@ export default {
     }
   },
   mounted() {
-    this.$socket.emit('messages')
+    socket.emit('messages')
   },
   updated() {
     this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight

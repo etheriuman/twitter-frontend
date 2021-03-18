@@ -26,6 +26,7 @@ import ChatRoom from './../components/ChatRoom'
 import OnlineUser from './../components/OnlineUser'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
+import { socket } from './../main'
 
 
 export default {
@@ -46,14 +47,14 @@ export default {
   computed: {
     ...mapState(['currentUser'])
   },
-  sockets: {
+  created() {
     // 接收線上使用者資料回傳
-    receiveUsers(data) {
+    socket.on('receiveUsers', (data) => {
       console.log('receiveUsers: ', data)
       this.onlineUsers = data
-    },
+    })
     // 接收上線事件
-    receiveOnline(data) {
+    socket.on('receiveOnline', (data) => {
       console.log('receiveOnline: ', data)
       const { id, name, avatar, account } = data
       const user = {
@@ -67,9 +68,9 @@ export default {
         this.onlineUsers.push(user)
         this.newOnlineUser = user
       }
-    },
+    })
     // 接收下線事件
-    receiveOffline(data) {
+    socket.on('receiveOffline', (data) => {
       console.log('receiveOffline: ', data)
       const { id } = data
       if (this.currentUser.id === id) {
@@ -86,11 +87,11 @@ export default {
         ...this.newOfflineUser,
         ...data
       }
-    }
+    })
   },
   mounted() {
     // mounted 取得線上使用者
-    this.$socket.emit('getUsers')
+    socket.emit('getUsers')
   }
 }
 </script>

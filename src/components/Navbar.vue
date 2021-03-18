@@ -62,6 +62,7 @@
 <script>
 import Tweeting from './../components/Tweeting'
 import { mapState } from 'vuex'
+import { socket } from './../main'
 
 export default {
   data() {
@@ -92,7 +93,8 @@ export default {
   methods: {
     logout() {
       console.log('logout')
-      this.$socket.emit('sendOffline', { userId: this.currentUser.id })
+      socket.emit('sendOffline', { userId: this.currentUser.id })
+      socket.disconnect()
       console.log(this.currentUser.id)
       this.$store.commit('revokeAuthentication')
       this.$router.push('/signin')

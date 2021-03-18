@@ -59,6 +59,7 @@
 import authorizationAPI from './../apis/authorization'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
+import { socket } from './../main'
 
 export default {
   data() {
@@ -100,8 +101,9 @@ export default {
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
         // socket.io 發布上線訊息
-        this.$socket.emit('sendOnline', {userId: this.currentUser.id})
+        socket.emit('sendOnline', {userId: this.currentUser.id})
         console.log(this.currentUser.id)
+        socket.connect()
         // 跳轉
         this.$router.push('/tweets')
       } catch(err) {
