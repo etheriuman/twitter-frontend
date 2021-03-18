@@ -100,10 +100,11 @@ export default {
         localStorage.setItem('token', data.token)
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
+        // socket.io 連線
+        socket.connect()
         // socket.io 發布上線訊息
         socket.emit('sendOnline', {userId: this.currentUser.id})
         console.log(this.currentUser.id)
-        socket.connect()
         // 跳轉
         this.$router.push('/tweets')
       } catch(err) {
