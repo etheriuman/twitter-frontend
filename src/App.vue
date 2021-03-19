@@ -7,15 +7,9 @@
 <script>
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { socket } from './main'
 
 export default {
-  name: 'App',
-  created() {
-    socket.on('connection', (data) => {
-      console.log('socket connected:', data)
-    })
-  }
+  name: 'App'
 }
 </script>
 

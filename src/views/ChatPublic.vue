@@ -26,7 +26,19 @@ import ChatRoom from './../components/ChatRoom'
 import OnlineUser from './../components/OnlineUser'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
-import { socket } from './../main'
+import { io } from 'socket.io-client'
+
+// Socket.io
+const localToken = localStorage.getItem('token') || ''
+
+const socket = io('https://twitter-simple-one.herokuapp.com', {
+  reconnectionDelayMax: 10000,
+  autoConnect: false,
+  auth: {
+    token: localToken
+  },
+  multiplex: false
+})
 
 
 export default {
@@ -48,6 +60,14 @@ export default {
     ...mapState(['currentUser'])
   },
   created() {
+    // socket.io 連線
+    socket.connect()
+    socket.on('connect', () => {
+      console.log('conneced!')
+    })
+    socket.on('connection', (data) => {
+      console.log('connection: ', data)
+    })
     // 接收線上使用者資料回傳
     socket.on('receiveUsers', (data) => {
       console.log('receiveUsers: ', data)
@@ -90,6 +110,9 @@ export default {
     })
   },
   mounted() {
+    // socket.io 發布上線訊息
+    socket.emit('sendOnline', {userId: this.currentUser.id})
+    console.log(this.currentUser.id)
     // mounted 取得線上使用者
     socket.emit('getUsers')
   }

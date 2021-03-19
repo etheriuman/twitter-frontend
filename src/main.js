@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
-import { io } from 'socket.io-client'
 import router from './router'
 import './assets/application.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -28,17 +27,6 @@ library.add(
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
-
-// Socket.io
-const token = localStorage.getItem('token') || ''
-
-export const socket = io('https://twitter-simple-one.herokuapp.com/', {
-  autoConnect: false,
-  auth: {
-    token
-  },
-  multiplex: false
-})
 
 new Vue({
   store,

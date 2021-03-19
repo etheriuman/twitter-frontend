@@ -19,7 +19,12 @@
 import TextBlock from './../components/TextBlock'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
-import { socket } from './../main'
+import { io } from 'socket.io-client'
+
+const socket = io('https://twitter-simple-one.herokuapp.com', {
+  autoConnect: false,
+  multiplex: false
+})
 
 export default {
   components: {
