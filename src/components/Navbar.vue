@@ -62,12 +62,7 @@
 <script>
 import Tweeting from './../components/Tweeting'
 import { mapState } from 'vuex'
-import { io } from 'socket.io-client'
-
-const socket = io('https://twitter-simple-one.herokuapp.com', {
-  autoConnect: false,
-  multiplex: false
-})
+import { socket } from './../main'
 
 export default {
   data() {

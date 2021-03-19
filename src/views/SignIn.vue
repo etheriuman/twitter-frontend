@@ -59,6 +59,7 @@
 import authorizationAPI from './../apis/authorization'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
+import { socket } from './../main'
 
 export default {
   data() {
@@ -99,6 +100,15 @@ export default {
         localStorage.setItem('token', data.token)
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
+        // 設定 socket.auth
+        socket.auth = { token: localStorage.getItem('token') }
+        // 查看 socket 物件
+        console.log(socket)
+        // socket.io 連線
+        socket.connect()
+        // socket.io 發布上線訊息
+        socket.emit('sendOnline', {userId: this.currentUser.id})
+        console.log(this.currentUser.id)
         // 跳轉
         this.$router.push('/tweets')
       } catch(err) {
