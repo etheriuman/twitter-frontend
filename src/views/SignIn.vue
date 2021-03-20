@@ -100,11 +100,15 @@ export default {
         localStorage.setItem('token', data.token)
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
-        // 設定 socket.auth
-        socket.auth = { token: localStorage.getItem('token') }
+        // 設定 socket.query
+        socket.query = {
+          token: localStorage.getItem('token'),
+          userId: this.currentUser.id
+        }
         // 查看 socket 物件
-        console.log(socket)
+        console.log('current socket object: ', socket)
         // socket.io 連線
+        console.log('socket connect request sent!')
         socket.connect()
         // socket.io 發布上線訊息
         socket.emit('sendOnline', {userId: this.currentUser.id})
