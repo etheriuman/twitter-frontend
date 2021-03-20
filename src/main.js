@@ -34,9 +34,6 @@ Vue.config.productionTip = false
 
 export const socket = io('https://twitter-simple-one.herokuapp.com/', {
   autoConnect: false,
-  // auth: {
-  //   token
-  // },
   multiplex: false
 })
 

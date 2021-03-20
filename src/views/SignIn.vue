@@ -100,8 +100,13 @@ export default {
         localStorage.setItem('token', data.token)
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
-        // 設定 socket.query
-        socket.query = {
+        // 設定 socket query
+        socket.io.opts.query = {
+          token: localStorage.getItem('token'),
+          userId: this.currentUser.id
+        }
+        // 設定 socket auth
+        socket.io.opts.auth = {
           token: localStorage.getItem('token'),
           userId: this.currentUser.id
         }
