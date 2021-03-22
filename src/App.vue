@@ -15,6 +15,9 @@ export default {
     socket.on('connection', (data) => {
       console.log('socket connected:', data)
     })
+    socket.on ('connect_error', (error) => {
+      console.log('connect error: ', error.message)
+    })
   }
 }
 </script>

@@ -59,7 +59,7 @@
 import authorizationAPI from './../apis/authorization'
 import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
-import { socket } from './../main'
+import { io } from 'socket.io-client'
 
 export default {
   data() {
@@ -100,21 +100,20 @@ export default {
         localStorage.setItem('token', data.token)
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
-        // 設定 socket query
-        socket.io.opts.query = {
-          token: localStorage.getItem('token'),
-          userId: this.currentUser.id
-        }
-        // 設定 socket auth
-        socket.io.opts.auth = {
-          token: localStorage.getItem('token'),
-          userId: this.currentUser.id
-        }
+        // 產生socket 連線
+        const socket = io('https://twitter-simple-one.herokuapp.com/', {
+          auth: {
+            token: localStorage.getItem('token'),
+            userId: this.currentUser.id
+          },
+          autoConnect: false,
+          multiplex: false
+        })
         // 查看 socket 物件
         console.log('current socket object: ', socket)
         // socket.io 連線
-        console.log('socket connect request sent!')
         socket.connect()
+        console.log('socket connect request sent!')
         // socket.io 發布上線訊息
         socket.emit('sendOnline', {userId: this.currentUser.id})
         console.log(this.currentUser.id)
