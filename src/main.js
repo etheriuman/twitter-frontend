@@ -30,9 +30,14 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 
 // Socket.io
-// const token = localStorage.getItem('token') || ''
+const token = localStorage.getItem('token') || ''
+const userId = store.state.currentUser.id
 
 export const socket = io('https://twitter-simple-one.herokuapp.com/', {
+  query: {
+    token,
+    userId
+  },
   autoConnect: false,
   multiplex: false
 })
