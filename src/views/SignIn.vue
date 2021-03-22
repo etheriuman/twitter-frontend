@@ -106,6 +106,10 @@ export default {
             token: localStorage.getItem('token'),
             userId: this.currentUser.id
           },
+          query: {
+            token: localStorage.getItem('token'),
+            userId: this.currentUser.id
+          },
           autoConnect: false,
           multiplex: false
         })

@@ -12,6 +12,9 @@ import { socket } from './main'
 export default {
   name: 'App',
   created() {
+    socket.on('connect', () => {
+      console.log('connected!!!')
+    })
     socket.on('connection', (data) => {
       console.log('socket connected:', data)
     })
