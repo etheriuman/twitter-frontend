@@ -60,9 +60,10 @@ export default {
     joinRoom(receiverId) {
       const payLoad = {
         senderId: this.currentUser.id,
-        receiverId
+        receiverId: parseInt(receiverId)
       }
       socket.emit('joinRoom', payLoad)
+      console.log('joinRoom!', payLoad)
     },
     getMessages(roomId) {
       socket.emit('privateMessages', roomId)
@@ -95,11 +96,38 @@ export default {
       }
     })
   },
+  beforeRouteUpdate(to, from, next) {
+    // 如果路由沒有對象就直接return掉
+    const { id } = to.params
+    console.log('targetUser id: ', id)
+    if (id === 'all') {
+      return
+    }
+    // 加入房間
+    this.joinRoom(id)
+    // 尋找所有 chats 中有沒有該聊天對象
+    this.chats.forEach(chat => {
+      if (chat.User.id === parseInt(id)) {
+        this.getMessages(chat.roomId)
+      }
+    })
+    next()
+  },
   created() {
     // 接收房間清單
     socket.on('receiveChatRooms', (data) => {
       console.log('receiveChatRooms: ', data)
       this.chats = [...data]
+      // 從 chats 中找到傳訊對象資料
+      data.forEach(chat => {
+        const { id } = this.$route.params
+        if (chat.User.id === parseInt(id)) {
+          this.chattingUser = {
+            ...this.chattingUser,
+            ...chat.User
+          }
+        }
+      })
     })
     // 接收私人歷史訊息
     socket.on('getPrivateMessages', (data) => {
