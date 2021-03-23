@@ -95,15 +95,17 @@ export default {
   created() {
     // 接收房間清單
     socket.on('receiveChatRooms', (data) => {
+      console.log('receiveChatRooms: ', data)
       this.chats = [...data]
     })
     // 接收私人歷史訊息
     socket.on('getPrivateMessages', (data) => {
+      console.log('getPrivateMessages: ', data)
       this.messages = [...data]
     })
     // 接收到私人訊息
     socket.on('receivePrivate', (data) => {
-      console.log('receive public: ',data)
+      console.log('receivePrivate: ',data)
       const { userId, userName, userAvatar, text, createdAt } = data
       let type = ''
       if (userId === this.currentUser.id) {
