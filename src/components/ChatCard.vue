@@ -1,17 +1,20 @@
 <template>
-  <router-link :to="{name: 'chat-private', params: {id: user.id}}" class="list-group-item">
+  <router-link :to="{name: 'chat-private', params: {id: chat.roomId}}" class="list-group-item">
     <div class="card-body">
       <div class="card-body-side">
         <!-- user avatar -->
-        <div>
-          <img class="avatar" :src="user.avatar | emptyImage" alt="">
-        </div>
+        <router-link :to="{name: 'user-tweets', params: {id:chat.User.id}}">
+          <img class="avatar" :src="chat.User.avatar | emptyImage" alt="">
+        </router-link>
       </div>
       <div class="card-body-content">
         <!-- replyCard header -->
         <div class="content-header">
-          <span class="user-name">{{user.name}}</span>
-          <span class="text-muted">{{user.account}}</span>
+          <span class="user-name">{{chat.User.name}}</span>
+          <span class="text-muted">{{chat.User.account}}</span>
+        </div>
+        <div class="content-body text-muted text-sm">
+          {{chat.lastMessage}}
         </div>
       </div>
     </div>
@@ -23,7 +26,7 @@ import { emptyImageFilter } from './../utils/mixins'
 
 export default {
   props: {
-    user: {
+    chat: {
       type: Object,
       required: true
     }
@@ -38,7 +41,6 @@ export default {
   position: relative;
   display: flex;
   padding: 15px 10px;
-  align-items: center;
 }
 
 .card-body-side {
@@ -48,6 +50,8 @@ export default {
 }
 
 .card-body-content {
+  display: flex;
+  flex-flow: column;
   width: 100%;
   height: 100%;
   padding-left: 10px;
@@ -57,8 +61,11 @@ export default {
   margin-right: 10px;
 }
 
-.content-body p {
-  word-break: break-all;
+.content-body {
+  max-width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 </style>

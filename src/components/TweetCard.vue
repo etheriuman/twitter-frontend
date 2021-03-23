@@ -42,13 +42,12 @@
         <div class="content-footer" v-if="currentUser.role !== 'admin'">
           <!-- reply button -->
           <!-- dynamic data-target -->
-          <button class="reply btn">
-            <font-awesome-icon 
-            class="icon" 
-            icon="comment" 
-            data-toggle="modal"
-            :data-target="`#${replyingId}`"
-            />
+          <button
+          class="reply btn"
+          data-toggle="modal"
+          :data-target="`#${replyingId}`"
+          >
+            <font-awesome-icon class="icon" icon="comment" />
             <span>{{tweet.repliesNumber}}</span>
           </button>
           <!-- processing時顯示的假button -->
@@ -61,21 +60,21 @@
             </button>
           <template v-else>
             <!-- 如果有like就顯示 -->
-            <button class="liked btn" v-if="tweet.isLiked">
-              <font-awesome-icon
-              class="icon"
-              icon="heart"
-              @click.prevent.stop="deleteLike(tweet.id)"
-              />
+            <button
+            class="liked btn"
+            v-if="tweet.isLiked"
+            @click.prevent.stop="deleteLike(tweet.id)"
+            >
+              <font-awesome-icon class="icon" icon="heart" />
               <span>{{tweet.likesNumber}}</span>
             </button>
             <!-- 如果沒like就顯示 -->
-            <button class="like btn" v-else>
-              <font-awesome-icon
-              class="icon"
-              icon="heart"
-              @click.prevent.stop="addLike(tweet.id)"
-              />
+            <button
+            class="like btn"
+            v-else
+            @click.prevent.stop="addLike(tweet.id)"
+            >
+              <font-awesome-icon class="icon" icon="heart" />
               <span>{{tweet.likesNumber}}</span>
             </button>
           </template>
@@ -196,11 +195,6 @@ export default {
   position: relative;
   display: flex;
   padding: 5px 10px 10px 10px;
-}
-
-.card-body:hover {
-  transform: scale(1.02, 1.02);
-  transition: all .1s ease-in;
 }
 
 .card-body-side {

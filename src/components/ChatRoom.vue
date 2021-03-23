@@ -26,74 +26,29 @@ export default {
     TextBlock
   },
   props: {
-    newOnlineUser: {
-      type: Object,
-      default: undefined
+    messages: {
+      type: Array,
+      required: true
     },
-    newOfflineUser: {
-      type: Object,
+    chattingRoomId: {
+      type: Number,
       default: undefined
     }
   },
   data() {
     return {
-      text: '',
-      messages: [],
-      toUserId: undefined
+      text: ''
     }
   },
   created() {
-    // 取得歷史聊天訊息
-    socket.on('getAllMessages', (data) => {
-      console.log('all mesages: ', data)
-      this.messages = data.map(message => {
-        if (!message.text) {
-          return {
-            ...message,
-            type: 'system'
-          }
-        } else if (message.userId === this.currentUser.id) {
-          return {
-            ...message,
-            type: 'self'
-          }
-        } else {
-          return {
-            ...message,
-            type: 'other'
-          }
-        }
-      })
-    })
-    // 接收公開聊天訊息
-    socket.on('receivePublic', (data) => {
-      console.log('receive public: ',data)
-      const { userId, userName, userAvatar, text, createdAt } = data
-      let type = ''
-      if (!text) {
-        type = 'system'
-      } else if (userId === this.currentUser.id) {
-        type = 'self'
-      } else {
-        type = 'other'
-      }
-      const message = {
-        userId,
-        type,
-        userName,
-        userAvatar,
-        text,
-        createdAt
-      }
-      this.messages.push(message)
-    })
+    
   },
   methods: {
     // scroll 到底部
     scrollBottom() {
       this.$refs.ninja.scrollIntoView()
     },
-    // 送出訊息到公開群組
+    // 送出訊息
     handleSubmit() {
       // 禁止空白輸出
       if (!this.text.trim()) {
@@ -105,10 +60,10 @@ export default {
         return
       }
       // 判斷有沒有傳入訊息目標
-      if (this.toUserId) {
+      if (this.chattingRoomId) {
         const payLoad = {
-          sendUserId: this.currentUser.id,
-          recieveUserId: this.toUserId,
+          senderId: this.currentUser.id,
+          roomId: this.chattingRoomId,
           text: this.text
         }
         console.log('private message sent: ',payLoad)
@@ -124,46 +79,15 @@ export default {
       console.log('public message sent: ',payLoad)
       socket.emit('sendPublic', payLoad)
       this.text = ''
-    },
-    // 接收到私人訊息
-    receivePrivate(data) {
-      const { sendUser, text } = data
-      const { userId, userName, userAvatar } = sendUser
-      const message = {
-        userId,
-        userName,
-        userAvatar,
-        text,
-        type: 'other'
-      }
-      console.log(message)
     }
   },
   computed: {
     ...mapState(['currentUser'])
   },
   watch: {
-    // 監聽新傳入的上線者並在訊息陣列中塞入系統訊息
-    newOnlineUser(data) {
-      const { name } = data
-      const systemMessage = {
-        text: `${name} 上線`,
-        type: 'system'
-      }
-      this.messages.push(systemMessage)
-    },
-    // 監聽新傳入的下線者並在訊息陣列中塞入系統訊息
-    newOfflineUser(data) {
-      const { name } = data
-      const systemMessage = {
-        text: `${name} 離線`,
-        type: 'system'
-      }
-      this.messages.push(systemMessage)
+    messages(data) {
+      this.messages = data
     }
-  },
-  mounted() {
-    socket.emit('messages')
   },
   updated() {
     this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight

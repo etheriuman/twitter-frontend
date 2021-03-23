@@ -161,7 +161,7 @@ const router = new VueRouter({
 
 // 轉址前置驗證
 router.beforeEach(async (to, from, next) => {
-  console.log(to.name)
+  console.log('move to page: ',to.name)
   const currentUserRole = store.state.currentUser.role
   const tokenInLocalStorage = localStorage.getItem('token')
   const tokenInStore = store.state.token
@@ -191,7 +191,6 @@ router.beforeEach(async (to, from, next) => {
     return
   }
   // 都沒事就順利轉址
-  console.log('success')
   next()
 })
 

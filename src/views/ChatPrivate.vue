@@ -8,13 +8,13 @@
         <ul class="list-group list-group-flush">
           <PageHead :static-title="'訊息'" />
           <p class="loading" v-if="isLoading">努力加載中...</p>
-          <OnlineUser v-for="onlineUser in onlineUsers" :key="onlineUser.id" :online-user="onlineUser"/>
+          <ChatCard v-for="chat in chats" :key="chat.id" :chat="chat"/>
         </ul>
       </div>
     </div>
     <div class="column-right column">
       <PageHead :static-title="chattingUser.name" />
-      <ChatRoom />
+      <ChatRoom :messages="messages" :chatting-room-id="chattingRoomId" />
     </div>
   </div>
 </template>
@@ -23,7 +23,9 @@
 import Navbar from './../components/Navbar'
 import PageHead from './../components/PageHead'
 import ChatRoom from './../components/ChatRoom'
-import OnlineUser from './../components/OnlineUser'
+import ChatCard from './../components/ChatCard'
+import { mapState } from 'vuex'
+import { socket } from './../main'
 // import { Toast } from './../utils/helpers'
 
 
@@ -32,17 +34,93 @@ export default {
     Navbar,
     PageHead,
     ChatRoom,
-    OnlineUser
+    ChatCard
   },
   data() {
     return {
       isLoading: false,
-      onlineUsers: [],
-      chattingUser: {}
+      chats: [
+        {
+          User: {
+            id: 2,
+            name: 'Belinda',
+            account: '@belinda',
+            avatar: ''
+          },
+          lastMessage: 'yoyoyo~yoyoyo~yoyoyo~yoyoyo~yoyoyo~yoyoyo~',
+          roomId: '9527'
+        }
+      ],
+      chattingUser: {},
+      chattingRoomId: -1,
+      messages: []
     }
   },
-  sockets: {
-    
+  methods: {
+    joinRoom(receiverId) {
+      const payLoad = {
+        senderId: this.currentUser.id,
+        receiverId
+      }
+      socket.emit('joinRoom', payLoad)
+    },
+    getMessages(roomId) {
+      socket.emit('privateMessages', roomId)
+    },
+    getChatRooms() {
+      socket.emit('getChatRooms')
+    }
+  },
+  computed: {
+    ...mapState(['currentUser'])
+  },
+  mounted() {
+    // 拿到所有 chatRooms
+    this.getChatRooms()
+    // 如果路由沒有對象就直接return掉
+    const { id } = this.$route.params
+    console.log('targetUser id: ', id)
+    if (id === 'all') {
+      return
+    }
+    // 加入房間
+    this.joinRoom(id)
+    // 尋找所有 chats 中有沒有該聊天對象
+    this.chats.forEach(chat => {
+      if (chat.User.id === parseInt(id)) {
+        this.getMessages(chat.roomId)
+      }
+    })
+  },
+  created() {
+    // 接收房間清單
+    socket.on('receiveChatRooms', (data) => {
+      this.chats = [...data]
+    })
+    // 接收私人歷史訊息
+    socket.on('getPrivateMessages', (data) => {
+      this.messages = [...data]
+    })
+    // 接收到私人訊息
+    socket.on('receivePrivate', (data) => {
+      console.log('receive public: ',data)
+      const { userId, userName, userAvatar, text, createdAt } = data
+      let type = ''
+      if (userId === this.currentUser.id) {
+        type = 'self'
+      } else {
+        type = 'other'
+      }
+      const message = {
+        userId,
+        type,
+        userName,
+        userAvatar,
+        text,
+        createdAt
+      }
+      this.messages.push(message)
+    })
   }
 }
 </script>

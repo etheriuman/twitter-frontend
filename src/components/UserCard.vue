@@ -124,11 +124,6 @@ export default {
   justify-content: space-between;
 }
 
-.list-group-item:hover {
-  transform: scale(1.01, 1.01);
-  transition: all .1s ease-out;
-}
-
 .list-group-item:first-child,
 .list-group-item:last-child {
   padding: 10px 15px;
