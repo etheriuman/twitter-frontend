@@ -68,7 +68,10 @@ export default {
       socket.emit('privateMessages', roomId)
     },
     getChatRooms() {
-      socket.emit('getChatRooms')
+      const payLoad = {
+        userId: this.currentUser.id
+      }
+      socket.emit('getChatRooms', payLoad)
     }
   },
   computed: {
