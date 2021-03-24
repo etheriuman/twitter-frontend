@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name: 'chat-private', params: {id: chat.roomId}}" class="list-group-item">
+  <router-link :to="{name: 'chat-private', params: {id: chat.User.id}}" class="list-group-item">
     <div class="card-body">
       <div class="card-body-side">
         <!-- user avatar -->
