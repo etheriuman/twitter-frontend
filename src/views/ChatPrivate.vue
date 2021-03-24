@@ -14,7 +14,10 @@
     </div>
     <div class="column-right column">
       <PageHead :static-title="chattingUser.name" />
-      <ChatRoom :messages="messages" :chatting-room-id="chattingRoomId" />
+      <ChatRoom
+      :messages="messages"
+      :chatting-room-id="chattingRoomId"
+      />
     </div>
   </div>
 </template>
@@ -39,18 +42,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      chats: [
-        {
-          User: {
-            id: 2,
-            name: 'Belinda',
-            account: '@belinda',
-            avatar: ''
-          },
-          lastMessage: 'yoyoyo~yoyoyo~yoyoyo~yoyoyo~yoyoyo~yoyoyo~',
-          roomId: '9527'
-        }
-      ],
+      chats: [],
       chattingUser: {},
       chattingRoomId: -1,
       messages: []
@@ -72,6 +64,7 @@ export default {
     },
     // 拿到所有聊天房間的簡單資訊
     getChatRooms() {
+      console.log('getChatRooms!')
       const payLoad = {
         userId: this.currentUser.id
       }
@@ -127,6 +120,19 @@ export default {
     socket.on('getPrivateMessages', (data) => {
       console.log('getPrivateMessages: ', data)
       this.messages = [...data]
+      this.messages = data.map(message => {
+        if (message.userId === this.currentUser.id) {
+          return {
+            ...message,
+            type: 'self'
+          }
+        } else {
+          return {
+            ...message,
+            type: 'other'
+          }
+        }
+      })
     })
     // 接收到私人訊息
     socket.on('receivePrivate', (data) => {
@@ -147,6 +153,12 @@ export default {
         createdAt
       }
       this.messages.push(message)
+      // 更新chatCard的最新訊息
+      this.chats.forEach(chat => {
+        if (chat.User.id === this.chattingUser.id) {
+          chat.lastMessage = text
+        }
+      })
     })
   }
 }
