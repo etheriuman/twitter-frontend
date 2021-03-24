@@ -9,6 +9,7 @@
           <img :src="message.userAvatar | emptyImage" alt="user-avatar">
       </div>
       <div class="bubble-other-right">
+        <span class="text-muted text-sm other-name">{{ message.userName }}</span>
         <p class="message message-other">{{ message.text }}</p>
         <p class="text-muted text-sm">{{ message.createdAt | time }}</p>
       </div>
@@ -95,6 +96,10 @@ export default {
     position: relative;
     padding-bottom: 15px;
     max-width: calc(100% - 50px);
+  }
+  .other-name {
+    position: absolute;
+    top: -20px;
   }
   .message-other {
     max-width: 100%;
