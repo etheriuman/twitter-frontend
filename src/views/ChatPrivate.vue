@@ -120,7 +120,7 @@ export default {
         ...this.chattingUser,
         ...data.User
       }
-      this.getMessages(data.chattingRoomId)
+      this.getMessages(data.roomId)
     })
     // 接收私人歷史訊息
     socket.on('getPrivateMessages', (data) => {
