@@ -4,7 +4,7 @@
       <TextBlock v-for="(message,index) in messages" :key="index" :message="message"/>
       <div ref="ninja"></div>
     </div>
-    <form class="type-area" @submit.prevent.stop="handleSubmit">
+    <form class="type-area" @submit.prevent.stop="handleSubmit" v-if="chattingRoomId !== -1">
       <div class="text" >
         <input type="text" v-model="text" required />
       </div>
@@ -12,6 +12,8 @@
         <font-awesome-icon class="icon" icon="play" />
       </button>
     </form>
+    <!-- 為選擇聊天對象時 -->
+    <p v-else class="text-center text-muted">選擇一個對象來聊天吧！</p>
   </div>
 </template>
 

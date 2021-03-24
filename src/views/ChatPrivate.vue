@@ -120,6 +120,7 @@ export default {
         ...this.chattingUser,
         ...data.User
       }
+      this.chattingRoomId = data.roomId
       this.getMessages(data.roomId)
     })
     // 接收私人歷史訊息
