@@ -106,9 +106,12 @@ export default {
     // 接收加入房間回傳資料
     socket.on('receiveJoinRoom', (data) => {
       console.log('receiveJoinRoom: ', data)
-      if (this.chats.every(chat => chat.chattingRoomId !== data.chattingRoomId)) {
+      // 如果chats中沒有該名使用者就推進去
+      if (this.chats.every(chat => chat.roomId !== data.roomId)) {
+        console.log('push chat init')
         this.chats.push(data)
       }
+      // 切換正在聊天的對象
       this.chattingUser = {
         ...this.chattingUser,
         ...data.User
@@ -152,7 +155,10 @@ export default {
         text,
         createdAt
       }
-      this.messages.push(message)
+      // 如果接到的私訊是當前聊天對象傳來的就推進聊天室
+      if (this.chattingUser.id === data.userId) {
+        this.messages.push(message)
+      }
       // 更新chatCard的最新訊息
       this.chats.forEach(chat => {
         if (chat.User.id === this.chattingUser.id) {
