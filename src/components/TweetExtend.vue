@@ -62,7 +62,9 @@
 import Replying from './../components/Replying'
 import { fromNowFilter, momentFilter, emptyImageFilter } from './../utils/mixins'
 import likesAPI from './../apis/likes'
+import { mapState } from 'vuex'
 import { Toast } from './../utils/helpers'
+import { socket } from './../main'
 
 export default {
   components: {
@@ -82,6 +84,9 @@ export default {
       isProcessing: false
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   methods: {
     // 按讚
     async addLike(tweetId) {
@@ -94,6 +99,8 @@ export default {
         this.isProcessing = false
         // 回傳事件
         this.$emit('after-add-like', this.tweet.id)
+        // 傳送socket通知
+        this.socketLike()
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -102,6 +109,15 @@ export default {
         this.isProcessing = false
         console.log(err)
       }
+    },
+    // socket按讚通知
+    socketLike() {
+      const payLoad = {
+        type: 'like',
+        userId: this.currentUser.id,
+        tweetId: this.tweet.id
+      }
+      socket.emit('sendNotification', payLoad)
     },
     // 取消讚
     async deleteLike(tweetId) {

@@ -93,6 +93,7 @@ import adminAPI from './../apis/admin'
 import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
 import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
+import { socket } from './../main'
 
 
 export default {
@@ -127,6 +128,8 @@ export default {
         this.isProcessing = false
         // 回傳事件
         this.$emit('after-add-like', this.tweet.id)
+        // 傳送socket通知
+        this.socketLike()
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -135,6 +138,15 @@ export default {
         this.isProcessing = false
         console.log(err)
       }
+    },
+    // socket按讚通知
+    socketLike() {
+      const payLoad = {
+        type: 'like',
+        userId: this.currentUser.id,
+        tweetId: this.tweet.id
+      }
+      socket.emit('sendNotification', payLoad)
     },
     // 取消讚
     async deleteLike(tweetId) {
