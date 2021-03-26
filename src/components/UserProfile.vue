@@ -150,8 +150,11 @@ export default {
       socket.emit('sendNotification', payLoad)
     },
     // 加入追蹤
-    async addFollowed(payLoad) {
+    async addFollowed(userId) {
       try {
+        const payLoad = {
+          id: userId
+        }
         this.followIsProcessing = true
         const {data} = await followAPI.addFollow({payLoad})
         this.user.followersNumber = this.user.followersNumber + 1
@@ -172,7 +175,7 @@ export default {
       }      
     },
     // 取消追蹤
-    async cencelFollowed(userId) {
+    async cancelFollowed(userId) {
       try {
         this.followIsProcessing = true
         const {data} = await followAPI.removeFollow({followId:userId})
