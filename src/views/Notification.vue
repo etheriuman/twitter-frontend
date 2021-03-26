@@ -38,6 +38,7 @@ export default {
       isLoading: false,
       notifications: [
         {
+          type: 'tweet',
           User: {
             id: 2,
             name: 'Yu Wen',
@@ -49,6 +50,7 @@ export default {
           }
         },
         {
+          type: 'tweet',
           User: {
             id: 3,
             name: 'Allen',
@@ -57,6 +59,41 @@ export default {
           Tweet: {
             id: 6,
             description: '爽啊，次啊'
+          }
+        },
+        {
+          type: 'like',
+          User: {
+            id: 3,
+            name: 'Allen',
+            avatar: ''
+          },
+          Tweet: {
+            id: 6,
+            description: '爽啊，次啊'
+          }
+        },
+        {
+          type: 'follow',
+          User: {
+            id: 3,
+            name: 'Allen',
+            avatar: ''
+          }
+        },
+        {
+          type: 'reply',
+          User: {
+            id: 3,
+            name: 'Allen',
+            avatar: ''
+          },
+          Tweet: {
+            id: 6,
+            description: '爽啊，次啊'
+          },
+          Reply: {
+            comment: '我覺得可以'
           }
         }
       ]
