@@ -15,21 +15,46 @@
               <font-awesome-icon class="chat-private" icon="envelope" />
             </router-link>
           </button>
+          <!-- 訂閱按鈕 -->
+          <!-- 假按鈕 -->
           <button
+            v-if="subscribeIsProcessing"
             type="button"
             class="user-subscription btn btn-outline-primary"
+            disabled
           >
             <font-awesome-icon icon="bell" />
           </button>
+          <!-- 真按鈕 -->
+          <template v-else>
+            <button
+              v-if="!user.isSubscribed"
+              type="button"
+              class="user-subscription btn btn-outline-primary"
+              @click.prevent.stop="addSubscribe(user.id)"
+            >
+              <font-awesome-icon icon="bell" />
+            </button>
+            <button
+              v-else
+              type="button"
+              class="user-subscription btn btn-primary"
+              @click.prevent.stop="cancelSubscribe(user.id)"
+            >
+              <font-awesome-icon icon="bell" />
+            </button>
+          </template>
+          <!-- 追蹤按鈕 -->
           <!-- 假按鈕 -->
           <button
-            v-if="isProcessing"
+            v-if="followIsProcessing"
             type="button"
             class="user-follow btn btn-outline-primary"
             disabled
           >
             處理中
           </button>
+          <!-- 真按鈕 -->
           <template v-else>
             <button
               v-if="!user.isFollowed"
@@ -49,6 +74,7 @@
             </button>
           </template>
         </div>
+        <!-- 編輯個人資料 -->
         <button
           v-if="currentUser.id == user.id"
           type="button"
@@ -84,6 +110,9 @@
 import UserProfileNavTabs from "./UserProfileNavTabs.vue"
 import UserProfileEdiiting from "./UserProfileEditing"
 import { emptyImageFilter } from "./../utils/mixins.js"
+import followAPI from "./../apis/follow.js"
+import subscribeAPI from './../apis/subscribe.js'
+import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
 
 export default {
@@ -98,29 +127,96 @@ export default {
       type: Object,
       default: undefined
     },
-    isProcessing: {
-      type: Boolean,
-      default: false
-    }
   },
   data() {
     return {
-      user: {}
+      user: {},
+      followIsProcessing: false,
+      subscribeIsProcessing: false
     }
   },
   methods: {
     fetchUser() {
       this.user = this.initialUser
     },
-    addFollowed(userId) {
-      const payLoad = {id : userId}
-      this.$emit("afterAddFollowed", payLoad)
-      this.user.followersNumber = this.user.followersNumber + 1
+    // 加入追蹤
+    async addFollowed(payLoad) {
+      try {
+        this.followIsProcessing = true
+        const {data} = await followAPI.addFollow({payLoad})
+        this.user.followersNumber = this.user.followersNumber + 1
+        this.followIsProcessing = false
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.user.isFollowed = true
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者加入追蹤，請稍後再試'
+        })
+        this.followIsProcessing = false
+      }      
     },
-    cancelFollowed(userId) {
-      this.$emit("afterCancelFollowed",userId)
-      this.user.followersNumber = this.user.followersNumber - 1
-    }
+    // 取消追蹤
+    async cencelFollowed(userId) {
+      try {
+        this.followIsProcessing = true
+        const {data} = await followAPI.removeFollow({followId:userId})
+        this.user.followersNumber = this.user.followersNumber - 1
+        this.followIsProcessing = false
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.user.isFollowed = false
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者移除追蹤，請稍後再試'
+        })
+        this.followIsProcessing = false
+      } 
+    },
+    // 加入訂閱
+    async addSubscribe(payLoad) {
+      try {
+        this.subscribeIsProcessing = true
+        const {data} = await subscribeAPI.addSubscribe({ payLoad })
+        this.subscribeIsProcessing = false
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.user.isFollowed = true
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者加入訂閱，請稍後再試'
+        })
+        this.subscribeIsProcessing = false
+      }      
+    },
+    // 取消訂閱
+    async cencelSubscribe(userId) {
+      try {
+        this.subscribeIsProcessing = true
+        const {data} = await subscribeAPI.removeSubscribe({ followId:userId })
+        this.subscribeIsProcessing = false
+        if (data.status !== 'success') {
+          throw new Error(data.message)
+        }
+        this.user.isFollowed = false
+      } catch (error) {
+        console.log (error)
+        Toast.fire ({
+          icon: 'error',
+          title: '無法將使用者移除訂閱，請稍後再試'
+        })
+        this.subscribeIsProcessing = false
+      } 
+    },
   },
   watch: {
     initialUser() {

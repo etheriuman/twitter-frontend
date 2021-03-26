@@ -10,9 +10,6 @@
           <UserProfile
             v-show="!userIsLoading&&!tweetsIsLoading"
             :initial-user="user"
-            :is-processing="isProcessing"
-            @afterAddFollowed="handleAfterAddFollowed"
-            @afterCancelFollowed="handleAfterCencelFollowed"
             @afterSubmit="afterHandleSubmit"
           />
           <TweetCard
@@ -37,8 +34,7 @@ import PageHead from "./../components/PageHead"
 import UserProfile from "./../components/UserProfile"
 import TweetCard from "./../components/TweetCard"
 import Recommendation from "./../components/Recommendation"
-import usersApi from "./../apis/users.js"
-import followApi from "./../apis/follow.js"
+import usersAPI from "./../apis/users.js"
 import { Toast } from "./../utils/helpers.js"
 
 export default {
@@ -56,13 +52,12 @@ export default {
       tweets: [],
       userIsLoading: true,
       tweetsIsLoading: true,
-      isProcessing: false
     }
   },
   methods: {
     async fetchUser(userId) {
       try {
-        const {data} = await usersApi.get({userId})
+        const {data} = await usersAPI.get({userId})
         this.user = data
         this.userIsLoading = false
       } catch (error) {
@@ -76,7 +71,7 @@ export default {
     },
     async fetchTweets(userId) {
       try {
-        const {data} = await usersApi.getTweets({userId})
+        const {data} = await usersAPI.getTweets({userId})
         this.tweets = data
         this.tweetsIsLoading = false
       } catch (error) {
@@ -133,42 +128,6 @@ export default {
         }
         return tweet
       })
-    },
-    async handleAfterAddFollowed(payLoad) {
-      try {
-        this.isProcessing = true
-        const {data} = await followApi.addFollow({payLoad})
-        this.isProcessing = false
-        if (data.status !== 'success') {
-          throw new Error(data.message)
-        }
-        this.user.isFollowed = true
-      } catch (error) {
-        console.log (error)
-        Toast.fire ({
-          icon: 'error',
-          title: '無法將使用者加入追蹤，請稍後再試'
-        })
-        this.isProcessing = false
-      }      
-    },
-    async handleAfterCencelFollowed(userId) {
-      try {
-        this.isProcessing = true
-        const {data} = await followApi.removeFollow({followId:userId})
-        this.isProcessing = false
-        if (data.status !== 'success') {
-          throw new Error(data.message)
-        }
-        this.user.isFollowed = false
-      } catch (error) {
-        console.log (error)
-        Toast.fire ({
-          icon: 'error',
-          title: '無法將使用者移除追蹤，請稍後再試'
-        })
-        this.isProcessing = false
-      } 
     },
     afterHandleSubmit() {
       const { id: userId } = this.$route.params
