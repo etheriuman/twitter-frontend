@@ -114,6 +114,7 @@ import followAPI from "./../apis/follow.js"
 import subscribeAPI from './../apis/subscribe.js'
 import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
+import { socket } from './../main'
 
 export default {
   name: "UserProfile",
@@ -139,6 +140,15 @@ export default {
     fetchUser() {
       this.user = this.initialUser
     },
+    // socket 傳送追蹤通知
+    socketFollow(followId) {
+      const payLoad = {
+        type: 'follow',
+        userId: this.currentUser.id,
+        followId
+      }
+      socket.emit('sendNotification', payLoad)
+    },
     // 加入追蹤
     async addFollowed(payLoad) {
       try {
@@ -150,6 +160,8 @@ export default {
           throw new Error(data.message)
         }
         this.user.isFollowed = true
+        // 傳送通知
+        this.socketFollow(this.user.id)
       } catch (error) {
         console.log (error)
         Toast.fire ({

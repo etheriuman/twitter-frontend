@@ -47,6 +47,8 @@
 import followAPI from './../apis/follow'
 import { Toast } from './../utils/helpers'
 import { emptyImageFilter } from './../utils/mixins'
+import { mapState } from 'vuex'
+import { socket } from './../main'
 
 export default {
   name: "UserCard",
@@ -67,7 +69,20 @@ export default {
       isProcessing: false
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   methods: {
+    // socket 傳送追蹤通知
+    socketFollow(followId) {
+      const payLoad = {
+        type: 'follow',
+        userId: this.currentUser.id,
+        followId
+      }
+      socket.emit('sendNotification', payLoad)
+    },
+    // 追蹤使用者
     async addFollow(followId) {
       try {
         const payLoad = {id: followId}
@@ -78,6 +93,8 @@ export default {
           throw new Error(data.message)
         }
         this.follow.isFollowed = true
+        // 傳送通知
+        this.socketFollow(followId)
       } catch(error) {
         Toast.fire({
           icon: 'error',
@@ -87,6 +104,7 @@ export default {
         console.log(error)
       }
     },
+    // 取消追蹤使用者
     async deleteFollow(followId) {
       try {
         this.isProcessing = true

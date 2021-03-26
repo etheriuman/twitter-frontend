@@ -63,6 +63,7 @@ import followAPI from './../apis/follow'
 import { Toast } from './../utils/helpers'
 import { emptyImageFilter } from './../utils/mixins'
 import { mapState } from 'vuex'
+import { socket } from './../main'
 
 export default {
   data() {
@@ -91,6 +92,16 @@ export default {
         })
       }
     },
+    // socket 傳送追蹤通知
+    socketFollow(followId) {
+      const payLoad = {
+        type: 'follow',
+        userId: this.currentUser.id,
+        followId
+      }
+      socket.emit('sendNotification', payLoad)
+    },
+    // 追蹤使用者
     async addFollow(userId) {
       try {
         const payLoad = {
@@ -111,6 +122,8 @@ export default {
           }
           return user
         })
+        // 傳送通知
+        this.socketFollow(userId)
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -120,6 +133,7 @@ export default {
         console.log(err)
       }
     },
+    // 取消追蹤使用者
     async deleteFollow(userId) {
       try {
         this.isProcessingId = userId
