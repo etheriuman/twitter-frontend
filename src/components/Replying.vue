@@ -69,6 +69,7 @@ import repliesAPI from './../apis/replies'
 import { fromNowFilter, emptyImageFilter } from './../utils/mixins'
 import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
+import { socket } from './../main'
 
 export default {
   props: {
@@ -98,6 +99,17 @@ export default {
     cleanUp() {
       this.comment = ''
     },
+    // 回覆通知
+    socketReply(tweetId) {
+      const payLoad = {
+        type: 'reply',
+        userId: this.currentUser.id,
+        tweetId,
+        comment: this.comment
+      }
+      socket.emit('sendNotification', payLoad)
+    },
+    // 送出回覆
     async handleSubmit(tweetId) {
       try {
         const length = this.comment.length
@@ -126,6 +138,8 @@ export default {
         this.isProcessing = false
         // 回傳資料給Tweet，讓他把資料塞進去
         this.$parent.$emit('after-reply', tweetId)
+        // 傳送 socket 通知
+        this.socketReply(tweetId)
         // 清空欄位
         this.cleanUp()
         // 關閉modal
