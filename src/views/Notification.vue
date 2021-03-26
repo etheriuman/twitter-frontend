@@ -19,10 +19,11 @@
 </template>
 
 <script>
-import Navbar from "./../components/Navbar"
-import PageHead from "./../components/PageHead"
+import Navbar from './../components/Navbar'
+import PageHead from './../components/PageHead'
 import NotificationCard from './../components/NotificationCard'
-import Recommendation from "./../components/Recommendation"
+import Recommendation from './../components/Recommendation'
+import { socket } from './../main'
 
 
 export default {
@@ -61,6 +62,20 @@ export default {
       ]
     }
   },
+  mounted() {
+    // 請求取得歷史通知
+    socket.emit('getAllNotification')
+  },
+  created() {
+    socket.on('receiveAllNotification', (data) => {
+      console.log('receiveAllnotification: ', data)
+      this.notifications = [...data]
+    })
+    socket.on('receiveNotification', (data) => {
+      console.log('receiveNotification: ', data)
+      this.notifications.push(data)
+    })
+  }
 }
 </script>
 

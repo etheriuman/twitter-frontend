@@ -26,6 +26,7 @@ import tweetsAPI from './../apis/tweets'
 import { emptyImageFilter } from './../utils/mixins'
 import { Toast } from './../utils/helpers'
 import { mapState } from 'vuex'
+import { socket } from './../main'
 
 export default {
   data() {
@@ -66,6 +67,8 @@ export default {
         }
         this.isProcessing = false
         this.$emit('after-submit')
+        // socket送出發文通知
+        socket.emit('sendNotification', { userId: this.currentUser.id })
         // 清空欄位
         this.description = ''
       } catch(err) {

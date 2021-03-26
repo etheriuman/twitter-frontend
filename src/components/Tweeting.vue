@@ -39,6 +39,7 @@ import tweetsAPI from './../apis/tweets'
 import { Toast } from './../utils/helpers'
 import { emptyImageFilter } from './../utils/mixins'
 import { mapState } from 'vuex'
+import { socket } from './../main'
 
 export default {
   data() {
@@ -87,6 +88,8 @@ export default {
         this.isProcessing = false
         // 回傳資料給Tweets，讓他把資料塞進去
         this.$parent.$emit('after-submit')
+        // socket送出發文通知
+        socket.emit('sendNotification', { userId: this.currentUser.id })
         // 清空輸入
         this.cleanUp()
         // jQuery 關閉 modal
