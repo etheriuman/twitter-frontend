@@ -6,6 +6,7 @@
     class="card-body"
     v-if="notification.type === 'like'"
     >
+      <span class="text-muted noti-time">{{notification.createdAt | fromNow}}</span>
       <div class="card-top">
         <router-link :to="{name: 'tweet', params: {id: notification.User.id}}">
           <img class="user-avatar" :src="notification.User.avatar | emptyImage" alt="user-avatar">
@@ -23,6 +24,7 @@
     class="card-body"
     v-if="notification.type === 'follow'"
     >
+      <span class="text-muted noti-time">{{notification.createdAt | fromNow}}</span>
       <div class="card-top">
         <router-link :to="{name: 'tweet', params: {id: notification.User.id}}">
           <img class="user-avatar" :src="notification.User.avatar | emptyImage" alt="user-avatar">
@@ -40,6 +42,7 @@
     class="card-body"
     v-if="notification.type === 'reply'"
     >
+      <span class="text-muted noti-time">{{notification.createdAt | fromNow}}</span>
       <div class="card-top">
         <router-link :to="{name: 'tweet', params: {id: notification.User.id}}">
           <img class="user-avatar" :src="notification.User.avatar | emptyImage" alt="user-avatar">
@@ -62,6 +65,7 @@
     class="card-body"
     v-if="notification.type === 'tweet'"
     >
+      <span class="text-muted noti-time">{{notification.createdAt | fromNow}}</span>
       <div class="card-top">
         <router-link :to="{name: 'tweet', params: {id: notification.User.id}}">
           <img class="user-avatar" :src="notification.User.avatar | emptyImage" alt="user-avatar">
@@ -82,7 +86,7 @@
 </template>
 
 <script>
-import { emptyImageFilter } from './../utils/mixins'
+import { emptyImageFilter, fromNowFilter } from './../utils/mixins'
 
 export default {
   props: {
@@ -91,13 +95,21 @@ export default {
       required: true
     }
   },
-  mixins: [emptyImageFilter]
+  mixins: [emptyImageFilter, fromNowFilter]
 }
 </script>
 
 <style scoped>
 * {
   /* outline: 1px solid pink; */
+}
+.list-group-item {
+  position: relative;
+}
+.noti-time {
+  position: absolute;
+  top: 5px;
+  right: 20px;
 }
 .card-body {
   display: flex;

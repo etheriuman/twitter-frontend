@@ -39,6 +39,7 @@ export default {
       notifications: [
         {
           type: 'tweet',
+          createdAt: '',
           User: {
             id: 2,
             name: 'Yu Wen',
@@ -51,6 +52,7 @@ export default {
         },
         {
           type: 'tweet',
+          createdAt: '',
           User: {
             id: 3,
             name: 'Allen',
@@ -63,6 +65,7 @@ export default {
         },
         {
           type: 'like',
+          createdAt: '',
           User: {
             id: 3,
             name: 'Allen',
@@ -75,6 +78,7 @@ export default {
         },
         {
           type: 'follow',
+          createdAt: '',
           User: {
             id: 3,
             name: 'Allen',
@@ -83,6 +87,7 @@ export default {
         },
         {
           type: 'reply',
+          createdAt: '',
           User: {
             id: 3,
             name: 'Allen',
