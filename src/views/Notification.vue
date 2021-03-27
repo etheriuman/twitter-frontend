@@ -23,6 +23,7 @@ import Navbar from './../components/Navbar'
 import PageHead from './../components/PageHead'
 import NotificationCard from './../components/NotificationCard'
 import Recommendation from './../components/Recommendation'
+import { mapState } from 'vuex'
 import { socket } from './../main'
 
 
@@ -104,9 +105,15 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState(['currentUser'])
+  },
   mounted() {
     // 請求取得歷史通知
-    socket.emit('getAllNotification')
+    const payLoad = {
+      userId: this.currentUser.id
+    }
+    socket.emit('getAllNotification', payLoad)
   },
   created() {
     socket.on('receiveAllNotification', (data) => {
@@ -115,7 +122,7 @@ export default {
     })
     socket.on('receiveNotification', (data) => {
       console.log('receiveNotification: ', data)
-      this.notifications.push(data)
+      this.notifications.unshift(data)
     })
   }
 }
