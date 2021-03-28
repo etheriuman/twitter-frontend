@@ -171,6 +171,7 @@ export default {
   beforeRouteUpdate(to,from,next) {
     const {id : userId} = to.params
     this.fetchUser(userId)
+    this.fetchReplies(userId)
     next()
   },
   created() {
