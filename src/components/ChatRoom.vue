@@ -42,9 +42,6 @@ export default {
       text: ''
     }
   },
-  created() {
-    
-  },
   methods: {
     // scroll 到底部
     scrollBottom() {

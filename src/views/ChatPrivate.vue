@@ -156,7 +156,7 @@ export default {
         createdAt
       }
       // 如果接到的私訊是當前聊天對象傳來的就推進聊天室
-      if (this.chattingUser.id === data.userId) {
+      if (userId === this.chattingUser.id || userId === this.currentUser.id) {
         this.messages.push(message)
       }
       // 更新chatCard的最新訊息
