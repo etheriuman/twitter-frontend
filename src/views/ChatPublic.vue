@@ -49,6 +49,8 @@ export default {
     ...mapState(['currentUser'])
   },
   created() {
+    // 清空監聽器，避免重複掛載
+    socket.removeAllListeners()
     // 接收線上使用者資料回傳
     socket.on('receiveUsers', (data) => {
       console.log('receiveUsers: ', data)
@@ -149,10 +151,6 @@ export default {
     socket.emit('getUsers')
     // 取得公開聊天歷史訊息
     socket.emit('messages')
-  },
-  beforeDestroy() {
-    // 跳出頁面前清空監聽器，避免重複掛載
-    socket.removeAllListeners()
   }
 }
 </script>

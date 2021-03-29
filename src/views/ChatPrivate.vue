@@ -98,6 +98,8 @@ export default {
     next()
   },
   created() {
+    // 清空監聽器，避免重複掛載
+    socket.removeAllListeners()
     // 接收房間清單
     socket.on('receiveChatRooms', (data) => {
       console.log('receiveChatRooms: ', data)
@@ -166,10 +168,6 @@ export default {
         }
       })
     })
-  },
-  beforeDestroy() {
-    // 跳出頁面前清空監聽器，避免重複掛載
-    socket.removeAllListeners()
   }
 }
 </script>

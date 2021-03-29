@@ -116,6 +116,8 @@ export default {
     socket.emit('getAllNotification', payLoad)
   },
   created() {
+    // 清空監聽器，避免重複掛載
+    socket.removeAllListeners()
     socket.on('receiveAllNotification', (data) => {
       console.log('receiveAllnotification: ', data)
       this.notifications = [...data]
@@ -124,10 +126,6 @@ export default {
       console.log('receiveNotification: ', data)
       this.notifications.unshift(data)
     })
-  },
-  beforeDestroy() {
-    // 跳出頁面前清空監聽器，避免重複掛載
-    socket.removeAllListeners()
   }
 }
 </script>
