@@ -60,6 +60,14 @@ export default {
       // 清空輸入
       this.description = ''
     },
+    sendNewTweet() {
+      const payLoad = {
+        type: 'tweet',
+        userId: this.currentUser.id,
+        description: this.description
+      }
+      socket.emit('sendNotification', payLoad)
+    },
     async handleSubmit() {
       try {
         const length = this.description.length
@@ -89,7 +97,7 @@ export default {
         // 回傳資料給Tweets，讓他把資料塞進去
         this.$parent.$emit('after-submit')
         // socket送出發文通知
-        socket.emit('sendNotification', { userId: this.currentUser.id })
+        this.sendNewTweet()
         // 清空輸入
         this.cleanUp()
         // jQuery 關閉 modal

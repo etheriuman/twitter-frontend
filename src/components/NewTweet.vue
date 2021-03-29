@@ -40,6 +40,14 @@ export default {
   },
   mixins: [emptyImageFilter],
   methods: {
+    sendNewTweet() {
+      const payLoad = {
+        type: 'tweet',
+        userId: this.currentUser.id,
+        description: this.description
+      }
+      socket.emit('sendNotification', payLoad)
+    },
     async handleSubmit() {
       try {
         const length = this.description.length
@@ -68,7 +76,7 @@ export default {
         this.isProcessing = false
         this.$emit('after-submit')
         // socket送出發文通知
-        socket.emit('sendNotification', { userId: this.currentUser.id })
+        this.sendNewTweet()
         // 清空欄位
         this.description = ''
       } catch(err) {

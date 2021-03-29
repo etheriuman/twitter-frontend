@@ -38,8 +38,7 @@ export const socket = io('https://twitter-simple-one.herokuapp.com/', {
     token,
     userId
   },
-  autoConnect: false,
-  multiplex: false
+  autoConnect: false
 })
 
 new Vue({
