@@ -149,6 +149,10 @@ export default {
     socket.emit('getUsers')
     // 取得公開聊天歷史訊息
     socket.emit('messages')
+  },
+  beforeDestroy() {
+    // 跳出頁面前清空監聽器，避免重複掛載
+    socket.removeAllListeners()
   }
 }
 </script>
