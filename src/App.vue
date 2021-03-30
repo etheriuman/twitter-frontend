@@ -12,12 +12,15 @@ import { socket } from './main'
 export default {
   name: 'App',
   created() {
+    // 連線時
     socket.on('connect', () => {
       console.log('connected!!!')
     })
-    socket.on('connection', (data) => {
-      console.log('socket connected:', data)
+    // 斷線時
+    socket.on('disconnect', (data) => {
+      console.log('socket disconnected:', data)
     })
+    // 連線異常時
     socket.on ('connect_error', (error) => {
       console.log('connect error: ', error.message)
     })

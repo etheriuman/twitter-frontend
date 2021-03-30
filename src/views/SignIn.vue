@@ -103,7 +103,7 @@ export default {
         // 查看 socket 物件
         console.log('current socket object: ', socket)
         // socket.io 連線
-        socket.connect()
+        // socket.connect()
         console.log('socket connect request sent!')
         // socket.io 發布上線訊息
         socket.emit('sendOnline', {userId: this.currentUser.id})

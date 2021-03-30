@@ -31,14 +31,13 @@ Vue.config.productionTip = false
 
 // Socket.io
 const token = localStorage.getItem('token') || ''
-const userId = store.state.currentUser.id
+const userId = store.state.currentUser.id || -1
 
 export const socket = io('https://twitter-simple-one.herokuapp.com/', {
-  query: {
+  auth: {
     token,
     userId
-  },
-  autoConnect: false
+  }
 })
 
 new Vue({
