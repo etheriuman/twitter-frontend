@@ -96,8 +96,9 @@ export default {
         if (data.status !== 'success') {
           throw new Error(data.message)
         }
-        // 成功就存入token
+        // 成功就存入token與userId
         localStorage.setItem('token', data.token)
+        localStorage.setItem('userId', data.user.id)
         // 修改store資料
         this.$store.commit('setCurrentUser', data.user)
         // 查看 socket 物件
