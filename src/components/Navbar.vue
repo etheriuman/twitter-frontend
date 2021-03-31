@@ -93,10 +93,12 @@ export default {
   methods: {
     logout() {
       console.log('logout')
+      // 發送登出事件
       socket.emit('sendOffline', { userId: this.currentUser.id })
-      socket.disconnect()
       console.log(this.currentUser.id)
+      // 註銷使用者權限
       this.$store.commit('revokeAuthentication')
+      // 跳轉到登入頁
       this.$router.push('/signin')
     },
     // 刪除通知
