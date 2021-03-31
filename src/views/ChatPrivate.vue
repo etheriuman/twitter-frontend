@@ -142,7 +142,7 @@ export default {
     // 接收到私人訊息
     socket.on('receivePrivate', (data) => {
       console.log('receivePrivate: ',data)
-      const { userId, userName, userAvatar, text, createdAt } = data
+      const { userId, userName, userAvatar, text, createdAt, roomId } = data
       let type = ''
       if (userId === this.currentUser.id) {
         type = 'self'
@@ -158,15 +158,20 @@ export default {
         createdAt
       }
       // 如果接到的私訊是當前聊天對象傳來的就推進聊天室
-      if (userId === this.chattingUser.id || userId === this.currentUser.id) {
+      if (this.chattingRoomId === roomId) {
         this.messages.push(message)
       }
       // 更新chatCard的最新訊息
       this.chats.forEach(chat => {
-        if (chat.User.id === this.chattingUser.id) {
+        if (chat.roomId === roomId) {
           chat.lastMessage = text
         }
       })
+    })
+    // 接收新聊天對象發出的訊息
+    socket.on('receiveNewRoom', (data) => {
+      console.log('receive new room: ', data)
+      this.chats.push(data)
     })
   }
 }
