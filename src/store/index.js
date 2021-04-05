@@ -52,14 +52,14 @@ export default new Vuex.Store({
         }
         const { id, name, account, email, avatar, role, cover, introduction } = data
         commit('setCurrentUser', {
-          id,
-          name,
-          account,
-          email,
-          avatar,
-          role,
-          cover,
-          introduction
+          id: id || -1,
+          name: name || '',
+          account: account || '',
+          email: email || '',
+          avatar: avatar || '',
+          role: role || '',
+          cover: cover || '',
+          introduction: introduction || ''
         })
         return true
       } catch(err) {
