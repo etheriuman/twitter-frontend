@@ -16,13 +16,16 @@
         <div class="content-body text-muted text-sm">
           {{chat.lastMessage}}
         </div>
+        <div class="content-body text-muted text-sm">
+          {{chat.createdAt | fromNow}}
+        </div>
       </div>
     </div>
   </router-link>
 </template>
 
 <script>
-import { emptyImageFilter } from './../utils/mixins'
+import { emptyImageFilter, fromNowFilter } from './../utils/mixins'
 
 export default {
   props: {
@@ -31,7 +34,7 @@ export default {
       required: true
     }
   },
-  mixins: [emptyImageFilter]
+  mixins: [emptyImageFilter, fromNowFilter]
 }
 </script>
 

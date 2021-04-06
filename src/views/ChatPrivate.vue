@@ -165,6 +165,7 @@ export default {
       this.chats.forEach(chat => {
         if (chat.roomId === roomId) {
           chat.lastMessage = text
+          chat.createdAt = createdAt
         }
       })
     })
