@@ -47,10 +47,18 @@
         <button
         class="show-more"
         type="btn"
-        @click.prevent.stop="pushUsers(showingUsers.length)"
+        @click.prevent.stop="showMoreUsers(showingUsers.length)"
         v-if="users.length !== showingUsers.length"
         >
-            顯示更多
+          顯示更多
+        </button>
+        <button
+        class="show-more"
+        type="btn"
+        @click.prevent.stop="showLessUsers(showingUsers.length)"
+        v-else
+        >
+          顯示更少
         </button>
       </li>
     </ul>
@@ -84,7 +92,7 @@ export default {
           throw new Error(response.statusText)
         }
         this.users = response.data.users
-        this.pushUsers(0)
+        this.showMoreUsers(0)
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -160,13 +168,18 @@ export default {
         console.log(err)
       }
     },
-    pushUsers(index) {
+    // 顯示更多推薦使用者
+    showMoreUsers(index) {
       for (let i = index; i < index+6; i++) {
         if (i === this.users.length) {
           return
         }
         this.showingUsers.push(this.users[i])
       }
+    },
+    // 顯示更少推薦使用者
+    showLessUsers() {
+      this.showingUsers = this.users.slice(0, 6)
     }
   },
   mixins: [emptyImageFilter],
