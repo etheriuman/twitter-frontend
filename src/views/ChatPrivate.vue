@@ -171,6 +171,10 @@ export default {
     // 接收新聊天對象發出的訊息
     socket.on('receiveNewRoom', (data) => {
       console.log('receive new room: ', data)
+      // 如果是自己就不要推進聊天清單
+      if (data.User.id === this.currentUser.id) {
+        return
+      }
       this.chats.push(data)
     })
   }
