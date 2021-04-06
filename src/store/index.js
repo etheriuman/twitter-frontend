@@ -18,7 +18,8 @@ export default new Vuex.Store({
       role: ''
     },
     isAuthenticated: false,
-    token: ''
+    token: '',
+    recommendation: []
   },
   // 資料操作
   mutations: {
@@ -38,6 +39,36 @@ export default new Vuex.Store({
       localStorage.removeItem('token')
       localStorage.removeItem('userId')
       state.token = ''
+    },
+    // 存入推薦使用者
+    setRecommendation(state, recommendation) {
+      state.recommendation = [...recommendation]
+    },
+    // 追蹤推薦使用者
+    followRecommendation(state, userId) {
+      state.recommendation = state.recommendation.map(user => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            followerCount: user.followerCount ++,
+            isFollowed: true
+          }
+        }
+        return user
+      })
+    },
+    // 取消追蹤推薦使用者
+    unfollowRecommendation(state, userId) {
+      state.recommendation = state.recommendation.map(user => {
+        if (user.id === userId) {
+          return {
+            ...user,
+            followerCount: user.followerCount --,
+            isFollowed: false
+          }
+        }
+        return user
+      })
     }
   },
   // 非同步操作

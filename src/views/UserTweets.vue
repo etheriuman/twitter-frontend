@@ -29,13 +29,14 @@
 </template>
 
 <script>
-import Navbar from "./../components/Navbar"
-import PageHead from "./../components/PageHead"
-import UserProfile from "./../components/UserProfile"
-import TweetCard from "./../components/TweetCard"
-import Recommendation from "./../components/Recommendation"
-import usersAPI from "./../apis/users.js"
-import { Toast } from "./../utils/helpers.js"
+import Navbar from './../components/Navbar'
+import PageHead from './../components/PageHead'
+import UserProfile from './../components/UserProfile'
+import TweetCard from './../components/TweetCard'
+import Recommendation from './../components/Recommendation'
+import usersAPI from './../apis/users.js'
+import { Toast } from './../utils/helpers.js'
+import { mapState, mapstate } from 'vuex'
 
 export default {
   name: "UserTweets",
@@ -53,6 +54,9 @@ export default {
       userIsLoading: true,
       tweetsIsLoading: true,
     }
+  },
+  computed: {
+    ...mapState(['recommendation'])
   },
   methods: {
     async fetchUser(userId) {
@@ -132,6 +136,19 @@ export default {
     afterHandleSubmit() {
       const { id: userId } = this.$route.params
       this.fetchUser(userId)
+    }
+  },
+  watch: {
+    recommendation(data) {
+      data.forEach(user => {
+        console.log(this)
+        if (user.id === parseInt(this.user.id)) {
+          this.user = {
+            ...this.user,
+            isFollowed: user.isFollowed
+          }
+        }
+      })
     }
   },
   //監聽切換頁面的事件

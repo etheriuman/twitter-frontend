@@ -165,6 +165,8 @@ export default {
         this.user.isFollowed = true
         // 傳送通知
         this.socketFollow(this.user.id)
+        // 修改 vuex 資料
+        this.$store.commit('followRecommendation', parseInt(userId))
       } catch (error) {
         console.log (error)
         Toast.fire ({
@@ -185,6 +187,8 @@ export default {
           throw new Error(data.message)
         }
         this.user.isFollowed = false
+        // 修改 vuex 資料
+        this.$store.commit('unfollowRecommendation', parseInt(userId))
       } catch (error) {
         console.log (error)
         Toast.fire ({

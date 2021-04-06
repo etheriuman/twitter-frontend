@@ -48,7 +48,7 @@
         class="show-more"
         type="btn"
         @click.prevent.stop="showMoreUsers(showingUsers.length)"
-        v-if="users.length !== showingUsers.length"
+        v-if="recommendation.length !== showingUsers.length"
         >
           顯示更多
         </button>
@@ -76,13 +76,13 @@ import { socket } from './../main'
 export default {
   data() {
     return {
-      users: [],
       showingUsers: [],
-      isProcessingId: -1
+      isProcessingId: -1,
+      showingIndex: 0
     }
   },
   computed: {
-    ...mapState(['currentUser'])
+    ...mapState(['currentUser', 'recommendation'])
   },
   methods: {
     async fetchUsers() {
@@ -91,8 +91,8 @@ export default {
         if (response.statusText !== 'OK') {
           throw new Error(response.statusText)
         }
-        this.users = response.data.users
-        this.showMoreUsers(0)
+        this.$store.commit('setRecommendation', response.data.users)
+        this.showMoreUsers(this.showingIndex)
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -121,17 +121,19 @@ export default {
           throw new Error(data.message)
         }
         this.isProcessingId = -1
-        this.showingUsers = this.showingUsers.map(user => {
-          if (user.id === userId) {
-            return {
-              ...user,
-              isFollowed: true
-            }
-          }
-          return user
-        })
+        // this.showingUsers = this.showingUsers.map(user => {
+        //   if (user.id === userId) {
+        //     return {
+        //       ...user,
+        //       isFollowed: true
+        //     }
+        //   }
+        //   return user
+        // })
         // 傳送通知
         this.socketFollow(userId)
+        // 修改 vuex 資料
+        this.$store.commit('followRecommendation', userId)
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -150,15 +152,17 @@ export default {
           throw new Error(data.message)
         }
         this.isProcessingId = -1
-        this.showingUsers = this.showingUsers.map(user => {
-          if (user.id === userId) {
-            return {
-              ...user,
-              isFollowed: false
-            }
-          }
-          return user
-        })
+        // this.showingUsers = this.showingUsers.map(user => {
+        //   if (user.id === userId) {
+        //     return {
+        //       ...user,
+        //       isFollowed: false
+        //     }
+        //   }
+        //   return user
+        // })
+        // 修改 vuex 資料
+        this.$store.commit('unfollowRecommendation', userId)
       } catch(err) {
         Toast.fire({
           icon: 'error',
@@ -170,22 +174,26 @@ export default {
     },
     // 顯示更多推薦使用者
     showMoreUsers(index) {
-      for (let i = index; i < index+6; i++) {
-        if (i === this.users.length) {
+      for (let i = index; i < index + 6; i++) {
+        if (i === this.recommendation.length) {
           return
         }
-        this.showingUsers.push(this.users[i])
+        this.showingUsers.push(this.recommendation[i])
       }
     },
     // 顯示更少推薦使用者
     showLessUsers() {
-      this.showingUsers = this.users.slice(0, 6)
+      this.showingUsers = this.recommendation.slice(0, 6)
     }
   },
   mixins: [emptyImageFilter],
   watch: {
     showingUsers(data) {
       this.showingUsers = data
+    },
+    recommendation(data) {
+      const showingLength = this.showingUsers.length
+      this.showingUsers = this.recommendation.slice(0, showingLength)
     }
   },
   created() {

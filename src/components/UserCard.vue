@@ -95,6 +95,8 @@ export default {
         this.follow.isFollowed = true
         // 傳送通知
         this.socketFollow(followId)
+        // 修改 vuex 資料
+        this.$store.commit('followRecommendation', parseInt(followId))
       } catch(error) {
         Toast.fire({
           icon: 'error',
@@ -115,6 +117,8 @@ export default {
         }
         this.follow.isFollowed = false
         this.$emit('after-delete-follow', followId)
+        // 修改 vuex 資料
+        this.$store.commit('unfollowRecommendation', parseInt(followId))
       } catch(error) {
         Toast.fire({
           icon: 'error',
