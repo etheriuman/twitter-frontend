@@ -141,7 +141,6 @@ export default {
   watch: {
     recommendation(data) {
       data.forEach(user => {
-        console.log(this)
         if (user.id === parseInt(this.user.id)) {
           this.user = {
             ...this.user,
