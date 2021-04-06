@@ -121,15 +121,6 @@ export default {
           throw new Error(data.message)
         }
         this.isProcessingId = -1
-        // this.showingUsers = this.showingUsers.map(user => {
-        //   if (user.id === userId) {
-        //     return {
-        //       ...user,
-        //       isFollowed: true
-        //     }
-        //   }
-        //   return user
-        // })
         // 傳送通知
         this.socketFollow(userId)
         // 修改 vuex 資料
@@ -152,15 +143,6 @@ export default {
           throw new Error(data.message)
         }
         this.isProcessingId = -1
-        // this.showingUsers = this.showingUsers.map(user => {
-        //   if (user.id === userId) {
-        //     return {
-        //       ...user,
-        //       isFollowed: false
-        //     }
-        //   }
-        //   return user
-        // })
         // 修改 vuex 資料
         this.$store.commit('unfollowRecommendation', userId)
       } catch(err) {
@@ -191,7 +173,7 @@ export default {
     showingUsers(data) {
       this.showingUsers = data
     },
-    recommendation(data) {
+    recommendation() {
       const showingLength = this.showingUsers.length
       this.showingUsers = this.recommendation.slice(0, showingLength)
     }

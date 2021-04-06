@@ -36,7 +36,7 @@ import TweetCard from './../components/TweetCard'
 import Recommendation from './../components/Recommendation'
 import usersAPI from './../apis/users.js'
 import { Toast } from './../utils/helpers.js'
-import { mapState, mapstate } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: "UserTweets",
