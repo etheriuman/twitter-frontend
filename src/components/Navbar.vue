@@ -12,21 +12,21 @@
           <font-awesome-icon icon="home" /><span>首頁</span>
         </router-link>
         <!-- 通知 -->
-        <router-link class="tab noti" to="/notification" v-if="notificationIsNoti" @click.prevent.stop="cancelNotificationNoti" >
+        <router-link class="tab noti" to="/notification" v-if="notificationIsNoti" @click.prevent.stop="removeNotificationNoti" >
           <font-awesome-icon icon="bell" /><span>通知</span>
         </router-link>
         <router-link class="tab" to="/notification" v-else>
           <font-awesome-icon icon="bell" /><span>通知</span>
         </router-link>
         <!-- 公開聊天室 -->
-        <router-link class="tab noti" to="/chat/public" v-if="chatPublicIsNoti" @click.prevent.stop="cancelChatPublicNoti" >
+        <router-link class="tab noti" to="/chat/public" v-if="chatPublicIsNoti" @click.prevent.stop="removeChatPublicNoti" >
           <font-awesome-icon icon="envelope" /><span>公開聊天室</span>
         </router-link>
         <router-link class="tab" to="/chat/public" v-else>
           <font-awesome-icon icon="envelope" /><span>公開聊天室</span>
         </router-link>
         <!-- 私人訊息 -->
-        <router-link class="tab noti" to="/chat/all" v-if="chatPrivateIsNoti" @click.prevent.stop="cancelChatPrivateNoti" >
+        <router-link class="tab noti" to="/chat/all" v-if="chatPrivateIsNoti" @click.prevent.stop="removeChatPrivateNoti" >
           <font-awesome-icon icon="paper-plane" /><span>私人訊息</span>
         </router-link>
         <router-link class="tab" to="/chat/all" v-else>
@@ -78,18 +78,6 @@ export default {
   computed: {
     ...mapState(['currentUser'])
   },
-  sockets: {
-    // 接收到通知渲染被通知狀態
-    receivePublic() {
-      this.chatPublicIsNoti = true
-    },
-    receivePrivate() {
-      this.chatPrivateIsNoti = true
-    },
-    receiveNoti() {
-      this.notificationIsNoti = true
-    }
-  },
   methods: {
     logout() {
       console.log('logout')
@@ -102,15 +90,38 @@ export default {
       this.$router.push('/signin')
     },
     // 刪除通知
-    cancelNotificationNoti() {
+    removeNotificationNoti() {
       this.notificationIsNoti = false
     },
-    cancelChatPublicNoti() {
+    removeChatPublicNoti() {
       this.chatPublicIsNoti = false
     },
-    cancelChatPrivateNoti() {
+    removeChatPrivateNoti() {
       this.chatPrivateIsNoti = false
     }
+  },
+  created() {
+    // 監聽公開訊息
+    socket.on('receivePublic', (data) => {
+      console.log('navbar receive public: ', data)
+      if (this.$route.name !== 'chat-public') {
+        this.chatPublicIsNoti = true
+      }
+    })
+    // 監聽私人訊息
+    socket.on('receivePrivate', (data) => {
+      console.log('navbar receive private: ', data)
+      if (this.$route.name !== 'chat-private') {
+        this.chatPrivateIsNoti = true
+      }
+    })
+    // 監聽通知
+    socket.on('receiveNotification', (data) => {
+      console.log('navbar receive notification: ', data)
+      if (this.$route.name !== 'notification') {
+        this.notificationIsNoti = true
+      }
+    })
   }
 }
 </script>
