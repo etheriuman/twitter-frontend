@@ -70,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['currentUser'])
+    ...mapState(['currentUser', 'recommendation'])
   },
   methods: {
     // socket 傳送追蹤通知
@@ -133,6 +133,16 @@ export default {
     initialFollow() {
       this.follow = this.initialFollow
     },
+    recommendation(data) {
+      data.forEach(user => {
+        if (user.id === parseInt(this.follow.followId)) {
+          this.follow = {
+            ...this.follow,
+            isFollowed: user.isFollowed
+          }
+        }
+      })
+    }
   }
 }
 </script>
